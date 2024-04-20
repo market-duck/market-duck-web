@@ -1,4 +1,5 @@
 export const AppSpcing = {
+  NONE: '0rem',
   XXXS: '0.125rem',
   XXS: '0.25rem',
   XS: '0.5rem',
@@ -10,3 +11,5 @@ export const AppSpcing = {
   XXXL: '3rem',
   XXXXL: '5rem',
 };
+
+export type AppSpcingKey = keyof typeof AppSpcing;
