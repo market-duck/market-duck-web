@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 const font = {
   size: {
     10: '0.625rem',
@@ -32,48 +34,46 @@ const font = {
 };
 
 export const AppTypo = {
-  HEADING: {
-    lg: `
-    font-size:${font.size[600]};
-    line-height:${font.lineHeight[600]};
-    letter-spacing:${font.letterSpacing[400]};
-    `,
-    md: `
-    font-size:${font.size[500]};
-    line-height:${font.lineHeight[500]};
-    letter-spacing:${font.letterSpacing[400]};
-        `,
-    sm: `
-    font-size:${font.size[400]};
-    line-height:${font.lineHeight[400]};
-    letter-spacing:${font.letterSpacing[200]};
-    `,
-  },
-  BODY: {
-    lg: `
-    font-size:${font.size[300]};
-    line-height:${font.lineHeight[300]};
-    letter-spacing:${font.letterSpacing[200]};
-    `,
-    md: `
-    font-size:${font.size[200]};
-    line-height:${font.lineHeight[200]};
-    letter-spacing:${font.letterSpacing[200]};`,
-    sm: `
-    font-size:${font.size[100]};
-    line-height:${font.lineHeight[100]};
-    letter-spacing:${font.letterSpacing[200]};`,
-  },
-  CAPTION: {
-    md: `
-    font-size:${font.size[50]};
-    line-height:${font.lineHeight[50]};
-    letter-spacing:${font.letterSpacing[0]};`,
-    sm: `
-    font-size:${font.size[10]};
-    line-height:${font.lineHeight[10]};
-    letter-spacing:${font.letterSpacing[0]};`,
-  },
+  HEADING_LG: css`
+    font-size: ${font.size[600]};
+    line-height: ${font.lineHeight[600]};
+    letter-spacing: ${font.letterSpacing[400]};
+  `,
+  HEADING_MD: css`
+    font-size: ${font.size[500]};
+    line-height: ${font.lineHeight[500]};
+    letter-spacing: ${font.letterSpacing[400]};
+  `,
+  HEADING_SM: css`
+    font-size: ${font.size[400]};
+    line-height: ${font.lineHeight[400]};
+    letter-spacing: ${font.letterSpacing[200]};
+  `,
+  BODY_LG: css`
+    font-size: ${font.size[300]};
+    line-height: ${font.lineHeight[300]};
+    letter-spacing: ${font.letterSpacing[200]};
+  `,
+  BODY_MD: css`
+    font-size: ${font.size[200]};
+    line-height: ${font.lineHeight[200]};
+    letter-spacing: ${font.letterSpacing[200]};
+  `,
+  BODY_SM: css`
+    font-size: ${font.size[100]};
+    line-height: ${font.lineHeight[100]};
+    letter-spacing: ${font.letterSpacing[200]};
+  `,
+  CAPTION_MD: css`
+    font-size: ${font.size[50]};
+    line-height: ${font.lineHeight[50]};
+    letter-spacing: ${font.letterSpacing[0]};
+  `,
+  CAPTION_SM: css`
+    font-size: ${font.size[10]};
+    line-height: ${font.lineHeight[10]};
+    letter-spacing: ${font.letterSpacing[0]};
+  `,
 };
 
 export type AppTypoKey = keyof typeof AppTypo;

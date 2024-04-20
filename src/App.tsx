@@ -19,17 +19,17 @@ function App() {
       {/* 아래는 테스트 입니다. */}
       <AppGutter>
         <Test className={AppColor.YELLOW700.bg}>
-          <Typo type="BODY" size="lg" className={AppColor.PRIMARY300.color}>
+          <Typo type="BODY_LG" className={AppColor.PRIMARY300.color}>
             타 도 회 사
           </Typo>
         </Test>
         <Test>
-          <Typo type="HEADING" size="lg" className={AppColor.WHITE.color}>
+          <Typo type="HEADING_LG" className={AppColor.WHITE.color}>
             마 켓 덕 짱
           </Typo>
         </Test>
         <Test>
-          <Typo type="HEADING" size="lg" className={AppColor.WHITE.color}>
+          <Typo type="CAPTION_MD" className={AppColor.WHITE.color}>
             월 급 조 아
           </Typo>
         </Test>
