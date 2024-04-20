@@ -24,7 +24,7 @@ html {
     padding: 0;
     margin: 0;
     overflow-x: visible;
-    font-size: 15px;
+    font-size: 16px;
     width: 100%;
     line-height: 1.4;
     -webkit-touch-callout: none;
