@@ -28,6 +28,11 @@ function App() {
             마 켓 덕 짱
           </Typo>
         </Test>
+        <Test>
+          <Typo type="HEADING" size="lg" className={AppColor.WHITE.color}>
+            월 급 조 아
+          </Typo>
+        </Test>
       </AppGutter>
     </>
   );
