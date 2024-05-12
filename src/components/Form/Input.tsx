@@ -15,6 +15,7 @@ const InputWrap = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disable
   width: 100%;
   border-radius: ${AppRadii.M};
   padding: ${AppSpcing.XXS};
+  border: 1px solid gray; //TODO:: border tertiary
 
   &:hover {
   }
@@ -40,6 +41,7 @@ export const Input = ({
   isDisabled,
   isError,
 
+  label,
   prefix = null,
   suffix = null,
   caption,
@@ -48,6 +50,7 @@ export const Input = ({
   changeHandler: React.ChangeEventHandler<HTMLInputElement>;
   isDisabled?: boolean;
   isError?: boolean;
+  label?: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
   caption?: string;
@@ -63,6 +66,7 @@ export const Input = ({
 
   return (
     <InputWrap $focus={isFocus} $error={isError} $disabled={isDisabled}>
+      {label && <p>{label}</p>}
       <InputContent>
         {prefix}
         <input disabled={isDisabled} value={value} onChange={changeHandler} onFocus={onFocus} onBlur={onBlur} />
