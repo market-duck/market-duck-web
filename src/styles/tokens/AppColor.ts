@@ -3,6 +3,13 @@ import { createGlobalStyle } from 'styled-components';
 export const AppColorStyle = createGlobalStyle`
 :root {
   /* Gray colors */
+  .bg-gray-00 {
+    background-color: #FFFFFF;
+  }
+  .fc-gray-00 {
+    color: #FFFFFF;
+  }
+
   .bg-gray-50 {
     background-color: #F5F5F5;
   }
@@ -73,74 +80,74 @@ export const AppColorStyle = createGlobalStyle`
     color: #333333;
   }
 
-  /* Primary colors */
-  .bg-primary-50 {
+  /* Green colors */
+  .bg-green-50 {
     background-color: #ECF7E7;
   }
-  .fc-primary-50 {
+  .fc-green-50 {
     color: #ECF7E7;
   }
 
-  .bg-primary-100 {
+  .bg-green-100 {
     background-color: #C7E6B9;
   }
-  .fc-primary-100 {
+  .fc-green-100 {
     color: #C7E6B9;
   }
 
-  .bg-primary-200 {
+  .bg-green-200 {
     background-color: #A2D48E;
   }
-  .fc-primary-200 {
+  .fc-green-200 {
     color: #A2D48E;
   }
 
-  .bg-primary-300 {
+  .bg-green-300 {
     background-color: #7FC167;
   }
-  .fc-primary-300 {
+  .fc-green-300 {
     color: #7FC167;
   }
 
-  .bg-primary-400 {
+  .bg-green-400 {
     background-color: #5DAD45;
   }
-  .fc-primary-400 {
+  .fc-green-400 {
     color: #5DAD45;
   }
 
-  .bg-primary-500 {
+  .bg-green-500 {
     background-color: #3E9926;
   }
-  .fc-primary-500 {
+  .fc-green-500 {
     color: #3E9926;
   }
 
-  .bg-primary-600 {
+  .bg-green-600 {
     background-color: #208408;
   }
-  .fc-primary-600 {
+  .fc-green-600 {
     color: #208408;
   }
 
-  .bg-primary-700 {
+  .bg-green-700 {
     background-color: #036E00;
   }
-  .fc-primary-700 {
+  .fc-green-700 {
     color: #036E00;
   }
 
-  .bg-primary-800 {
+  .bg-green-800 {
     background-color: #22770D;
   }
-  .fc-primary-800 {
+  .fc-green-800 {
     color: #22770D;
   }
 
-  .bg-primary-900 {
+  .bg-green-900 {
     background-color: #114A03;
   }
-  .fc-primary-900 {
+  .fc-green-900 {
     color: #114A03;
   }
 
@@ -224,10 +231,10 @@ export const AppColorStyle = createGlobalStyle`
     color: #FFFBE9;
   }
 
-  .bg-yellow-200 {
+  .bg-yellow-300 {
     background-color: #FFEF9F;
   }
-  .fc-yellow-200 {
+  .fc-yellow-300 {
     color: #FFEF9F;
   }
 
@@ -263,6 +270,11 @@ export const AppColorStyle = createGlobalStyle`
 `;
 
 export const AppColor = {
+  GRAY00: {
+    hex: '#FFFFFF',
+    bg: 'bg-gray-00',
+    color: 'fc-gray-00',
+  },
   GRAY50: {
     hex: '#F5F5F5',
     bg: 'bg-gray-50',
@@ -313,55 +325,55 @@ export const AppColor = {
     bg: 'bg-gray-900',
     color: 'fc-gray-900',
   },
-  PRIMARY50: {
+  GREEN50: {
     hex: '#ECF7E7',
-    bg: 'bg-primary-50',
-    color: 'fc-primary-50',
+    bg: 'bg-green-50',
+    color: 'fc-green-50',
   },
-  PRIMARY100: {
+  GREEN100: {
     hex: '#C7E6B9',
-    bg: 'bg-primary-100',
-    color: 'fc-primary-100',
+    bg: 'bg-green-100',
+    color: 'fc-green-100',
   },
-  PRIMARY200: {
+  GREEN200: {
     hex: '#A2D48E',
-    bg: 'bg-primary-200',
-    color: 'fc-primary-200',
+    bg: 'bg-green-200',
+    color: 'fc-green-200',
   },
-  PRIMARY300: {
+  GREEN300: {
     hex: '#7FC167',
-    bg: 'bg-primary-300',
-    color: 'fc-primary-300',
+    bg: 'bg-green-300',
+    color: 'fc-green-300',
   },
-  PRIMARY400: {
+  GREEN400: {
     hex: '#5DAD45',
-    bg: 'bg-primary-400',
-    color: 'fc-primary-400',
+    bg: 'bg-green-400',
+    color: 'fc-green-400',
   },
-  PRIMARY500: {
+  GREEN500: {
     hex: '#3E9926',
-    bg: 'bg-primary-500',
-    color: 'fc-primary-500',
+    bg: 'bg-green-500',
+    color: 'fc-green-500',
   },
-  PRIMARY600: {
+  GREEN600: {
     hex: '#208408',
-    bg: 'bg-primary-600',
-    color: 'fc-primary-600',
+    bg: 'bg-green-600',
+    color: 'fc-green-600',
   },
-  PRIMARY700: {
+  GREEN700: {
     hex: '#036E00',
-    bg: 'bg-primary-700',
-    color: 'fc-primary-700',
+    bg: 'bg-green-700',
+    color: 'fc-green-700',
   },
-  PRIMARY800: {
+  GREEN800: {
     hex: '#22770D',
-    bg: 'bg-primary-800',
-    color: 'fc-primary-800',
+    bg: 'bg-green-800',
+    color: 'fc-green-800',
   },
-  PRIMARY900: {
+  GREEN900: {
     hex: '#114A03',
-    bg: 'bg-primary-900',
-    color: 'fc-primary-900',
+    bg: 'bg-green-900',
+    color: 'fc-green-900',
   },
   RED100: {
     hex: '#FDE8E8',
@@ -418,10 +430,10 @@ export const AppColor = {
     bg: 'bg-yellow-100',
     color: 'fc-yellow-100',
   },
-  YELLOW200: {
+  YELLOW300: {
     hex: '#FFEF9F',
-    bg: 'bg-yellow-200',
-    color: 'fc-yellow-200',
+    bg: 'bg-yellow-300',
+    color: 'fc-yellow-300',
   },
   YELLOW500: {
     hex: '#FFE147',
@@ -443,4 +455,90 @@ export const AppColor = {
     bg: 'bg-white',
     color: 'fc-white',
   },
+};
+
+export const AppSemanticColor = {
+  // Text colors
+  TEXT_PRIMARY: AppColor.GRAY800.hex,
+  TEXT_SECONDARY: AppColor.GRAY700.hex,
+  TEXT_TERTIARY: AppColor.GRAY600.hex,
+  TEXT_INFO: AppColor.BLUE500.hex,
+  TEXT_WARNING: AppColor.YELLOW900.hex,
+  TEXT_SUCCESS: AppColor.GREEN500.hex,
+  TEXT_DANGER: AppColor.RED500.hex,
+  TEXT_DISABLED: AppColor.GRAY500.hex,
+  TEXT_INVERSE: AppColor.GRAY00.hex,
+  TEXT_INTERACTIVE_PRIMARY: AppColor.GREEN500.hex,
+  TEXT_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600.hex,
+  TEXT_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700.hex,
+  TEXT_INTERACTIVE_SECONDARY: AppColor.GRAY600.hex,
+  TEXT_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY700.hex,
+  TEXT_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY800.hex,
+
+  // Background colors
+  BG_PRIMARY: AppColor.GRAY00.hex,
+  BG_SECONDARY: AppColor.GRAY50.hex,
+  BG_TERTIARY: AppColor.GRAY100.hex,
+  BG_INFO_SUBTLE: AppColor.BLUE100.hex,
+  BG_INFO: AppColor.BLUE500.hex,
+  BG_WARNING_SUBTLE: AppColor.YELLOW100.hex,
+  BG_WARNING: AppColor.YELLOW500.hex,
+  BG_SUCCESS_SUBTLE: AppColor.GREEN50.hex,
+  BG_SUCCESS: AppColor.GREEN500.hex,
+  BG_DANGER_SUBTLE: AppColor.RED100.hex,
+  BG_DANGER: AppColor.RED500.hex,
+  BG_DISABLED: AppColor.GRAY100.hex,
+  BG_INTERACTIVE_PRIMARY: AppColor.GREEN500.hex,
+  BG_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600.hex,
+  BG_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700.hex,
+  BG_INTERACTIVE_SECONDARY: AppColor.GRAY50.hex,
+  BG_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY100.hex,
+  BG_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY200.hex,
+  BG_INTERACTIVE_INFO: AppColor.BLUE100.hex,
+  BG_INTERACTIVE_INFO_HOVER: AppColor.BLUE300.hex,
+  BG_INTERACTIVE_INFO_PRESS: AppColor.BLUE300.hex,
+  BG_INTERACTIVE_WARNING: AppColor.YELLOW100.hex,
+  BG_INTERACTIVE_WARNING_HOVER: AppColor.YELLOW300.hex,
+  BG_INTERACTIVE_WARNING_PRESS: AppColor.YELLOW300.hex,
+  BG_INTERACTIVE_SUCCESS: AppColor.GREEN100.hex,
+  BG_INTERACTIVE_SUCCESS_HOVER: AppColor.GREEN300.hex,
+  BG_INTERACTIVE_SUCCESS_PRESS: AppColor.GREEN300.hex,
+  BG_INTERACTIVE_DANGER: AppColor.RED100.hex,
+  BG_INTERACTIVE_DANGER_HOVER: AppColor.RED300.hex,
+  BG_INTERACTIVE_DANGER_PRESS: AppColor.RED300.hex,
+
+  // Border colors
+  BORDER_PRIMARY: AppColor.GRAY500.hex,
+  BORDER_SECONDARY: AppColor.GRAY400.hex,
+  BORDER_TERTIARY: AppColor.GRAY300.hex,
+  BORDER_FOCUS_RING: AppColor.GREEN600.hex,
+  BORDER_INFO: AppColor.BLUE300.hex,
+  BORDER_WARNING: AppColor.YELLOW300.hex,
+  BORDER_SUCCESS: AppColor.GREEN300.hex,
+  BORDER_DANGER: AppColor.RED300.hex,
+  BORDER_DISABLED: AppColor.GRAY400.hex,
+  BORDER_INTERACTIVE_PRIMARY: AppColor.GREEN500.hex,
+  BORDER_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600.hex,
+  BORDER_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700.hex,
+  BORDER_INTERACTIVE_SECONDARY: AppColor.GRAY200.hex,
+  BORDER_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY300.hex,
+  BORDER_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY400.hex,
+
+  // Icon colors
+  ICON_PRIMARY: AppColor.GRAY800.hex,
+  ICON_SECONDARY: AppColor.GRAY700.hex,
+  ICON_TERTIARY: AppColor.GRAY600.hex,
+  ICON_BRAND: AppColor.GREEN500.hex,
+  ICON_INFO: AppColor.BLUE500.hex,
+  ICON_WARNING: AppColor.YELLOW900.hex,
+  ICON_SUCCESS: AppColor.GREEN500.hex,
+  ICON_DANGER: AppColor.RED500.hex,
+  ICON_DISABLED: AppColor.GRAY500.hex,
+  ICON_INVERSE: AppColor.GRAY00.hex,
+  ICON_INTERACTIVE_PRIMARY: AppColor.GREEN500.hex,
+  ICON_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600.hex,
+  ICON_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700.hex,
+  ICON_INTERACTIVE_SECONDARY: AppColor.GRAY600.hex,
+  ICON_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY700.hex,
+  ICON_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY800.hex,
 };
