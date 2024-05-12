@@ -4,98 +4,110 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
+import { RuleSet } from 'styled-components/dist/types';
+
+interface CssObjectType {
+  [key: string]: RuleSet<object>;
+}
 
 //* size
-const large = css`
-  padding: ${AppSpcing.S} ${AppSpcing.XL};
-  gap: ${AppSpcing.XS};
-  border-radius: ${AppRadii.L};
-  font-weight: 500;
-  ${AppTypo.BODY_LG}
-`;
+const size: CssObjectType = {
+  large: css`
+    padding: ${AppSpcing.S} ${AppSpcing.XL};
+    gap: ${AppSpcing.XS};
+    border-radius: ${AppRadii.L};
+    font-weight: 500;
+    ${AppTypo.BODY_LG}
+  `,
 
-const medium = css`
-  padding: ${AppSpcing.XS} ${AppSpcing.L};
-  gap: ${AppSpcing.XS};
-  border-radius: ${AppRadii.M};
-  font-weight: 500;
-  ${AppTypo.BODY_MD}
-`;
+  medium: css`
+    padding: ${AppSpcing.XS} ${AppSpcing.L};
+    gap: ${AppSpcing.XS};
+    border-radius: ${AppRadii.M};
+    font-weight: 500;
+    ${AppTypo.BODY_MD}
+  `,
 
-const small = css`
-  padding: ${AppSpcing.XS} ${AppSpcing.M};
-  gap: ${AppSpcing.XXS};
-  border-radius: ${AppRadii.M};
-  font-weight: 500;
-  ${AppTypo.BODY_SM}
-`;
+  small: css`
+    padding: ${AppSpcing.XS} ${AppSpcing.M};
+    gap: ${AppSpcing.XXS};
+    border-radius: ${AppRadii.M};
+    font-weight: 500;
+    ${AppTypo.BODY_SM}
+  `,
+};
 
-type ButtonSize = typeof large | typeof medium | typeof small;
+type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
+type variantType = 'primary' | 'secondary' | 'text';
 
-const primary = css`
-  background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
-  color: ${AppSemanticColor.TEXT_INVERSE};
-  &:hover {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER};
-  }
-  &:active {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_PRESS};
-  }
-  &:disabled {
-    color: ${AppSemanticColor.TEXT_DISABLED};
-    background-color: ${AppSemanticColor.BG_DISABLED};
-  }
-`;
+const variant: CssObjectType = {
+  primary: css`
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
+    color: ${AppSemanticColor.TEXT_INVERSE};
+    &:hover {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER};
+    }
+    &:active {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_PRESS};
+    }
+    &:disabled {
+      color: ${AppSemanticColor.TEXT_DISABLED};
+      background-color: ${AppSemanticColor.BG_DISABLED};
+    }
+  `,
 
-const secondary = css`
-  background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY};
-  color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
-  &:hover {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER};
-  }
-  &:active {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS};
-  }
-  &:disabled {
-    color: ${AppSemanticColor.TEXT_DISABLED};
-    background-color: ${AppSemanticColor.BG_DISABLED};
-  }
-`;
-
-const text = css`
-  color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
-  &:hover {
-    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY_HOVER};
-  }
-  &:active {
+  secondary: css`
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY};
     color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
-  }
-`;
+    &:hover {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER};
+    }
+    &:active {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS};
+    }
+    &:disabled {
+      color: ${AppSemanticColor.TEXT_DISABLED};
+      background-color: ${AppSemanticColor.BG_DISABLED};
+    }
+  `,
 
-type ButtonPrimary = typeof primary | typeof secondary | typeof text;
+  text: css`
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
+    &:hover {
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY_HOVER};
+    }
+    &:active {
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
+    }
+  `,
+};
 
 //* row
 
 const rowCSSProperty = css`
   width: 100%;
   flex: 1;
-  ${large}
+  ${size.large}
 `;
 
 interface StyledButtonProps {
-  size?: ButtonSize;
-  primaryType?: ButtonPrimary;
+  size?: sizeType;
+  variant?: variantType;
   row?: boolean;
 }
 
-const getCSSProperty = ({ size = medium, primaryType = primary, row = false }: StyledButtonProps) => {
-  return `
-      ${size ?? ''}
-      ${primaryType ?? ''}
-      ${row && rowCSSProperty}
-    `;
+const getCSSProperty = ({
+  size: sizeType = 'medium',
+  variant: variantType = 'primary',
+  row = false,
+}: StyledButtonProps) => {
+  return css`
+    ${size[sizeType] ?? ''}
+    ${variant[variantType] ?? ''}
+    ${row && rowCSSProperty}
+  `;
 };
 
 const StyledButton = styled.button<StyledButtonProps>`
@@ -109,9 +121,9 @@ interface ButtonProps extends StyledButtonProps, ButtonHTMLAttributes<HTMLButton
   rightIcon?: string;
 }
 
-export const Button = ({ leftIcon = '', rightIcon = '', size, primaryType, row, children, ...props }: ButtonProps) => {
+export const Button = ({ leftIcon = '', rightIcon = '', size, variant, row, children, ...props }: ButtonProps) => {
   return (
-    <StyledButton size={size} primaryType={primaryType} row={row} {...props}>
+    <StyledButton size={size} variant={variant} row={row} {...props}>
       {leftIcon}
       {children}
       {rightIcon}
