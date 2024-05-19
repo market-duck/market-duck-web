@@ -8,6 +8,8 @@ export const ContainerWrap = styled(Column)`
 
 export const UpperArea = styled.div``;
 
+export const SelectValueWrap = styled.div``;
+
 export const LowerArea = styled.div``;
 
 export const OptionWrap = styled.div``;

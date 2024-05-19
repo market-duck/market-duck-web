@@ -1,19 +1,6 @@
 import { ContainerWrap, UpperArea, LowerArea, OptionWrap } from '@market-duck/components/Select/SelectStyles';
-import { Tag } from '@market-duck/components/Tag/Tag';
-
-const SingleInput = ({ value }: { value: string }) => {
-  return <div></div>;
-};
-
-const MultiInput = ({ value }: { value: string[] }) => {
-  return (
-    <div>
-      {value.map((item) => {
-        return <Tag key={item} text={item} />;
-      })}
-    </div>
-  );
-};
+import { SingleValueInput } from '@market-duck/components/Select/SingleValueInput';
+import { MultiValueInput } from '@market-duck/components/Select/MultiValueInput';
 
 /**
  *
@@ -39,8 +26,8 @@ const SelectContainer = ({
     <ContainerWrap>
       <UpperArea>
         {label && <p>label</p>}
-        {selectType === 'single' && <SingleInput value={singleValue || ''} />}
-        {selectType === 'multi' && <MultiInput value={multiValue || []} />}
+        {selectType === 'single' && <SingleValueInput value={singleValue || ''} />}
+        {selectType === 'multi' && <MultiValueInput value={multiValue || []} />}
       </UpperArea>
       <LowerArea></LowerArea>
     </ContainerWrap>
