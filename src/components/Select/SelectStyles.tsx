@@ -15,17 +15,50 @@ export const ContainerWrap = styled(Column)`
 
 export const UpperArea = styled.div`
   width: 100%;
-  .input-wrap {
+`;
+
+export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disabled?: boolean }>(
+  ({ $focus, $error, $disabled }) => {
+    return {
+      className: `${$focus ? 'is-focus' : ''} ${$error ? 'is-error' : ''} ${$disabled ? 'is-disabled' : ''}`,
+    };
+  },
+)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 2rem;
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  padding: ${AppSpcing.XXS};
+  background-color: ${AppSemanticColor.BG_PRIMARY};
+  border-radius: ${AppRadii.M};
+  ${AppTypo.BODY_MD};
+  cursor: pointer;
+
+  &.is-focus {
+    background-color: ${AppSemanticColor.BG_SECONDARY};
+    color: ${AppSemanticColor.TEXT_SECONDARY};
+    border-color: ${AppSemanticColor.BORDER_FOCUS_RING};
+  }
+
+  &.is-error {
+    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE};
+    color: ${AppSemanticColor.TEXT_SECONDARY};
+    border-color: ${AppSemanticColor.TEXT_DANGER};
+  }
+
+  &.is-disabled {
+    background-color: ${AppSemanticColor.BG_DISABLED};
+    color: ${AppSemanticColor.TEXT_SECONDARY};
+    border-color: ${AppSemanticColor.BORDER_TERTIARY};
+  }
+
+  > .multi-input {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
-    padding: ${AppSpcing.XXS};
-    background-color: ${AppSemanticColor.BG_PRIMARY};
-    border-radius: ${AppRadii.M};
-    ${AppTypo.BODY_MD};
-    cursor: pointer;
   }
 `;
 

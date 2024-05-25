@@ -16,24 +16,6 @@ function App() {
       <AppColorStyle />
       <AppResetStyle />
       {/* TODO:: Router */}
-      <AppGutter>
-        <Select.Container placeholder="placeholder 영역입니다" selectType="multi" value={value}>
-          {optionList.map((item) => {
-            return (
-              <Select.Option
-                onClick={() => {
-                  if (!value.includes(item.value)) {
-                    setValue([...value, item.value]);
-                  }
-                }}
-                key={item.label}
-                label={item.label}
-                value={item.value}
-              />
-            );
-          })}
-        </Select.Container>
-      </AppGutter>
     </>
   );
 }

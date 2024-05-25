@@ -80,6 +80,7 @@ export const Tag = ({
   return (
     <Wrap $color={color} $rightIcon={showCloseIcon}>
       <span>{text}</span>
+      {/* TODO:: svg로 변경하기 + onCloseAction 넣기 */}
       <span>X</span>
     </Wrap>
   );
