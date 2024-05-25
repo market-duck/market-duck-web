@@ -2,6 +2,7 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import styled from 'styled-components';
 import check from '@market-duck/assets/images/check.svg';
+import { InputHTMLAttributes } from 'react';
 
 const StyledCheckbox = styled.input.attrs<{ $size: number }>({ type: 'checkbox' })`
   appearance: none;
@@ -18,7 +19,7 @@ const StyledCheckbox = styled.input.attrs<{ $size: number }>({ type: 'checkbox' 
   }
 `;
 
-interface CheckboxProps {
+interface CheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   size?: number;
 }
 
