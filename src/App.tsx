@@ -5,6 +5,7 @@ import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppColor, AppColorStyle } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppResetStyle } from 'src/styles/tokens/Reset.style';
 import styled from 'styled-components';
 
 const Test = styled.div`
@@ -17,11 +18,12 @@ function App() {
   return (
     <>
       <AppColorStyle />
+      <AppResetStyle />
       {/* TODO:: Router */}
       {/* 아래는 테스트 입니다. */}
       <AppGutter>
-        <Button variant="secondary" size="large">
-          test
+        <Button variant="secondary" size="medium" leftIcon="ArrowDownCircleIcon">
+          테스트
         </Button>
         <Row justify={justifyEvenly} gap="XXL" flex="auto" alignItems={alignItemsStretch}>
           <Test className={AppColor.YELLOW700.bg}>
