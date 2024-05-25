@@ -1,10 +1,12 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, createElement } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 import { RuleSet } from 'styled-components/dist/types';
+import * as FillIcon from '@heroicons/react/24/solid';
+import * as OutlineIcon from '@heroicons/react/24/outline';
 
 interface CssObjectType {
   [key: string]: RuleSet<object>;
@@ -15,7 +17,7 @@ const size: CssObjectType = {
   large: css`
     padding: ${AppSpcing.S} ${AppSpcing.XL};
     gap: ${AppSpcing.XS};
-    border-radius: ${AppRadii.L};
+    border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_LG}
   `,
@@ -23,7 +25,7 @@ const size: CssObjectType = {
   medium: css`
     padding: ${AppSpcing.XS} ${AppSpcing.L};
     gap: ${AppSpcing.XS};
-    border-radius: ${AppRadii.M};
+    border-radius: ${AppRadii.S};
     font-weight: 500;
     ${AppTypo.BODY_MD}
   `,
@@ -31,7 +33,7 @@ const size: CssObjectType = {
   small: css`
     padding: ${AppSpcing.XS} ${AppSpcing.M};
     gap: ${AppSpcing.XXS};
-    border-radius: ${AppRadii.M};
+    border-radius: ${AppRadii.S};
     font-weight: 500;
     ${AppTypo.BODY_SM}
   `,
@@ -113,20 +115,33 @@ const getCSSProperty = ({
 const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   justify-content: center;
+  align-items: center;
+  outline: none;
   ${(props) => getCSSProperty(props)}
+  .contentContainer {
+  }
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
 `;
 
 interface ButtonProps extends StyledButtonProps, ButtonHTMLAttributes<HTMLButtonElement> {
-  leftIcon?: string;
-  rightIcon?: string;
+  leftIcon?: keyof typeof OutlineIcon;
+  rightIcon?: keyof typeof OutlineIcon;
+  iconFill?: boolean;
 }
 
-export const Button = ({ leftIcon = '', rightIcon = '', size, variant, row, children, ...props }: ButtonProps) => {
+export const Button = ({ leftIcon, rightIcon, size, variant, iconFill, row, children, ...props }: ButtonProps) => {
+  const IconSet = iconFill ? FillIcon : OutlineIcon;
+
   return (
     <StyledButton size={size} variant={variant} row={row} {...props}>
-      {leftIcon}
-      {children}
-      {rightIcon}
+      <>
+        {leftIcon && createElement(IconSet[leftIcon])}
+        {children}
+        {rightIcon && createElement(IconSet[rightIcon])}
+      </>
     </StyledButton>
   );
 };
