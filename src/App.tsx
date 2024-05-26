@@ -1,4 +1,4 @@
-import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+
 import { Button } from '@market-duck/components/Button/Button';
 import { alignItemsStretch, justifyEvenly, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -7,14 +7,16 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppResetStyle } from 'src/styles/tokens/Reset.style';
 import styled from 'styled-components';
+import { Select } from '@market-duck/components/Select/Select';
 
-const Test = styled.div`
-  background-color: ${AppColor.BLUE700.hex};
-  padding: ${AppSpcing.XXL};
-  border-radius: ${AppRadii.PILL};
-`;
 
 function App() {
+  const [value, setValue] = useState<string[]>([]);
+  const optionList = [
+    { label: '1번', value: '1' },
+    { label: '2번', value: '2' },
+    { label: '3번', value: '3' },
+  ];
   return (
     <>
       <AppColorStyle />
