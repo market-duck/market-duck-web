@@ -8,11 +8,11 @@ const StyledCheckbox = styled.input.attrs<{ $size: number }>({ type: 'checkbox' 
   appearance: none;
   width: ${({ $size }) => $size}px;
   height: ${({ $size }) => $size}px;
-  background-color: ${AppSemanticColor.BG_PRIMARY};
-  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   border-radius: ${AppRadii.S};
   &:checked {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
     background-image: url(${check});
     background-position: center;
     background-repeat: no-repeat;

@@ -8,7 +8,7 @@ const StyledToggle = styled.input.attrs<{ $size: number }>({ type: 'checkbox' })
   position: relative;
   width: ${({ $size }) => ($size / 5) * 9}px;
   height: ${({ $size }) => $size}px;
-  background-color: ${AppSemanticColor.BG_DISABLED};
+  background-color: ${AppSemanticColor.BG_DISABLED.hex};
   border-radius: ${AppRadii.PILL};
   transition: all 0.3s ease-in-out;
 
@@ -22,11 +22,11 @@ const StyledToggle = styled.input.attrs<{ $size: number }>({ type: 'checkbox' })
     left: 2px;
     transition: all 0.3s ease-in-out;
     transform: translateY(-50%);
-    background-color: ${AppSemanticColor.BG_PRIMARY};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     border-radius: ${AppRadii.CIRCLE};
   }
   &:checked {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
     &::after {
       left: ${({ $size }) => $size - 2}px;
     }

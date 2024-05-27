@@ -8,11 +8,11 @@ const StyledRadio = styled.input.attrs<{ $size: number }>({ type: 'radio' })`
   position: relative;
   width: ${({ $size }) => $size}px;
   height: ${({ $size }) => $size}px;
-  background-color: ${AppSemanticColor.BG_PRIMARY};
-  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   border-radius: ${AppRadii.CIRCLE};
   &:checked {
-    border: 1px solid ${AppSemanticColor.BORDER_PRIMARY};
+    border: 1px solid ${AppSemanticColor.BORDER_PRIMARY.hex};
     &::after {
       content: '';
       display: block;
@@ -22,7 +22,7 @@ const StyledRadio = styled.input.attrs<{ $size: number }>({ type: 'radio' })`
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
       border-radius: ${AppRadii.CIRCLE};
     }
   }

@@ -46,42 +46,42 @@ type variantType = 'primary' | 'secondary' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
-    color: ${AppSemanticColor.TEXT_INVERSE};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
+    color: ${AppSemanticColor.TEXT_INVERSE.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER.hex};
     }
     &:active {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_PRESS};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_PRESS.hex};
     }
     &:disabled {
-      color: ${AppSemanticColor.TEXT_DISABLED};
-      background-color: ${AppSemanticColor.BG_DISABLED};
+      color: ${AppSemanticColor.TEXT_DISABLED.hex};
+      background-color: ${AppSemanticColor.BG_DISABLED.hex};
     }
   `,
 
   secondary: css`
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY};
-    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};
     }
     &:active {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS.hex};
     }
     &:disabled {
-      color: ${AppSemanticColor.TEXT_DISABLED};
-      background-color: ${AppSemanticColor.BG_DISABLED};
+      color: ${AppSemanticColor.TEXT_DISABLED.hex};
+      background-color: ${AppSemanticColor.BG_DISABLED.hex};
     }
   `,
 
   text: css`
-    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.hex};
     &:hover {
-      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY_HOVER};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY_HOVER.hex};
     }
     &:active {
-      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.hex};
     }
   `,
 };
