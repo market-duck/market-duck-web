@@ -3,6 +3,7 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
+import * as FillIcon from '@heroicons/react/16/solid';
 
 type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
 
@@ -13,6 +14,10 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     };
   },
 )`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
   ${AppTypo.CAPTION_MD}
@@ -68,20 +73,33 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
   }
 `;
 
+const DeleteIcon = styled(FillIcon.XCircleIcon)`
+  width: 1rem;
+  height: 1rem;
+`;
+
 export const Tag = ({
-  showCloseIcon = true,
+  showDeleteIcon = true,
   text,
   color = 'primary',
+  onDelete,
 }: {
-  showCloseIcon?: boolean;
+  showDeleteIcon?: boolean;
   text: string;
   color?: TagColorType;
+  onDelete?: () => void;
 }) => {
   return (
-    <Wrap $color={color} $rightIcon={showCloseIcon}>
+    <Wrap $color={color} $rightIcon={showDeleteIcon}>
       <span>{text}</span>
-      {/* TODO:: svg로 변경하기 + onCloseAction 넣기 */}
-      <span>X</span>
+      <DeleteIcon
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onDelete) {
+            onDelete();
+          }
+        }}
+      />
     </Wrap>
   );
 };

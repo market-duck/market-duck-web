@@ -8,22 +8,42 @@ import {
 } from '@market-duck/components/Select/SelectStyles';
 import { Tag } from '@market-duck/components/Tag/Tag';
 import { ReactNode, useState } from 'react';
+import * as FillIcon from '@heroicons/react/24/solid';
+import styled from 'styled-components';
+
+const DeleteIcon = styled(FillIcon.XCircleIcon)`
+  position: absolute;
+  right: 0.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
+`;
+
+const ArrowDownIcon = styled(FillIcon.ChevronDownIcon)`
+  position: absolute;
+  right: 0.4rem;
+  width: 1.5rem;
+  height: 1.5rem;
+`;
 
 const SelectInput = ({
+  optionList,
   placeholder,
   value,
   selectType,
   isDisabled,
   isFocused,
   isError,
+  deleteOneHandler,
   deleteAllHandler,
 }: {
+  optionList: Array<{ label: string; value: string }>;
   placeholder: string;
-  value: string[];
+  value: number[];
   selectType: 'single' | 'multi';
   isDisabled: boolean;
   isFocused: boolean;
   isError: boolean;
+  deleteOneHandler: (deleteItemValue: number) => void;
   deleteAllHandler: () => void;
 }) => {
   return (
@@ -35,21 +55,30 @@ const SelectInput = ({
         <div className="multi-input">
           <Row gap="XXS">
             {value.map((item) => {
-              return <Tag color="secondary" showCloseIcon={true} key={item} text={item} />;
+              return (
+                <Tag
+                  color="secondary"
+                  showDeleteIcon={true}
+                  onDelete={() => {
+                    deleteOneHandler(item);
+                  }}
+                  key={item}
+                  text={optionList[item].label}
+                />
+              );
             })}
           </Row>
-          {/* TODO:: icon으로 변경하기 */}
-          {!!value.length && (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteAllHandler();
-              }}
-            >
-              X
-            </div>
-          )}
         </div>
+      )}
+      {selectType === 'multi' && value.length ? (
+        <DeleteIcon
+          onClick={(e) => {
+            e.stopPropagation();
+            deleteAllHandler();
+          }}
+        />
+      ) : (
+        <ArrowDownIcon />
       )}
     </SelectInputWrap>
   );
@@ -74,8 +103,8 @@ export const Select = ({
   isError = false,
 }: {
   selectType: 'single' | 'multi';
-  value: string[];
-  onChangeValue: (selected: string[]) => void;
+  value: number[]; //index를 저장한다
+  onChangeValue: (selected: number[]) => void;
   placeholder?: string;
   label?: string;
   optionList: Array<{ label: string; value: string }>;
@@ -88,7 +117,7 @@ export const Select = ({
     setIsOpen(false);
   };
 
-  const onChange = (selectedValue: string) => {
+  const onChange = (selectedValue: number) => {
     if (selectType === 'multi') {
       if (!value.includes(selectedValue)) {
         onChangeValue([...value, selectedValue]);
@@ -104,6 +133,11 @@ export const Select = ({
     onChangeValue([]);
   };
 
+  const deleteOneHandler = (deleteItem: number) => {
+    const deletedValues = value.filter((item) => item !== deleteItem);
+    onChangeValue(deletedValues);
+  };
+
   return (
     <ContainerWrap onBlur={onBlur} tabIndex={0}>
       <UpperArea
@@ -115,23 +149,25 @@ export const Select = ({
       >
         {label && <p>label</p>}
         <SelectInput
+          optionList={optionList}
           isFocused={isOpen}
           isError={isError}
           isDisabled={isDisabled}
           placeholder={placeholder || ''}
           selectType={selectType}
           value={value}
+          deleteOneHandler={deleteOneHandler}
           deleteAllHandler={deleteAllHandler}
         />
       </UpperArea>
       {isOpen && (
         <LowerArea>
-          {optionList.map((item) => {
+          {optionList.map((item, index) => {
             return (
               <SelectOption
                 key={item.value}
                 onClick={() => {
-                  onChange(item.value);
+                  onChange(index);
                 }}
               >
                 {item.label}

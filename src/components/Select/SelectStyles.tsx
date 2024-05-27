@@ -24,6 +24,7 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
     };
   },
 )`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,9 +65,10 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
 
 export const LowerArea = styled.ul`
   position: absolute;
-  bottom: -7.5rem;
   left: 0;
+  top: 2.5rem;
   width: 100%;
+  max-height: 9rem;
   overflow-y: scroll;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   padding: ${AppSpcing.XS} 0;
