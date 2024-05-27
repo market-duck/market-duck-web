@@ -10,7 +10,7 @@ const TextAreaWrap = styled.div`
 
   > .textarea-label {
     margin-bottom: ${AppSpcing.XXS};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     font-weight: 600;
     ${AppTypo.CAPTION_MD};
   }
@@ -27,30 +27,30 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   height: 12.25rem;
   border-radius: ${AppRadii.M};
   padding: ${AppSpcing.XS};
-  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
 
   &:hover {
-    background-color: ${AppSemanticColor.BG_SECONDARY};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.BORDER_SECONDARY};
+    background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.BORDER_SECONDARY.hex};
   }
 
   &.is-focus {
-    background-color: ${AppSemanticColor.BG_SECONDARY};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.BORDER_FOCUS_RING};
+    background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
   }
 
   &.is-error {
-    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.TEXT_DANGER};
+    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.TEXT_DANGER.hex};
   }
 
   &.is-disabled {
-    background-color: ${AppSemanticColor.BG_DISABLED};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.BORDER_TERTIARY};
+    background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.BORDER_TERTIARY.hex};
   }
 `;
 
@@ -59,7 +59,7 @@ const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean }>(({ $er
     className: `${$error ? 'is-error' : ''} ${$disabled ? 'is-disabled' : ''}`,
   };
 })`
-  color: ${AppSemanticColor.TEXT_TERTIARY};
+  color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   font-weight: 500;
   ${AppTypo.CAPTION_MD};
 `;
