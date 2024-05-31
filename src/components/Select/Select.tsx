@@ -50,7 +50,7 @@ const SelectInput = ({
     <SelectInputWrap className="input-wrap" $focus={isFocused} $error={isError} $disabled={isDisabled}>
       {value.length === 0 && placeholder}
       {selectType === 'single' ? (
-        value[0]
+        optionList[value[0]].label
       ) : (
         <div className="multi-input">
           <Row gap="XXS">
@@ -88,7 +88,10 @@ const SelectInput = ({
  *
  * @description
  * Label, SelectType을 필요에 따라 지정해 사용할 수 있습니다.
- *
+ * @requires selectType
+ * @requires value
+ * @requires onChangeValue
+ * @requires optionList
  */
 export const Select = ({
   selectType,
