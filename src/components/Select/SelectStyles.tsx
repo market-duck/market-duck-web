@@ -32,6 +32,7 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
   height: 2rem;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   padding: ${AppSpcing.XXS};
+  padding-right: 32px;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   ${AppTypo.BODY_MD};
@@ -66,7 +67,7 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
 export const LowerArea = styled.ul`
   position: absolute;
   left: 0;
-  top: 2.5rem;
+  top: calc(100% + 8px);
   width: 100%;
   max-height: 9rem;
   overflow-y: scroll;
