@@ -24,34 +24,35 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
     };
   },
 )`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 2rem;
-  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   padding: ${AppSpcing.XXS};
-  background-color: ${AppSemanticColor.BG_PRIMARY};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   ${AppTypo.BODY_MD};
   cursor: pointer;
 
   &.is-focus {
-    background-color: ${AppSemanticColor.BG_SECONDARY};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.BORDER_FOCUS_RING};
+    background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
   }
 
   &.is-error {
-    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.TEXT_DANGER};
+    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.TEXT_DANGER.hex};
   }
 
   &.is-disabled {
-    background-color: ${AppSemanticColor.BG_DISABLED};
-    color: ${AppSemanticColor.TEXT_SECONDARY};
-    border-color: ${AppSemanticColor.BORDER_TERTIARY};
+    background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-color: ${AppSemanticColor.BORDER_TERTIARY.hex};
   }
 
   > .multi-input {
@@ -64,13 +65,14 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
 
 export const LowerArea = styled.ul`
   position: absolute;
-  bottom: -7.5rem;
   left: 0;
+  top: 2.5rem;
   width: 100%;
+  max-height: 9rem;
   overflow-y: scroll;
-  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   padding: ${AppSpcing.XS} 0;
-  background-color: ${AppSemanticColor.BG_PRIMARY};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
 `;
 
@@ -80,7 +82,7 @@ export const OptionWrap = styled.li`
   align-items: center;
   width: 100%;
   padding: ${AppSpcing.XXS};
-  background-color: ${AppSemanticColor.BG_PRIMARY};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   cursor: pointer;
 `;

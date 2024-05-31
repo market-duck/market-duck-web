@@ -3,6 +3,7 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
+import * as FillIcon from '@heroicons/react/16/solid';
 
 type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
 
@@ -13,48 +14,52 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     };
   },
 )`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
   ${AppTypo.CAPTION_MD}
   padding: ${AppSpcing.XXS} ${AppSpcing.XS};
 
   .color-primary {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY};
-    color: ${AppSemanticColor.TEXT_INVERSE};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
+    color: ${AppSemanticColor.TEXT_INVERSE.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY_HOVER.hex};
     }
   }
 
   .color-secondary {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY};
-    color: ${AppSemanticColor.TEXT_PRIMARY};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_PRIMARY.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};
     }
   }
 
   .color-info {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_INFO};
-    color: ${AppSemanticColor.TEXT_INFO};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_INFO.hex};
+    color: ${AppSemanticColor.TEXT_INFO.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_INFO_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_INFO_HOVER.hex};
     }
   }
 
   .color-error {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER};
-    color: ${AppSemanticColor.TEXT_DANGER};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
+    color: ${AppSemanticColor.TEXT_DANGER.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_HOVER.hex};
     }
   }
 
   .color-caution {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING};
-    color: ${AppSemanticColor.TEXT_WARNING};
+    background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING.hex};
+    color: ${AppSemanticColor.TEXT_WARNING.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING_HOVER};
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING_HOVER.hex};
     }
   }
 
@@ -68,20 +73,33 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
   }
 `;
 
+const DeleteIcon = styled(FillIcon.XCircleIcon)`
+  width: 1rem;
+  height: 1rem;
+`;
+
 export const Tag = ({
-  showCloseIcon = true,
+  showDeleteIcon = true,
   text,
   color = 'primary',
+  onDelete,
 }: {
-  showCloseIcon?: boolean;
+  showDeleteIcon?: boolean;
   text: string;
   color?: TagColorType;
+  onDelete?: () => void;
 }) => {
   return (
-    <Wrap $color={color} $rightIcon={showCloseIcon}>
+    <Wrap $color={color} $rightIcon={showDeleteIcon}>
       <span>{text}</span>
-      {/* TODO:: svg로 변경하기 + onCloseAction 넣기 */}
-      <span>X</span>
+      <DeleteIcon
+        onClick={(e) => {
+          e.stopPropagation();
+          if (onDelete) {
+            onDelete();
+          }
+        }}
+      />
     </Wrap>
   );
 };
