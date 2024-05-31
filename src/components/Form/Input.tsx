@@ -79,6 +79,11 @@ const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean }>(({ $er
   ${AppTypo.CAPTION_MD};
 `;
 
+/**
+ * @requires value
+ * @requires changeHandler
+ */
+
 export const Input = ({
   value,
   maxLength,
