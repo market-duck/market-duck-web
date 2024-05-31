@@ -20,10 +20,10 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
   gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
+  padding: ${AppSpcing.XXXS} ${AppSpcing.XXS};
   ${AppTypo.CAPTION_MD}
-  padding: ${AppSpcing.XXS} ${AppSpcing.XS};
 
-  .color-primary {
+  &.color-primary {
     background-color: ${AppSemanticColor.BG_INTERACTIVE_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_INVERSE.hex};
     &:hover {
@@ -31,7 +31,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     }
   }
 
-  .color-secondary {
+  &.color-secondary {
     background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_PRIMARY.hex};
     &:hover {
@@ -39,7 +39,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     }
   }
 
-  .color-info {
+  &.color-info {
     background-color: ${AppSemanticColor.BG_INTERACTIVE_INFO.hex};
     color: ${AppSemanticColor.TEXT_INFO.hex};
     &:hover {
@@ -47,7 +47,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     }
   }
 
-  .color-error {
+  &.color-error {
     background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
     color: ${AppSemanticColor.TEXT_DANGER.hex};
     &:hover {
@@ -55,7 +55,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     }
   }
 
-  .color-caution {
+  &.color-caution {
     background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING.hex};
     color: ${AppSemanticColor.TEXT_WARNING.hex};
     &:hover {
@@ -63,9 +63,9 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
     }
   }
 
-  .right-icon {
+  &.right-icon {
     ${AppTypo.CAPTION_MD}
-    padding: ${AppSpcing.XXXS} ${AppSpcing.XXS};
+    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
   }
 
   > span + span {
@@ -92,14 +92,16 @@ export const Tag = ({
   return (
     <Wrap $color={color} $rightIcon={showDeleteIcon}>
       <span>{text}</span>
-      <DeleteIcon
-        onClick={(e) => {
-          e.stopPropagation();
-          if (onDelete) {
-            onDelete();
-          }
-        }}
-      />
+      {showDeleteIcon && (
+        <DeleteIcon
+          onClick={(e) => {
+            e.stopPropagation();
+            if (onDelete) {
+              onDelete();
+            }
+          }}
+        />
+      )}
     </Wrap>
   );
 };
