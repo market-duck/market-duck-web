@@ -1,4 +1,6 @@
+import React from 'react';
 import type { Preview } from '@storybook/react';
+import { AppResetStyle } from '../src/styles/tokens/Reset.style';
 
 const preview: Preview = {
   parameters: {
@@ -10,5 +12,14 @@ const preview: Preview = {
     },
   },
 };
+
+export const decorators = [
+  (Story) => (
+    <>
+      <AppResetStyle />
+      <Story />
+    </>
+  ),
+];
 
 export default preview;
