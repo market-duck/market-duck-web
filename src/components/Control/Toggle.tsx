@@ -3,7 +3,7 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import styled from 'styled-components';
 import { InputHTMLAttributes } from 'react';
 
-const StyledToggle = styled.input.attrs<{ $size: number }>({ type: 'checkbox' })`
+const StyledToggle = styled.input.attrs<{ $size: 16 | 20 }>({ type: 'checkbox' })`
   appearance: none;
   position: relative;
   width: ${({ $size }) => ($size / 5) * 9}px;
@@ -34,9 +34,9 @@ const StyledToggle = styled.input.attrs<{ $size: number }>({ type: 'checkbox' })
 `;
 
 interface ToggleProps extends InputHTMLAttributes<HTMLInputElement> {
-  size?: number;
+  $size: 16 | 20;
 }
 
-export const Toggle = ({ size = 20 }: ToggleProps) => {
-  return <StyledToggle $size={size} />;
+export const Toggle = ({ $size }: ToggleProps) => {
+  return <StyledToggle $size={$size} />;
 };

@@ -2,8 +2,15 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import styled from 'styled-components';
 import { InputHTMLAttributes } from 'react';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppTypo } from 'src/styles/tokens/AppTypo';
 
-const StyledRadio = styled.input.attrs<{ $size: number }>({ type: 'radio' })`
+const StyledRadio = styled.input.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
+  return {
+    className: `size-${$size}`,
+    type: 'radio',
+  };
+})`
   appearance: none;
   position: relative;
   width: ${({ $size }) => $size}px;
@@ -26,12 +33,48 @@ const StyledRadio = styled.input.attrs<{ $size: number }>({ type: 'radio' })`
       border-radius: ${AppRadii.CIRCLE};
     }
   }
+
+  &.size-s {
+    width: 20px;
+    height: 20px;
+  }
+
+  &.size-m {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+const Label = styled.label.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
+  return {
+    className: `size-${$size}`,
+  };
+})`
+  display: inline-flex;
+  gap: ${AppSpcing.XS};
+  color: ${AppSemanticColor};
+
+  &.size-s {
+    font-weight: 500;
+    ${AppTypo.BODY_SM}
+  }
+
+  &.size-m {
+    font-weight: 500;
+    ${AppTypo.BODY_MD}
+  }
 `;
 
 interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
-  size?: number;
+  $size: 's' | 'm';
+  children?: string;
 }
 
-export const Radio = ({ size = 20, ...props }: RadioProps) => {
-  return <StyledRadio $size={size} {...props} />;
+export const Radio = ({ $size, children, ...props }: RadioProps) => {
+  return (
+    <Label $size={$size}>
+      <StyledRadio $size={$size} {...props} />
+      <span>{children}</span>
+    </Label>
+  );
 };

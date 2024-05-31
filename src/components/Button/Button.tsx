@@ -117,6 +117,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   align-items: center;
   outline: none;
+  cursor: pointer;
   ${(props) => getCSSProperty(props)}
   .contentContainer {
   }
