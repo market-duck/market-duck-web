@@ -1,6 +1,6 @@
 import { Radio } from '@market-duck/components/Control/Radio';
 import { Column } from '@market-duck/components/Flex/Flex';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import { fn } from '@storybook/test';
 
 const meta = {
@@ -18,8 +18,6 @@ const meta = {
 } satisfies Meta<typeof Radio>;
 
 export default meta;
-
-type Story = StoryObj<typeof meta>;
 
 export const Small = () => {
   return (
