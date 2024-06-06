@@ -91,7 +91,6 @@ const variant: CssObjectType = {
 const rowCSSProperty = css`
   width: 100%;
   flex: 1;
-  ${size.large}
 `;
 
 interface StyledButtonProps {
