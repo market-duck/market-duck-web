@@ -42,7 +42,7 @@ const size: CssObjectType = {
 type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
-type variantType = 'primary' | 'secondary' | 'text';
+export type buttonVariantType = 'primary' | 'secondary' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
@@ -95,7 +95,7 @@ const rowCSSProperty = css`
 
 interface StyledButtonProps {
   size?: sizeType;
-  variant?: variantType;
+  variant?: buttonVariantType;
   row?: boolean;
 }
 
