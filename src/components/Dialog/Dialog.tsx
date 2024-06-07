@@ -2,7 +2,7 @@ import { Button, buttonVariantType } from '@market-duck/components/Button/Button
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { DialogHTMLAttributes, forwardRef, MouseEventHandler, useEffect, useImperativeHandle, useRef } from 'react';
-import { AppColor } from 'src/styles/tokens/AppColor';
+import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
@@ -11,12 +11,29 @@ const StyledModalContainer = styled.dialog`
   width: calc(100% - ${AppSpcing.XXL});
   max-width: 308px;
   border-radius: ${AppRadii.M};
-  padding: ${AppSpcing.M};
   background-color: ${AppColor.WHITE.hex};
   border: none;
-  .title,
+  padding: 0;
+
+  /* &:not([open]) {
+    opacity: 0;
+  }
+  &[open] {
+    opacity: 1;
+  }
+
+  transition: opacity 1s ease-in-out; */
+
+  .container {
+    padding: ${AppSpcing.M};
+  }
+  .title {
+    text-align: center;
+    color: ${AppSemanticColor.TEXT_PRIMARY.hex};
+  }
   .desc {
     text-align: center;
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
   }
   &::backdrop {
     position: fixed;
@@ -64,12 +81,20 @@ export const Dialog = forwardRef<DialogHandle, DialogProps>(
     };
 
     useEffect(() => {
-      dialogRef.current?.addEventListener;
+      const handleClickOutside = (event: MouseEvent) => {
+        if (dialogRef.current && event.target === dialogRef.current) {
+          dialogRef.current.close();
+        }
+      };
+
+      if (dialogRef.current) {
+        dialogRef.current.addEventListener('click', handleClickOutside);
+      }
     }, []);
 
     return (
       <StyledModalContainer ref={dialogRef} {...props}>
-        <Column gap="M">
+        <Column gap="M" className="container">
           <Column>
             <Typo tag="p" type="HEADING_SM" className="title">
               {title}
