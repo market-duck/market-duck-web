@@ -34,7 +34,7 @@ const navigationMenuList = [
   },
 ];
 
-const MenuWrap = styled.div.attrs<{ $isSelected: boolean }>(({ $isSelected }) => {
+const MenuWrap = styled.button.attrs<{ $isSelected: boolean }>(({ $isSelected }) => {
   return {
     className: `${$isSelected && 'is-selected'}`,
   };
@@ -82,9 +82,11 @@ const MenuItem = ({
 };
 
 const NavigationBottomWrap = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top: 1px inset ${AppSemanticColor.BORDER_TERTIARY.hex};
 `;
 
 export const NavigationBottom = () => {
