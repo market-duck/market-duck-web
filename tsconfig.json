@@ -29,8 +29,9 @@
       "@market-duck/hooks/*":["src/hooks/*"],
       "@market-duck/pages/*":["src/pages/*"],
       "@market-duck/utils/*":["src/utils/*"],
-    }
+    },
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
 }
