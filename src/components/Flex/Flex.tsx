@@ -1,35 +1,35 @@
 import { AppSpcing, AppSpcingKey } from 'src/styles/tokens/AppSpacing';
 import styled, { css } from 'styled-components';
 
-export const justifyStart = css`
+export const justifyStart = `
   justify-content: flex-start;
 `;
-export const justifyEnd = css`
+export const justifyEnd = `
   justify-content: flex-end;
 `;
-export const justifyCenter = css`
+export const justifyCenter = `
   justify-content: center;
 `;
-export const justifyBetween = css`
+export const justifyBetween = `
   justify-content: space-between;
 `;
-export const justifyAround = css`
+export const justifyAround = `
   justify-content: space-around;
 `;
-export const justifyEvenly = css`
+export const justifyEvenly = `
   justify-content: space-evenly;
 `;
 
-export const alignItemsStart = css`
+export const alignItemsStart = `
   align-items: flex-start;
 `;
-export const alignItemsEnd = css`
+export const alignItemsEnd = `
   align-items: flex-end;
 `;
-export const alignItemsCenter = css`
+export const alignItemsCenter = `
   align-items: center;
 `;
-export const alignItemsStretch = css`
+export const alignItemsStretch = `
   align-items: stretch;
 `;
 
@@ -64,13 +64,13 @@ const getCSSProperty = ({
   flex = 'auto',
   flexWrap = 'no-wrap',
 }: FlexProps) => {
-  return `
-      ${justify ?? ''}
-      ${alignItems ?? ''}
+  return css`
+    ${justify ?? ''}
+    ${alignItems ?? ''}
       gap: ${AppSpcing[gap]};
-      flex: ${flex ?? 'auto'}
-      flex-wrap: ${flexWrap}
-    `;
+    flex: ${flex ?? 'auto'};
+    flex-wrap: ${flexWrap};
+  `;
 };
 
 export const Row = styled.div<FlexProps>`
