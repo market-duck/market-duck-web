@@ -1,7 +1,5 @@
 import { Button } from '@market-duck/components/Button/Button';
 import { BottomSheet, BottomSheetHandle } from '@market-duck/components/Dialog/BottomSheet';
-import { Dialog, DialogHandle } from '@market-duck/components/Dialog/Dialog';
-
 import { Meta } from '@storybook/react';
 import { useRef } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
