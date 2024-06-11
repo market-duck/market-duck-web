@@ -5,12 +5,12 @@ import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 import * as FillIcon from '@heroicons/react/16/solid';
 
-type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
+export type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
 
-const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
-  ({ $color = 'primary', $rightIcon = true }) => {
+const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; className?: string }>(
+  ({ $color = 'primary', $rightIcon = true, className = '' }) => {
     return {
-      className: `color-${$color} ${$rightIcon ? 'right-icon' : ''}`,
+      className: `color-${$color} ${$rightIcon ? 'right-icon' : ''} ${className}`,
     };
   },
 )`
@@ -20,7 +20,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean }>(
   gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
-  padding: ${AppSpcing.XXXS} ${AppSpcing.XXS};
+  padding: ${AppSpcing.XXS} ${AppSpcing.XS};
   ${AppTypo.CAPTION_MD}
 
   &.color-primary {
@@ -83,14 +83,16 @@ export const Tag = ({
   text,
   color = 'primary',
   onDelete,
+  className,
 }: {
   showDeleteIcon?: boolean;
   text: string;
   color?: TagColorType;
   onDelete?: () => void;
+  className?: string;
 }) => {
   return (
-    <Wrap $color={color} $rightIcon={showDeleteIcon}>
+    <Wrap $color={color} $rightIcon={showDeleteIcon} className={className}>
       <span>{text}</span>
       {showDeleteIcon && (
         <DeleteIcon
