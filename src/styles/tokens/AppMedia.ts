@@ -1,23 +1,19 @@
-//TODO:: 디자인 작업 시 수정 예정
 interface Viewport {
   [key: string]: number;
 }
 
-interface Media {
-  [key: string]: string;
-}
-
+/**
+ * @description
+ * moble : < 480
+ * tablet : 480 ~ 1280
+ * desktop 1280 <
+ */
 export const breakPoints: Viewport = {
-  mobile: 480,
-  tablet: 768,
-  laptop: 1024,
+  tablet: 480,
+  desktop: 1280,
 } as const;
 
-export const media: Media = {
-  mobile: `(min-width: ${breakPoints.mobile}px)`,
-  tablet: `(min-width: ${breakPoints.tablet}px)`,
-  laptop: `(min-width: ${breakPoints.laptop}px)`,
-
-  small: `(max-width: ${breakPoints.tablet}px)`,
-  large: `(min-width: ${breakPoints.tablet + 0.1}px)`,
-} as const;
+export const mediaQuery = {
+  minTablet: (str: string) => `@media screen and (min-width: ${breakPoints.tablet}px) { ${str} }`,
+  minDesktop: (str: string) => `@media screen and (min-width: ${breakPoints.desktop}px) { ${str} }`,
+};

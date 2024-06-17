@@ -76,8 +76,8 @@ export const Card = ({
 }: {
   title: string;
   price: number;
-  imgSrc: string;
-  tagList: Array<string>;
+  imgSrc?: string;
+  tagList?: Array<string>;
   status: StatusType;
   createdAt: Date;
   viewCount: number;
@@ -91,14 +91,16 @@ export const Card = ({
   return (
     <CardWrap>
       <div className="image">
-        <ItemImg $src={imgSrc} />
+        {/* TODO:: 추후 default img src 연결 */}
+        {imgSrc && <ItemImg $src={imgSrc} />}
         <StatusTag className="status-tag" text={statusWord.text} color={statusWord.color as StatusTagColorType} />
       </div>
       <InfoBox>
         <Row className="tag-list">
-          {tagList.map((item) => {
-            return <StatusTag key={item} text={item} color="neutral" />;
-          })}
+          {tagList &&
+            tagList.map((item) => {
+              return <StatusTag key={item} text={item} color="neutral" />;
+            })}
         </Row>
         <p className="title">{title}</p>
         <p className="price">{price}원</p>
