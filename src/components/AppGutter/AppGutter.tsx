@@ -1,3 +1,4 @@
+import { LayoutVariables } from 'src/styles/variables/LayoutVariables';
 import styled from 'styled-components';
 
 export const AppGutter = styled.div.attrs<{
@@ -13,11 +14,12 @@ export const AppGutter = styled.div.attrs<{
   };
 })`
   background-color: #fff;
-  min-width: 375px;
-  max-width: 768px;
+  min-width: var(${LayoutVariables.viewMinWidth});
+  max-width: var(${LayoutVariables.viewMaxWidth});
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(${LayoutVariables.gutterSize});
 `;
+
 export const AppGutterPadding = styled.div`
   padding: 0 1rem;
 `;

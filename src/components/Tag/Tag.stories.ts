@@ -33,24 +33,3 @@ export const Secondary: Story = {
     text: 'secondary',
   },
 };
-
-export const Info: Story = {
-  args: {
-    color: 'info',
-    text: 'info',
-  },
-};
-
-export const Error: Story = {
-  args: {
-    color: 'error',
-    text: 'error',
-  },
-};
-
-export const Caution: Story = {
-  args: {
-    color: 'caution',
-    text: 'caution',
-  },
-};
