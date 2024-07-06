@@ -11,7 +11,7 @@ const TextButtonWrap = styled.button.attrs<{ $variant: 'primary' | 'secondary' }
 })`
   background: transparent;
 
-  .primary {
+  &.primary {
     color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.hex};
 
     &:hover {
@@ -22,7 +22,7 @@ const TextButtonWrap = styled.button.attrs<{ $variant: 'primary' | 'secondary' }
     }
   }
 
-  .secondary {
+  &.secondary {
     color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
 
     &:hover {

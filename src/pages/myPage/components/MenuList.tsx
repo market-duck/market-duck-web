@@ -66,7 +66,7 @@ export const MenuList = () => {
         </Typo>
         <div>
           {userInfoMenuList.map((item) => {
-            return <ListItem left={item.name} right={<ArrowRightIcon />} onClick={item.action} />;
+            return <ListItem key={item.name} left={item.name} right={<ArrowRightIcon />} onClick={item.action} />;
           })}
         </div>
       </SectionWrap>
@@ -77,7 +77,7 @@ export const MenuList = () => {
         </Typo>
         <div>
           {userSupportMenuList.map((item) => {
-            return <ListItem left={item.name} right={<ArrowRightIcon />} onClick={item.action} />;
+            return <ListItem key={item.name} left={item.name} right={<ArrowRightIcon />} onClick={item.action} />;
           })}
         </div>
       </SectionWrap>

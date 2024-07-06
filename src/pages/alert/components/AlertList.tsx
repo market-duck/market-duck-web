@@ -2,14 +2,20 @@ import styled from 'styled-components';
 import { Column, alignItemsStart, justifyCenter } from '@market-duck/components/Flex/Flex';
 import { Badge } from '@market-duck/components/Badge/Badge';
 import { ListItem } from '@market-duck/components/List/ListItem';
+import { Typo } from '@market-duck/components/Typo/Typo';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 
 const AlertListWrap = styled(Column)``;
 
 const AlertListContent = ({ content, timeText }: { content: string; timeText: string }) => {
   return (
     <Column alignItems={alignItemsStart} justify={justifyCenter}>
-      <p>{content}</p>
-      <p>{timeText}</p>
+      <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
+        {content}
+      </Typo>
+      <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
+        {timeText}
+      </Typo>
     </Column>
   );
 };
@@ -20,6 +26,7 @@ const AlertBadge = ({ count }: { count: number }) => {
 
 //TODO::API 데이터 작업 후 수정 예정
 interface AlertData {
+  id: string;
   type: string;
   count: number;
   keyword: string;
@@ -44,6 +51,7 @@ export const AlertList = ({ alertList }: { alertList: Array<AlertData> }) => {
       {alertList.map((item) => {
         return (
           <ListItem
+            key={item.id}
             left={
               <AlertListContent content={getAlertTypeToDescription(item.type, item.keyword)} timeText={item.time} />
             }
