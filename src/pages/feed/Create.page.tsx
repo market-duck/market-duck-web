@@ -1,3 +1,5 @@
+import { FeedForm } from './components/FeedForm';
+
 export const Create = () => {
-  return <div></div>;
+  return <FeedForm />;
 };
