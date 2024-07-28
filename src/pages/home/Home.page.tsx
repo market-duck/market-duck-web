@@ -16,7 +16,7 @@ export const Home = () => {
     likedCount: 9,
     imgSrc: 'https://placehold.co/400',
   };
-  const dummyFeeds = new Array(2).fill(feedDummy);
+  const dummyFeeds = new Array(2).fill(feedDummy).map((item, idx) => ({ ...item, id: idx }));
   return (
     <AppGutter $padding="16px">
       <Column gap="XL">
