@@ -56,11 +56,12 @@ export const TextButton = ({
   rightIcon,
   iconFill,
   children,
+  ...props
 }: TextButtonProps & ButtonHTMLAttributes<HTMLButtonElement>) => {
   const IconSet = iconFill ? FillIcon : OutlineIcon;
 
   return (
-    <TextButtonWrap $variant={variant}>
+    <TextButtonWrap $variant={variant} {...props}>
       <>
         {leftIcon && createElement(IconSet[leftIcon])}
         {children}
