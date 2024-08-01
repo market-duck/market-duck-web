@@ -6,6 +6,8 @@ import { FeedImageUpload } from './FeedImageUpload';
 import { Tab } from '@market-duck/components/Tab/Tab';
 import { useEffect, useState } from 'react';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { SelectOption } from '@market-duck/components/Select/Select';
+import { thousandComma } from '@market-duck/utils/price';
 
 const FormContainer = styled.form`
   display: flex;
@@ -20,25 +22,38 @@ export const FeedForm = ({
 }: {
   type?: 'create' | 'edit';
   initialValue?: {
-    genre: any;
-    goods: any;
+    genre: Array<SelectOption>;
+    goods: Array<SelectOption>;
     title: string;
+    price: number;
     content: string;
   };
 }) => {
-  //TODO::useSetFormValue...훅 만들기..
-  const [genre, setGenre] = useState<number[]>([]);
-  const [goods, setGoods] = useState<number[]>([]);
+  const [genre, setGenre] = useState<Array<SelectOption>>([]);
+  const [goods, setGoods] = useState<Array<SelectOption>>([]);
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
-  const genreOptionList = [{ label: '', value: '' }];
-  const goodsOptionList = [{ label: '', value: '' }];
+  const genreOptionList = [
+    { label: '장르1', value: 'genre1' },
+    { label: '장르2', value: 'genre2' },
+  ];
+  const goodsOptionList = [
+    { label: '상품1', value: 'goods1' },
+    {
+      label: '상품2',
+      value: 'goods2',
+    },
+  ];
 
   useEffect(() => {
     if (type === 'edit' && initialValue) {
-      //TODO:: 기존 데이터 세팅
+      setGenre(initialValue.genre);
+      setGoods(initialValue.goods);
+      setTitle(initialValue.title);
+      setContent(initialValue.content);
+      setPrice(thousandComma(initialValue.price));
     }
   }, []);
 
@@ -88,7 +103,7 @@ export const FeedForm = ({
         placeholder="가격"
         value={price}
         changeHandler={(e) => {
-          setPrice(e.target.value);
+          setPrice(thousandComma(e.target.value));
         }}
       />
       {/* TODO:: TextArea 엔터, 띄어쓰기 반영 체크 */}

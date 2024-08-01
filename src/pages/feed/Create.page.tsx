@@ -1,5 +1,10 @@
 import { FeedForm } from './components/FeedForm';
+import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 
 export const Create = () => {
-  return <FeedForm />;
+  return (
+    <AppGutter>
+      <FeedForm />
+    </AppGutter>
+  );
 };

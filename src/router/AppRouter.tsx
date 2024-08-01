@@ -10,15 +10,15 @@ export const appRouter = createBrowserRouter([
     Component: Outlet,
     children: [
       {
-        path: '/alert',
+        path: 'alert',
         Component: Alert,
       },
       {
-        path: '/mypage',
+        path: 'mypage',
         Component: Mypage,
       },
       {
-        path: '/feed',
+        path: 'feed',
         Component: Outlet,
         children: [
           {
@@ -26,7 +26,7 @@ export const appRouter = createBrowserRouter([
             Component: Create,
           },
           {
-            path: '/edit',
+            path: 'edit',
             Component: Edit,
           },
           // {
