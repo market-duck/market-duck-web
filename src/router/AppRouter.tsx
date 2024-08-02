@@ -3,12 +3,16 @@ import { Mypage } from '@market-duck/pages/myPage/MyPage.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
+import { AppLayout } from 'src/layout/AppLayout';
 
 export const appRouter = createBrowserRouter([
   {
-    path: '/',
-    Component: Outlet,
+    element: <AppLayout />,
     children: [
+      {
+        path: '/',
+        Component: () => <></>,
+      },
       {
         path: 'alert',
         Component: Alert,
