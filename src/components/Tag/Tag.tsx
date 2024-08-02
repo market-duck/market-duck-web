@@ -14,7 +14,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; clas
     };
   },
 )`
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
@@ -79,7 +79,7 @@ const DeleteIcon = styled(FillIcon.XCircleIcon)`
 `;
 
 export const Tag = ({
-  showDeleteIcon = true,
+  showDeleteIcon = false,
   text,
   color = 'primary',
   onDelete,

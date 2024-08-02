@@ -1,8 +1,8 @@
 import { RuleSet, styled } from 'styled-components';
-import { createElement } from 'react';
+import { createElement, ReactNode } from 'react';
 import { AppTypo, AppTypoKey } from 'src/styles/tokens/AppTypo';
 
-export const DynamicTypography = styled(({ tag, children, ...props }: { tag: 'span' | 'p'; children: string }) =>
+export const DynamicTypography = styled(({ tag, children, ...props }: { tag: 'span' | 'p'; children: ReactNode }) =>
   createElement(tag, props, children),
 )<{ type: RuleSet<object> }>`
   ${(props) => props.type}
@@ -11,7 +11,7 @@ export const DynamicTypography = styled(({ tag, children, ...props }: { tag: 'sp
 interface TypoProps {
   tag?: 'span' | 'p';
   type?: AppTypoKey;
-  children: string;
+  children: string | ReactNode;
   className?: string;
 }
 
