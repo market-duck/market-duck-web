@@ -7,6 +7,8 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
+//TODO:: List가 Notify 외에도 사용되는 것 같으므로 리스트 수정 작업 필요
+
 const StyledNotifyList = styled.ul`
   display: flex;
   flex-direction: column;

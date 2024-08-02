@@ -25,8 +25,12 @@ const ArrowDownIcon = styled(FillIcon.ChevronDownIcon)`
   height: 1.5rem;
 `;
 
+export interface SelectOption {
+  label: string;
+  value: string;
+}
+
 const SelectInput = ({
-  optionList,
   placeholder,
   value,
   selectType,
@@ -36,21 +40,20 @@ const SelectInput = ({
   deleteOneHandler,
   deleteAllHandler,
 }: {
-  optionList: Array<{ label: string; value: string }>;
   placeholder: string;
-  value: number[];
+  value: Array<{ label: string; value: string }>;
   selectType: 'single' | 'multi';
   isDisabled: boolean;
   isFocused: boolean;
   isError: boolean;
-  deleteOneHandler: (deleteItemValue: number) => void;
+  deleteOneHandler: (deleteItemValue: { label: string; value: string }) => void;
   deleteAllHandler: () => void;
 }) => {
   return (
     <SelectInputWrap className="input-wrap" $focus={isFocused} $error={isError} $disabled={isDisabled}>
       {value.length === 0 && placeholder}
       {selectType === 'single' ? (
-        optionList[value[0]].label
+        value[0].label
       ) : (
         <div className="multi-input">
           <Row gap="XXS">
@@ -62,8 +65,8 @@ const SelectInput = ({
                   onDelete={() => {
                     deleteOneHandler(item);
                   }}
-                  key={item}
-                  text={optionList[item].label}
+                  key={item.value}
+                  text={item.label}
                 />
               );
             })}
@@ -106,8 +109,8 @@ export const Select = ({
   isError = false,
 }: {
   selectType: 'single' | 'multi';
-  value: number[]; //index를 저장한다
-  onChangeValue: (selected: number[]) => void;
+  value: Array<{ label: string; value: string }>; //index를 저장한다
+  onChangeValue: (selected: Array<{ label: string; value: string }>) => void;
   placeholder?: string;
   label?: string;
   optionList: Array<{ label: string; value: string }>;
@@ -120,7 +123,7 @@ export const Select = ({
     setIsOpen(false);
   };
 
-  const onChange = (selectedValue: number) => {
+  const onChange = (selectedValue: { label: string; value: string }) => {
     if (selectType === 'multi') {
       if (!value.includes(selectedValue)) {
         onChangeValue([...value, selectedValue]);
@@ -136,8 +139,8 @@ export const Select = ({
     onChangeValue([]);
   };
 
-  const deleteOneHandler = (deleteItem: number) => {
-    const deletedValues = value.filter((item) => item !== deleteItem);
+  const deleteOneHandler = (deleteItem: { label: string; value: string }) => {
+    const deletedValues = value.filter((item) => item.value !== deleteItem.value);
     onChangeValue(deletedValues);
   };
 
@@ -152,7 +155,6 @@ export const Select = ({
       >
         {label && <p>label</p>}
         <SelectInput
-          optionList={optionList}
           isFocused={isOpen}
           isError={isError}
           isDisabled={isDisabled}
@@ -165,12 +167,12 @@ export const Select = ({
       </UpperArea>
       {isOpen && (
         <LowerArea>
-          {optionList.map((item, index) => {
+          {optionList.map((item) => {
             return (
               <SelectOption
                 key={item.value}
                 onClick={() => {
-                  onChange(index);
+                  onChange(item);
                 }}
               >
                 {item.label}
