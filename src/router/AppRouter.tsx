@@ -1,9 +1,11 @@
-import { Outlet, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
+import { Home } from '@market-duck/pages/home/Home.page';
+import { Read } from '@market-duck/pages/feed/Read.page';
+import { AppLayout } from 'src/layout/AppLayout';
+import { Alert } from '@market-duck/pages/alert/Alert.page';
 import { Mypage } from '@market-duck/pages/myPage/MyPage.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
-import { Alert } from '@market-duck/pages/alert/Alert.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
-import { AppLayout } from 'src/layout/AppLayout';
 
 export const appRouter = createBrowserRouter([
   {
@@ -11,7 +13,7 @@ export const appRouter = createBrowserRouter([
     children: [
       {
         path: '/',
-        Component: () => <></>,
+        Component: Home,
       },
       {
         path: 'alert',
@@ -23,7 +25,7 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: 'feed',
-        Component: Outlet,
+        Component: Read,
         children: [
           {
             path: 'create',
