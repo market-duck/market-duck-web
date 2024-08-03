@@ -15,7 +15,7 @@ const Wrap = styled(AppGutter)`
     position: sticky;
     width: 100%;
     left: 0;
-    bottom: 0;
+    bottom: 60px;
     padding: ${AppSpcing.XS} 0;
     background-color: ${AppColor.WHITE.hex};
   }
