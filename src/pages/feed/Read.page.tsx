@@ -1,6 +1,7 @@
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Button } from '@market-duck/components/Button/Button';
 import { Row } from '@market-duck/components/Flex/Flex';
+import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { FeedContent } from '@market-duck/pages/feed/components/FeedContent';
 import { MouseEvent } from 'react';
 import { AppColor } from 'src/styles/tokens/AppColor';
@@ -44,16 +45,19 @@ export const Read = () => {
   };
 
   return (
-    <Wrap>
-      <FeedContent />
-      <Row className="btnContainer" gap="XS">
-        <Button id="secondary" size="medium" variant="secondary" row onClick={btnHandler}>
-          {isMyFeed ? '삭제' : '찜'}
-        </Button>
-        <Button id="primary" size="medium" variant="primary" row onClick={btnHandler}>
-          {isMyFeed ? '수정' : '채팅'}
-        </Button>
-      </Row>
-    </Wrap>
+    <>
+      <NavigationTop title="피드" />
+      <Wrap>
+        <FeedContent />
+        <Row className="btnContainer" gap="XS">
+          <Button id="secondary" size="medium" variant="secondary" row onClick={btnHandler}>
+            {isMyFeed ? '삭제' : '찜'}
+          </Button>
+          <Button id="primary" size="medium" variant="primary" row onClick={btnHandler}>
+            {isMyFeed ? '수정' : '채팅'}
+          </Button>
+        </Row>
+      </Wrap>
+    </>
   );
 };
