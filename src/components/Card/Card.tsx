@@ -1,4 +1,4 @@
-import { Column, Row, alignItemsCenter, justifyEnd } from '@market-duck/components/Flex/Flex';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { BgImage } from '@market-duck/components/Image/BgImage';
 import { StatusTag, StatusTagColorType } from '@market-duck/components/Tag/StatusTag';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
@@ -104,7 +104,7 @@ export const Card = ({
         </Row>
         <p className="title">{title}</p>
         <p className="price">{price}원</p>
-        <Row className="bottom-info" gap="XXS" justify={justifyEnd} alignItems={alignItemsCenter}>
+        <Row className="bottom-info" gap="XXS" justify={'end'} alignItems={'center'}>
           <span>1시간 전</span>
           <span>조회수 {viewCount}</span>
           <span>찜 {likedCount}</span>

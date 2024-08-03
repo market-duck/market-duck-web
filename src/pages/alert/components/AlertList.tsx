@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Column, alignItemsStart, justifyCenter } from '@market-duck/components/Flex/Flex';
+import { Column } from '@market-duck/components/Flex/Flex';
 import { Badge } from '@market-duck/components/Badge/Badge';
 import { ListItem } from '@market-duck/components/List/ListItem';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -9,7 +9,7 @@ const AlertListWrap = styled(Column)``;
 
 const AlertListContent = ({ content, timeText }: { content: string; timeText: string }) => {
   return (
-    <Column alignItems={alignItemsStart} justify={justifyCenter}>
+    <Column alignItems={'start'} justify={'center'}>
       <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
         {content}
       </Typo>

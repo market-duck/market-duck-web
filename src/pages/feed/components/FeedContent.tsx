@@ -1,4 +1,4 @@
-import { alignItemsCenter, Column, justifyBetween, Row } from '@market-duck/components/Flex/Flex';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Tag } from '@market-duck/components/Tag/Tag';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -43,8 +43,8 @@ export const FeedContent = () => {
   // TODO: DrowDown 추가하여 작업 필요
   return (
     <Wrap className="contents" gap="M">
-      <Row justify={justifyBetween} alignItems={alignItemsCenter} className="feedAuthorContainer">
-        <Row gap="XS" alignItems={alignItemsCenter} flex={1}>
+      <Row justify={'between'} alignItems={'center'} className="feedAuthorContainer">
+        <Row gap="XS" alignItems={'center'} flex={1}>
           <Thumbnail size="md" imgSrc="https://placehold.co/400" />
           <Column flex={1}>
             <Typo className="user" type="BODY_SM">

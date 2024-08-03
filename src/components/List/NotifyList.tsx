@@ -1,4 +1,4 @@
-import { alignItemsStart, Column } from '@market-duck/components/Flex/Flex';
+import { Column } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { getTimeDiff } from '@market-duck/utils/date';
 import { HTMLAttributes } from 'react';
@@ -87,7 +87,7 @@ export const NotifyListItem = ({ area = 'left', data, onClick }: NotifyListItemP
     <StyledNotifyListItem>
       <button className="btn" onClick={onClick}>
         {area === 'left' && <Area />}
-        <Column className="contents" alignItems={alignItemsStart}>
+        <Column className="contents" alignItems={'start'}>
           <Typo type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
             {data?.content}
           </Typo>

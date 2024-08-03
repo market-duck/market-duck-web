@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Row, justifyBetween, justifyStart } from '../Flex/Flex';
+import { Row } from '../Flex/Flex';
 import styled from 'styled-components';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
@@ -36,7 +36,7 @@ export const PageHeading = ({
   size?: 'sm' | 'md';
 }) => {
   return (
-    <PageHeadingWrap $size={size} justify={rightComponent ? justifyBetween : justifyStart}>
+    <PageHeadingWrap $size={size} justify={rightComponent ? 'between' : 'start'}>
       <span>{title}</span>
       <span className="right">{rightComponent}</span>
     </PageHeadingWrap>

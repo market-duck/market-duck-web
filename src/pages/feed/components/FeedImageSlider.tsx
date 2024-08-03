@@ -1,5 +1,5 @@
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid';
-import { justifyBetween, Row } from '@market-duck/components/Flex/Flex';
+import { Row } from '@market-duck/components/Flex/Flex';
 import { Tag } from '@market-duck/components/Tag/Tag';
 import { MouseEvent, UIEventHandler, useEffect, useRef, useState } from 'react';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
@@ -114,7 +114,7 @@ export const FeedImageSlider = ({ imgSrcs }: FeedImageSliderProps) => {
             );
           })}
       </ul>
-      <Row className="carauselBtnContainer" justify={justifyBetween}>
+      <Row className="carauselBtnContainer" justify={'between'}>
         <button id="decrease" onClick={slideHandler}>
           <ChevronLeftIcon />
         </button>
