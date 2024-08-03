@@ -94,15 +94,15 @@ const rowCSSProperty = css`
 `;
 
 interface StyledButtonProps {
-  size?: sizeType;
-  variant?: buttonVariantType;
-  row?: boolean;
+  $size?: sizeType;
+  $variant?: buttonVariantType;
+  $row?: boolean;
 }
 
 const getCSSProperty = ({
-  size: sizeType = 'medium',
-  variant: variantType = 'primary',
-  row = false,
+  $size: sizeType = 'medium',
+  $variant: variantType = 'primary',
+  $row: row = false,
 }: StyledButtonProps) => {
   return css`
     ${size[sizeType] ?? ''}
@@ -126,17 +126,20 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 `;
 
-interface ButtonProps extends StyledButtonProps, ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   leftIcon?: keyof typeof OutlineIcon;
   rightIcon?: keyof typeof OutlineIcon;
   iconFill?: boolean;
+  size?: sizeType;
+  variant?: buttonVariantType;
+  row?: boolean;
 }
 
 export const Button = ({ leftIcon, rightIcon, size, variant, iconFill, row, children, ...props }: ButtonProps) => {
   const IconSet = iconFill ? FillIcon : OutlineIcon;
 
   return (
-    <StyledButton size={size} variant={variant} row={row} {...props}>
+    <StyledButton $size={size} $variant={variant} $row={row} {...props}>
       <>
         {leftIcon && createElement(IconSet[leftIcon])}
         {children}
