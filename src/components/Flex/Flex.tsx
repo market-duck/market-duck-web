@@ -1,55 +1,72 @@
+import { HTMLAttributes } from 'react';
 import { AppSpcing, AppSpcingKey } from 'src/styles/tokens/AppSpacing';
 import styled, { css } from 'styled-components';
 
-export const justifyStart = `
-  justify-content: flex-start;
-`;
-export const justifyEnd = `
-  justify-content: flex-end;
-`;
-export const justifyCenter = `
-  justify-content: center;
-`;
-export const justifyBetween = `
-  justify-content: space-between;
-`;
-export const justifyAround = `
-  justify-content: space-around;
-`;
-export const justifyEvenly = `
-  justify-content: space-evenly;
+type FlexJustify = keyof typeof justifyMap;
+
+type FlexAlignItems = keyof typeof alignItemsMap;
+
+type FlexWrapItems = 'wrap' | 'no-wrap';
+
+const justifyMap = {
+  start: 'flex-start',
+  end: 'flex-end',
+  center: 'center',
+  between: 'space-between',
+  around: 'space-around',
+  evenly: 'space-evenly',
+};
+
+const alignItemsMap = {
+  start: 'flex-start',
+  end: 'flex-end',
+  center: 'center',
+  stretch: 'stretch',
+};
+
+const getCSSProperty = ({
+  $justify = 'start',
+  $alignItems = 'stretch',
+  $gap = 'NONE',
+  $flex = 'auto',
+  $flexWrap = 'no-wrap',
+}: {
+  $justify?: FlexJustify;
+  $alignItems?: FlexAlignItems;
+  $gap?: AppSpcingKey;
+  $flex?: number | 'auto' | 'none' | 'initial';
+  $flexWrap?: FlexWrapItems;
+}) => {
+  return css`
+    justify-content: ${justifyMap[$justify]};
+    align-items: ${alignItemsMap[$alignItems]};
+    gap: ${AppSpcing[$gap]};
+    flex: ${$flex};
+    flex-wrap: ${$flexWrap};
+  `;
+};
+
+interface StyledFlexProps {
+  $justify?: FlexJustify;
+  $alignItems?: FlexAlignItems;
+  $gap?: AppSpcingKey;
+  $flex?: number | 'auto' | 'none' | 'initial';
+  $flexWrap?: FlexWrapItems;
+}
+
+const StyledRow = styled.div<StyledFlexProps>`
+  display: flex;
+  flex-direction: row;
+  ${(props) => getCSSProperty(props)}
 `;
 
-export const alignItemsStart = `
-  align-items: flex-start;
-`;
-export const alignItemsEnd = `
-  align-items: flex-end;
-`;
-export const alignItemsCenter = `
-  align-items: center;
-`;
-export const alignItemsStretch = `
-  align-items: stretch;
+const StyledColumn = styled.div<StyledFlexProps>`
+  display: flex;
+  flex-direction: column;
+  ${(props) => getCSSProperty(props)}
 `;
 
-export type FlexJustify =
-  | typeof justifyStart
-  | typeof justifyEnd
-  | typeof justifyCenter
-  | typeof justifyBetween
-  | typeof justifyAround
-  | typeof justifyEvenly;
-
-export type FlexAlignItems =
-  | typeof alignItemsStart
-  | typeof alignItemsEnd
-  | typeof alignItemsCenter
-  | typeof alignItemsStretch;
-
-export type FlexWrapItems = 'wrap' | 'no-wrap';
-
-interface FlexProps {
+interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   justify?: FlexJustify;
   alignItems?: FlexAlignItems;
   gap?: AppSpcingKey;
@@ -57,30 +74,14 @@ interface FlexProps {
   flexWrap?: FlexWrapItems;
 }
 
-const getCSSProperty = ({
-  justify = justifyStart,
-  alignItems = alignItemsStretch,
-  gap = 'NONE',
-  flex = 'auto',
-  flexWrap = 'no-wrap',
-}: FlexProps) => {
-  return css`
-    ${justify ?? ''}
-    ${alignItems ?? ''}
-      gap: ${AppSpcing[gap]};
-    flex: ${flex ?? 'auto'};
-    flex-wrap: ${flexWrap};
-  `;
-};
+export const Row = ({ children, justify, alignItems, gap, flex, flexWrap, ...props }: FlexProps) => (
+  <StyledRow $justify={justify} $alignItems={alignItems} $flex={flex} $flexWrap={flexWrap} $gap={gap} {...props}>
+    {children}
+  </StyledRow>
+);
 
-export const Row = styled.div<FlexProps>`
-  display: flex;
-  flex-direction: row;
-  ${(props) => getCSSProperty(props)}
-`;
-
-export const Column = styled.div<FlexProps>`
-  display: flex;
-  flex-direction: column;
-  ${(props) => getCSSProperty(props)}
-`;
+export const Column = ({ children, justify, alignItems, gap, flex, flexWrap, ...props }: FlexProps) => (
+  <StyledColumn $justify={justify} $alignItems={alignItems} $flex={flex} $flexWrap={flexWrap} $gap={gap} {...props}>
+    {children}
+  </StyledColumn>
+);
