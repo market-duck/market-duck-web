@@ -35,6 +35,7 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
   padding-right: 32px;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
+  white-space: nowrap;
   ${AppTypo.BODY_MD};
   cursor: pointer;
 
@@ -75,6 +76,7 @@ export const LowerArea = styled.ul`
   padding: ${AppSpcing.XS} 0;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
+  z-index: 99;
 `;
 
 export const OptionWrap = styled.li`
