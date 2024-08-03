@@ -7,6 +7,9 @@ import * as FillIcon from '@heroicons/react/24/solid';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 
 const NavigationTopWrap = styled.div`
+  position: sticky;
+  z-index: 1;
+  top: 0;
   width: 100%;
   padding: ${AppSpcing.S} ${AppSpcing.M};
   display: flex;
