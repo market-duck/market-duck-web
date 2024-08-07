@@ -5,7 +5,8 @@ import { atom, useRecoilState } from 'recoil';
 export const NavigationMenuEnum = {
   home: 'home',
   search: 'search',
-  write: 'write',
+  create: 'feed/create',
+  edit: 'feed/edit',
   chat: 'chat',
   myPage: 'myPage',
 } as const;

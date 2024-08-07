@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Outlet, createBrowserRouter } from 'react-router-dom';
 import { Home } from '@market-duck/pages/home/Home.page';
 import { Read } from '@market-duck/pages/feed/Read.page';
 import { AppLayout } from 'src/layout/AppLayout';
@@ -25,8 +25,12 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: 'feed',
-        Component: Read,
+        Component: Outlet,
         children: [
+          {
+            path: 'read',
+            Component: Read,
+          },
           {
             path: 'create',
             Component: Create,

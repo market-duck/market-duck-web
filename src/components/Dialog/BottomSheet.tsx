@@ -1,7 +1,7 @@
 import { Button } from '@market-duck/components/Button/Button';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { ReactNode, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -41,9 +41,11 @@ const StyledBottomSheet = styled.dialog`
 `;
 
 export interface BottomSheetProps {
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
   buttonTitle?: string;
+  hasButton?: boolean;
+  customContent?: ReactNode;
 }
 
 export interface BottomSheetHandle {
@@ -52,7 +54,7 @@ export interface BottomSheetHandle {
 }
 
 export const BottomSheet = forwardRef<BottomSheetHandle, BottomSheetProps>(
-  ({ title, desc, buttonTitle = '확인' }, ref) => {
+  ({ title, desc, buttonTitle = '확인', customContent, hasButton = false }, ref) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
     useImperativeHandle(ref, () => ({
@@ -90,16 +92,30 @@ export const BottomSheet = forwardRef<BottomSheetHandle, BottomSheetProps>(
       <StyledBottomSheet ref={dialogRef}>
         <Column gap="XL" className="container">
           <Column className="content">
-            <Typo type="HEADING_SM" className="title">
-              {title}
-            </Typo>
-            <Typo type="BODY_SM" className="desc">
-              {desc}
-            </Typo>
+            {!!customContent ? (
+              <>{customContent}</>
+            ) : (
+              <>
+                <Typo type="HEADING_SM" className="title">
+                  {title}
+                </Typo>
+                <Typo type="BODY_SM" className="desc">
+                  {desc}
+                </Typo>
+              </>
+            )}
           </Column>
-          <Button size="large" onClick={closeHandler} row>
-            {buttonTitle}
-          </Button>
+          {hasButton && (
+            <Button
+              size="large"
+              onClick={() => {
+                closeHandler();
+              }}
+              row
+            >
+              {buttonTitle}
+            </Button>
+          )}
         </Column>
       </StyledBottomSheet>
     );
