@@ -26,6 +26,7 @@ const Wrap = styled.div<{ $isDotMenu?: boolean }>`
     border-radius: ${AppRadii.M};
     background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_PRESS.hex};
+    animation: fadeWithSlideDown 0.2s ease-out forwards;
   }
   .selectedItem {
     min-width: ${({ $isDotMenu }) => ($isDotMenu ? 'auto' : '96px')};
@@ -48,6 +49,17 @@ const Wrap = styled.div<{ $isDotMenu?: boolean }>`
     &:disabled {
       color: ${AppSemanticColor.TEXT_DISABLED.hex};
       background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    }
+  }
+
+  @keyframes fadeWithSlideDown {
+    0% {
+      transform: translateY(-5%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0%);
+      opacity: 1;
     }
   }
 `;
