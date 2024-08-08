@@ -9,9 +9,12 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { SelectOption } from '@market-duck/components/Select/Select';
 import { thousandComma } from '@market-duck/utils/price';
 import { BottomSheet, BottomSheetHandle } from '@market-duck/components/Dialog/BottomSheet';
-//TODO::Search Component 필요햐...
+import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
 
-const dummySearch = [
+//TODO :: 결과값 없을 때 empty ui 필요
+
+//TODO :: api data로 변경 예정
+const genreDummySearch = [
   { value: '주술회전' },
   { value: '하이큐!!' },
   { value: '장송의 프리렌' },
@@ -21,25 +24,8 @@ const dummySearch = [
   { value: '앙상블 스타즈!!' },
 ];
 
-const SearchContent = () => {
-  const [searchValue, setSearchValue] = useState('');
-  return (
-    <div>
-      <Input
-        placeholder="search component로 바까야대요"
-        value={searchValue}
-        changeHandler={(e) => {
-          setSearchValue(e.target.value);
-        }}
-      />
-      <ul>
-        {dummySearch.map((item) => {
-          return <li key={item.value}>{item.value}</li>;
-        })}
-      </ul>
-    </div>
-  );
-};
+//TODO :: api data로 변경 예정
+const goodsDummySearch = [{ value: '피규어' }, { value: '넨도로이드' }, { value: '쯔무쯔무' }];
 
 const FormContainer = styled.form`
   display: flex;
@@ -67,24 +53,18 @@ export const FeedForm = ({
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string>('');
 
-  const genreOptionList = [
-    { label: '장르1', value: 'genre1' },
-    { label: '장르2', value: 'genre2' },
-  ];
-  const goodsOptionList = [
-    { label: '상품1', value: 'goods1' },
-    {
-      label: '상품2',
-      value: 'goods2',
-    },
-  ];
+  const genreDialogRef = useRef<BottomSheetHandle>(null);
+  const goodsDialogRef = useRef<BottomSheetHandle>(null);
 
-  const dialogRef = useRef<BottomSheetHandle>(null);
+  const handleGenreClick = () => {
+    if (genreDialogRef.current) {
+      genreDialogRef.current.open();
+    }
+  };
 
-  const handleClick = () => {
-    console.log('here~');
-    if (dialogRef.current) {
-      dialogRef.current.open();
+  const handleGoodsClick = () => {
+    if (goodsDialogRef.current) {
+      goodsDialogRef.current.open();
     }
   };
 
@@ -122,16 +102,16 @@ export const FeedForm = ({
         onChangeValue={(selected) => {
           setGenre(selected);
         }}
-        onCustomOpen={handleClick}
+        onCustomOpen={handleGenreClick}
       />
       <Select
         placeholder="굿즈 태그 선택"
         selectType="multi"
-        optionList={goodsOptionList}
         value={goods}
         onChangeValue={(selected) => {
           setGoods(selected);
         }}
+        onCustomOpen={handleGoodsClick}
       />
       <Input
         placeholder="제목"
@@ -147,7 +127,6 @@ export const FeedForm = ({
           setPrice(thousandComma(e.target.value));
         }}
       />
-      {/* TODO:: TextArea 엔터, 띄어쓰기 반영 체크 */}
       <TextArea
         value={content}
         changeHandler={(e) => {
@@ -155,7 +134,8 @@ export const FeedForm = ({
         }}
         placeholder="내용"
       />
-      <BottomSheet customContent={<SearchContent />} ref={dialogRef} />
+      <BottomSheet customContent={<SearchSelect searchResultList={genreDummySearch} />} ref={genreDialogRef} />
+      <BottomSheet customContent={<SearchSelect searchResultList={goodsDummySearch} />} ref={goodsDialogRef} />
     </FormContainer>
   );
 };

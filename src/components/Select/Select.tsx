@@ -61,7 +61,7 @@ const SelectInput = ({
       onClick={onCustomOpen}
     >
       {value.length === 0 && placeholder}
-      {selectType === 'single' ? (
+      {selectType === 'single' && value.length ? (
         value[0].label
       ) : (
         <div className="multi-input">
@@ -119,7 +119,7 @@ export const Select = ({
   isError = false,
 }: {
   selectType: 'single' | 'multi';
-  value: Array<{ label: string; value: string }>; //index를 저장한다
+  value: Array<{ label: string; value: string }>;
   onChangeValue: (selected: Array<{ label: string; value: string }>) => void;
   onCustomOpen?: () => void;
   placeholder?: string;
@@ -137,6 +137,7 @@ export const Select = ({
 
   const onChange = (selectedValue: { label: string; value: string }) => {
     if (selectType === 'multi') {
+      //TODO:: 객체로 저장하는데.. includes 쓰면 안 되지 않니..
       if (!value.includes(selectedValue)) {
         onChangeValue([...value, selectedValue]);
       }
@@ -165,7 +166,7 @@ export const Select = ({
           setIsOpen((prev) => !prev);
         }}
       >
-        {label && <p>label</p>}
+        {!!label && <p>{label}</p>}
         <SelectInput
           isFocused={isOpen}
           isError={isError}
