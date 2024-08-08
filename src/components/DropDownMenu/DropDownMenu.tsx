@@ -8,6 +8,7 @@ import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
 const Wrap = styled.div<{ $isDotMenu?: boolean }>`
+  display: inline-flex;
   position: relative;
   ${AppTypo.BODY_SM}
   font-weight: 500;
