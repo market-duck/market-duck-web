@@ -21,7 +21,7 @@ export const Home = () => {
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="홈" />
-      <AppGutter $padding="16px">
+      <AppGutter>
         <Column gap="XL">
           <Typo tag="p" type="HEADING_SM" className={AppSemanticColor.TEXT_PRIMARY.color}>
             반가워요, {dummyNickName}님!
