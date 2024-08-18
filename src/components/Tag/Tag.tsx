@@ -1,9 +1,10 @@
+import * as FillIcon from '@heroicons/react/16/solid';
+import { MouseEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
-import * as FillIcon from '@heroicons/react/16/solid';
 
 export type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
 
@@ -84,15 +85,17 @@ export const Tag = ({
   color = 'primary',
   onDelete,
   className,
+  onClick,
 }: {
   showDeleteIcon?: boolean;
   text: string;
   color?: TagColorType;
   onDelete?: () => void;
   className?: string;
+  onClick?: MouseEventHandler;
 }) => {
   return (
-    <Wrap $color={color} $rightIcon={showDeleteIcon} className={className}>
+    <Wrap $color={color} $rightIcon={showDeleteIcon} className={className} onClick={onClick}>
       <span>{text}</span>
       {showDeleteIcon && (
         <DeleteIcon
