@@ -1,28 +1,17 @@
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+import { Button } from '@market-duck/components/Button/Button';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Input } from '@market-duck/components/Form/Input';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { PageHeading } from '@market-duck/components/PageHeading/PageHeading';
-import { ChangeEventHandler, useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
-  /* display: flex;
   height: calc(100dvh - 48px);
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  .kakao {
-    background-color: #fee500;
-    color: #000;
-  }
-  .twitter {
-    background-color: #000;
-    color: #fff;
-  }
-  .logo {
-    text-align: center;
-    font-weight: 700;
-  } */
+  justify-content: space-between;
 `;
 
 interface SubmitUserData {
@@ -71,11 +60,15 @@ export const SignUp = () => {
 
   // TODO: 서버에 요청 보내기 전 validation 로직 추가 필요
 
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = (e) => {
+    console.log(e.currentTarget.id);
+  };
+
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="회원가입" />
       <Container>
-        <Column gap="XL">
+        <Column gap="XL" flex={0}>
           <PageHeading title="회원가입" />
           <Column gap="M" flex={0}>
             <Input id="email" label="이메일주소" value={data?.email} changeHandler={inputHandler} />
@@ -98,6 +91,7 @@ export const SignUp = () => {
             />
           </Column>
         </Column>
+        <Button onClick={submitHandler}>회원가입</Button>
       </Container>
     </>
   );
