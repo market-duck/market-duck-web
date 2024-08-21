@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { HTMLAttributes, ReactNode, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -80,6 +80,19 @@ const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean }>(({ $er
   ${AppTypo.CAPTION_MD};
 `;
 
+interface InputProps extends HTMLAttributes<HTMLInputElement> {
+  value: string;
+  placeholder?: string;
+  maxLength?: number;
+  changeHandler: React.ChangeEventHandler<HTMLInputElement>;
+  isDisabled?: boolean;
+  isError?: boolean;
+  label?: string;
+  prefix?: ReactNode;
+  suffix?: ReactNode;
+  caption?: string;
+}
+
 /**
  * @requires value
  * @requires changeHandler
@@ -98,18 +111,8 @@ export const Input = ({
   prefix = null,
   suffix = null,
   caption,
-}: {
-  value: string;
-  placeholder?: string;
-  maxLength?: number;
-  changeHandler: React.ChangeEventHandler<HTMLInputElement>;
-  isDisabled?: boolean;
-  isError?: boolean;
-  label?: string;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  caption?: string;
-}) => {
+  ...props
+}: InputProps) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   const onFocus = () => {
@@ -132,6 +135,7 @@ export const Input = ({
           onChange={changeHandler}
           onFocus={onFocus}
           onBlur={onBlur}
+          {...props}
         />
         {suffix}
       </InputContent>

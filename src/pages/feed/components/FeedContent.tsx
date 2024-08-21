@@ -1,8 +1,10 @@
+import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Tag } from '@market-duck/components/Tag/Tag';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { FeedImageSlider } from '@market-duck/pages/feed/components/FeedImageSlider';
+import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
@@ -40,11 +42,29 @@ const Wrap = styled(Column)`
 `;
 
 export const FeedContent = () => {
-  // TODO: DrowDown 추가하여 작업 필요
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const dropdownItems = [
+    {
+      name: '거래중',
+      id: 'inProgress',
+      handler: () => console.log('inProgress'),
+    },
+    {
+      name: '거래완료',
+      id: 'completed',
+      handler: () => console.log('completed'),
+    },
+    {
+      name: '거래가능',
+      id: 'available',
+      handler: () => console.log('available'),
+    },
+  ];
+
   return (
     <Wrap className="contents" gap="M">
-      <Row justify={'between'} alignItems={'center'} className="feedAuthorContainer">
-        <Row gap="XS" alignItems={'center'} flex={1}>
+      <Row justify="between" alignItems="center" className="feedAuthorContainer">
+        <Row gap="XS" alignItems="center" flex={1}>
           <Thumbnail size="md" imgSrc="https://placehold.co/400" />
           <Column flex={1}>
             <Typo className="user" type="BODY_SM">
@@ -55,7 +75,7 @@ export const FeedContent = () => {
             </Typo>
           </Column>
         </Row>
-        {/* DrowDown */}
+        <DropDownMenu items={dropdownItems} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Row>
       <FeedImageSlider imgSrcs={['https://placehold.co/500x400', 'https://placehold.co/400']} />
       <Column className="contents" gap="XXS">
