@@ -25,6 +25,10 @@ const ArrowDownIcon = styled(FillIcon.ChevronDownIcon)`
   height: 1.5rem;
 `;
 
+const MultiValueArea = styled(Row)`
+  overflow-x: scroll;
+`;
+
 export interface SelectOption {
   label: string;
   value: string;
@@ -39,6 +43,7 @@ const SelectInput = ({
   isError,
   deleteOneHandler,
   deleteAllHandler,
+  onCustomOpen,
 }: {
   placeholder: string;
   value: Array<{ label: string; value: string }>;
@@ -48,15 +53,23 @@ const SelectInput = ({
   isError: boolean;
   deleteOneHandler: (deleteItemValue: { label: string; value: string }) => void;
   deleteAllHandler: () => void;
+  onCustomOpen?: () => void;
 }) => {
+  const isCustomAction = !!onCustomOpen;
   return (
-    <SelectInputWrap className="input-wrap" $focus={isFocused} $error={isError} $disabled={isDisabled}>
+    <SelectInputWrap
+      className="input-wrap"
+      $focus={isFocused && !isCustomAction}
+      $error={isError}
+      $disabled={isDisabled}
+      onClick={onCustomOpen}
+    >
       {value.length === 0 && placeholder}
-      {selectType === 'single' ? (
+      {selectType === 'single' && value.length ? (
         value[0].label
       ) : (
         <div className="multi-input">
-          <Row gap="XXS">
+          <MultiValueArea gap="XXS">
             {value.map((item) => {
               return (
                 <Tag
@@ -70,7 +83,7 @@ const SelectInput = ({
                 />
               );
             })}
-          </Row>
+          </MultiValueArea>
         </div>
       )}
       {selectType === 'multi' && value.length ? (
@@ -103,21 +116,24 @@ export const Select = ({
   placeholder,
   value,
   onChangeValue,
+  onCustomOpen,
 
-  optionList,
+  optionList = [],
   isDisabled = false,
   isError = false,
 }: {
   selectType: 'single' | 'multi';
-  value: Array<{ label: string; value: string }>; //index를 저장한다
+  value: Array<{ label: string; value: string }>;
   onChangeValue: (selected: Array<{ label: string; value: string }>) => void;
+  onCustomOpen?: () => void;
   placeholder?: string;
   label?: string;
-  optionList: Array<{ label: string; value: string }>;
+  optionList?: Array<{ label: string; value: string }>;
   isDisabled?: boolean;
   isError?: boolean;
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const isCustomAction = !!onCustomOpen;
 
   const onBlur = () => {
     setIsOpen(false);
@@ -125,7 +141,8 @@ export const Select = ({
 
   const onChange = (selectedValue: { label: string; value: string }) => {
     if (selectType === 'multi') {
-      if (!value.includes(selectedValue)) {
+      const isAlreadySelected = value.some((item) => item.value === selectedValue.value);
+      if (!isAlreadySelected) {
         onChangeValue([...value, selectedValue]);
       }
     } else {
@@ -153,7 +170,7 @@ export const Select = ({
           setIsOpen((prev) => !prev);
         }}
       >
-        {label && <p>label</p>}
+        {!!label && <p>{label}</p>}
         <SelectInput
           isFocused={isOpen}
           isError={isError}
@@ -163,9 +180,10 @@ export const Select = ({
           value={value}
           deleteOneHandler={deleteOneHandler}
           deleteAllHandler={deleteAllHandler}
+          onCustomOpen={onCustomOpen}
         />
       </UpperArea>
-      {isOpen && (
+      {isOpen && !isCustomAction && (
         <LowerArea>
           {optionList.map((item) => {
             return (

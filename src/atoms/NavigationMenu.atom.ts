@@ -3,9 +3,10 @@ import { atom, useRecoilState } from 'recoil';
 
 //TODO:: 추후 해당 MenuEnum을 가지고 Routes의 path를 생성할 예정
 export const NavigationMenuEnum = {
-  home: 'home',
+  home: '/',
   search: 'search',
-  write: 'write',
+  create: 'feed/create',
+  edit: 'feed/edit',
   chat: 'chat',
   myPage: 'myPage',
 } as const;

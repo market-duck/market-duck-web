@@ -5,6 +5,7 @@ import * as OutlineIcon from '@heroicons/react/24/outline';
 import { NavigationMenuEnum, useNavigationMenu } from '@market-duck/atoms/NavigationMenu.atom';
 import { createElement } from 'react';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
+import { useNavigate } from 'react-router-dom';
 
 const navigationMenuList = [
   {
@@ -18,7 +19,7 @@ const navigationMenuList = [
     icon: 'MagnifyingGlassIcon',
   },
   {
-    id: NavigationMenuEnum.write,
+    id: NavigationMenuEnum.create,
     menuName: '작성',
     icon: 'PlusIcon',
   },
@@ -93,6 +94,7 @@ const NavigationBottomWrap = styled.div`
 
 export const NavigationBottom = () => {
   const { getCurrentMenu, changeMenu } = useNavigationMenu();
+  const navigate = useNavigate();
 
   return (
     <NavigationBottomWrap>
@@ -103,6 +105,7 @@ export const NavigationBottom = () => {
             isSelected={item.id === getCurrentMenu()}
             onClick={() => {
               changeMenu(item.id);
+              navigate(item.id);
             }}
             menuName={item.menuName}
             icon={item.icon as keyof typeof OutlineIcon}

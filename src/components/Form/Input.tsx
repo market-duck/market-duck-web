@@ -24,6 +24,7 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   },
 )`
   display: flex;
+  gap: ${AppSpcing.XXS};
   width: 100%;
   height: 2rem;
   border-radius: ${AppRadii.M};

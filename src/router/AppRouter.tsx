@@ -44,6 +44,10 @@ export const appRouter = createBrowserRouter([
         children: [
           { path: 'read', Component: Read },
           {
+            path: 'read',
+            Component: Read,
+          },
+          {
             path: 'create',
             Component: Create,
           },

@@ -74,7 +74,11 @@ export const NavigationTop = ({
     <NavigationTopWrap>
       <NavigationTopButton onClick={leftClickAction}>{leftComponent}</NavigationTopButton>
       <span>{title}</span>
-      <NavigationTopButton onClick={rightClickAction}>{rightComponent}</NavigationTopButton>
+      {onRightClick ? (
+        <NavigationTopButton onClick={rightClickAction}>{rightComponent}</NavigationTopButton>
+      ) : (
+        <div></div>
+      )}
     </NavigationTopWrap>
   );
 };
