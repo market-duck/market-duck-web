@@ -17,6 +17,7 @@ export const useForm = <T>({
   const [errors, setErrors] = useState<FormErrors<T>>({});
 
   const handleChange = (name: string, value: ValueOfType<T>) => {
+    setErrors({});
     setValues({
       ...values,
       [name]: value,

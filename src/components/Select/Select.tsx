@@ -25,6 +25,10 @@ const ArrowDownIcon = styled(FillIcon.ChevronDownIcon)`
   height: 1.5rem;
 `;
 
+const MultiValueArea = styled(Row)`
+  overflow-x: scroll;
+`;
+
 export interface SelectOption {
   label: string;
   value: string;
@@ -65,7 +69,7 @@ const SelectInput = ({
         value[0].label
       ) : (
         <div className="multi-input">
-          <Row gap="XXS">
+          <MultiValueArea gap="XXS">
             {value.map((item) => {
               return (
                 <Tag
@@ -79,7 +83,7 @@ const SelectInput = ({
                 />
               );
             })}
-          </Row>
+          </MultiValueArea>
         </div>
       )}
       {selectType === 'multi' && value.length ? (

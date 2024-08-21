@@ -1,7 +1,25 @@
 import { useState } from 'react';
 import { Search } from '@market-duck/components/Form/Search';
+import styled from 'styled-components';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 
-export const SearchSelect = ({ searchResultList }: { searchResultList: Array<{ value: string }> }) => {
+const ListWrap = styled.ul`
+  margin-top: ${AppSpcing.XS};
+`;
+
+const ListItem = styled.li`
+  padding: ${AppSpcing.XS};
+  border-bottom: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+`;
+
+export const SearchSelect = ({
+  searchResultList,
+  handleChange,
+}: {
+  searchResultList: Array<{ label: string; value: string }>;
+  handleChange: (selectedValue: { label: string; value: string }) => void;
+}) => {
   const [searchValue, setSearchValue] = useState('');
   return (
     <div>
@@ -15,11 +33,20 @@ export const SearchSelect = ({ searchResultList }: { searchResultList: Array<{ v
           setSearchValue('');
         }}
       />
-      <ul>
+      <ListWrap>
         {searchResultList.map((item) => {
-          return <li key={item.value}>{item.value}</li>;
+          return (
+            <ListItem
+              key={item.value}
+              onClick={() => {
+                handleChange(item);
+              }}
+            >
+              {item.value}
+            </ListItem>
+          );
         })}
-      </ul>
+      </ListWrap>
     </div>
   );
 };
