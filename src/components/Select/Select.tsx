@@ -137,8 +137,8 @@ export const Select = ({
 
   const onChange = (selectedValue: { label: string; value: string }) => {
     if (selectType === 'multi') {
-      //TODO:: 객체로 저장하는데.. includes 쓰면 안 되지 않니..
-      if (!value.includes(selectedValue)) {
+      const isAlreadySelected = value.some((item) => item.value === selectedValue.value);
+      if (!isAlreadySelected) {
         onChangeValue([...value, selectedValue]);
       }
     } else {
