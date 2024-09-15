@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { envManager } from '@market-duck/utils/env';
+import { interceptor } from './interceptor';
 
 class FetchClient {
   private server: AxiosInstance;
@@ -9,14 +10,9 @@ class FetchClient {
       baseURL,
     });
 
-    this.server.interceptors.request.use(
-      (config) => {
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      },
-    );
+    this.server.interceptors.request.use((config) => {
+      return config;
+    }, interceptor.onReject);
   }
 
   async get<T = any>(url: string, config?: AxiosRequestConfig) {

@@ -5,7 +5,6 @@ import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop'
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from 'react';
 import { envManager } from '@market-duck/utils/env';
 import { UserLoginProviderType } from '@market-duck/types/user';
@@ -30,8 +29,6 @@ const Container = styled(AppGutter)`
 `;
 
 export const Login = () => {
-  const navigate = useNavigate();
-
   const loginHandler = (e: MouseEvent) => {
     const id = e.currentTarget.id as UserLoginProviderType;
     // TODO: 추후 hostname에 맞는 oauth route로 redirectUri 변경 필요

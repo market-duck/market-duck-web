@@ -12,7 +12,7 @@ class LoginAPI {
     loginType: UserLoginProviderType;
   }): Promise<{
     accessToken: string;
-    userId: string;
+    userId: number;
   }> {
     const { data } = await openFetchClient.post<IAPIResponse<any>>(`/user/login`, {
       oauthAccessToken,
@@ -27,7 +27,7 @@ class LoginAPI {
   }
 
   //TODO:: response data check
-  async reissueToken({ userId }: { userId: string }): Promise<{ accessToken: string }> {
+  async reissueToken({ userId }: { userId: number }): Promise<{ accessToken: string }> {
     const { data } = await openFetchClient.post<IAPIResponse<any>>(`/user/reissue-token/${userId}`);
 
     const { accessToken } = data.data;
