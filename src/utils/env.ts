@@ -1,38 +1,39 @@
+import { UserLoginProviderType } from '@market-duck/types/user';
 import { browserName, isMobile, isAndroid, isIOS, osName, osVersion, deviceType, OsTypes } from 'react-device-detect';
 
 class EnvManager {
   constructor(private env: NodeJS.ProcessEnv) {}
   getApiUrl() {
-    return this.env.API_URL;
+    return this.env.VITE_API_URL;
   }
 
   getOpenApiUrl() {
-    return this.env.OPEN_API_URL;
+    return this.env.VITE_OPEN_API_URL;
   }
 
   getAppOrigin() {
     //TODO:: env 생성 및 변경
-    return this.env.NEEDER_APP_ORIGIN;
+    return this.env.VITE_NEEDER_APP_ORIGIN;
   }
 
   getBuildEnv() {
-    return this.env.BUILD_ENV!;
+    return this.env.VITE_BUILD_ENV!;
   }
   isLocal() {
-    return this.env.BUILD_ENV === 'local';
+    return this.env.VITE_BUILD_ENV === 'local';
   }
   isDev() {
-    return this.env.BUILD_ENV === 'dev';
+    return this.env.VITE_BUILD_ENV === 'dev';
   }
   isDevOrLocal() {
-    return ['dev', 'local'].includes(this.env.BUILD_ENV ?? '');
+    return ['dev', 'local'].includes(this.env.VITE_BUILD_ENV ?? '');
   }
   isProd() {
-    return this.env.BUILD_ENV === 'prod';
+    return this.env.VITE_BUILD_ENV === 'prod';
   }
 
   // getTestPageRoute() {
-  //   return this.env.TEST_PAGE_ROUTE;
+  //   return this.env.VITE_TEST_PAGE_ROUTE;
   // }
 
   getDeviceInfo() {
@@ -49,5 +50,18 @@ class EnvManager {
       userAgent: navigator.userAgent,
     };
   }
+
+  getProviderKey(providerType: UserLoginProviderType) {
+    switch (providerType) {
+      case 'KAKAO':
+        return this.env.VITE_OAUTH_KAKAO_ID;
+      case 'GOOGLE':
+        return this.env.VITE_OAUTH_GOOGLE_ID;
+      // case 'APPLE':
+      //   return this.env.VITE_OAUTH_APPLE_ID;
+    }
+  }
 }
 export const envManager = new EnvManager({ ...import.meta.env });
+
+console.log(import.meta.env);

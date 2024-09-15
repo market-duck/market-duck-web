@@ -5,6 +5,10 @@ import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop'
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { MouseEvent } from 'react';
+import { envManager } from '@market-duck/utils/env';
+import { UserLoginProviderType } from '@market-duck/types/user';
 
 const Container = styled(AppGutter)`
   display: flex;
@@ -26,6 +30,23 @@ const Container = styled(AppGutter)`
 `;
 
 export const Login = () => {
+  const navigate = useNavigate();
+
+  const loginHandler = (e: MouseEvent) => {
+    const id = e.currentTarget.id as UserLoginProviderType;
+    // TODO: 추후 hostname에 맞는 oauth route로 redirectUri 변경 필요
+    const redirectUri = 'http://localhost:5173/oauth';
+    const providerApiId = envManager.getProviderKey(id);
+
+    console.log(id, providerApiId);
+
+    if (id === 'KAKAO') {
+      location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${providerApiId}&redirect_uri=${redirectUri}&response_type=code`;
+    } else if (id === 'GOOGLE') {
+      location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${providerApiId}&redirect_uri=${redirectUri}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`;
+    }
+  };
+
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="홈" />
@@ -35,11 +56,11 @@ export const Login = () => {
             마켓덕 로고
           </Typo>
           <Column gap="M" flex={0}>
-            <Button className="kakao" size="large">
-              카카오 로그인
+            <Button id="GOOGLE" className="twitter" size="large" onClick={loginHandler}>
+              구글 로그인
             </Button>
-            <Button className="twitter" size="large">
-              X 로그인
+            <Button id="KAKAO" className="kakao" size="large" onClick={loginHandler}>
+              카카오 로그인
             </Button>
           </Column>
         </Column>

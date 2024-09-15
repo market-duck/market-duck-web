@@ -1,3 +1,4 @@
+import { Oauth } from '@market-duck/pages/Oauth.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
@@ -17,6 +18,10 @@ export const appRouter = createBrowserRouter([
       {
         path: '/',
         Component: Home,
+      },
+      {
+        path: 'oauth',
+        Component: Oauth,
       },
       {
         path: 'login',
