@@ -1,5 +1,5 @@
 import { fetchClient } from '@market-duck/apis/fetchClient';
-import { UserModel, IUserModelData } from '@market-duck/models/userModel';
+import { IUserModelData, UserModel } from '@market-duck/models/userModel';
 import { IAPIResponse, NetworkResultType } from '@market-duck/types/api';
 import { EditUserType } from '@market-duck/types/user';
 

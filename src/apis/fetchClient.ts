@@ -1,5 +1,5 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { envManager } from '@market-duck/utils/env';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { interceptor } from './interceptor';
 
 class FetchClient {
@@ -11,6 +11,8 @@ class FetchClient {
     });
 
     this.server.interceptors.request.use((config) => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
       return config;
     }, interceptor.onReject);
   }
@@ -42,4 +44,4 @@ class FetchClient {
 }
 
 export const fetchClient = new FetchClient(envManager.getApiUrl() as string);
-export const openFetchClient = new FetchClient(envManager.getApiUrl() as string);
+export const openFetchClient = new FetchClient(envManager.getOpenApiUrl() as string);

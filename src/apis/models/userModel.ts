@@ -1,16 +1,17 @@
-import { UserStatusType, UserLoginProviderType, UserAuthority } from '@market-duck/types/user';
+import { UserAuthority, UserLoginProviderType, UserStatusType } from '@market-duck/types/user';
 
 export interface IUserModelData {
   userId: number;
   nickname: string;
   username: string;
-  email: string;
+  profileImageUrl: string;
   phoneNumber: string;
   emailVerified: boolean;
   phoneVerified: boolean;
   userStatus: UserStatusType;
   authority: UserAuthority;
   loginType: UserLoginProviderType;
+  roles: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -19,7 +20,6 @@ export class UserModel {
   userId: number;
   nickname: string;
   username: string;
-  email: string;
   phoneNumber: string;
   emailVerified: boolean;
   phoneVerified: boolean;
@@ -33,7 +33,6 @@ export class UserModel {
     this.userId = data.userId;
     this.nickname = data.nickname;
     this.username = data.username;
-    this.email = data.email;
     this.phoneNumber = data.phoneNumber;
     this.emailVerified = data.emailVerified;
     this.phoneVerified = data.phoneVerified;

@@ -1,5 +1,5 @@
 import { UserLoginProviderType } from '@market-duck/types/user';
-import { browserName, isMobile, isAndroid, isIOS, osName, osVersion, deviceType, OsTypes } from 'react-device-detect';
+import { browserName, deviceType, isAndroid, isIOS, isMobile, osName, OsTypes, osVersion } from 'react-device-detect';
 
 class EnvManager {
   constructor(private env: NodeJS.ProcessEnv) {}
