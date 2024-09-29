@@ -30,7 +30,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const LoginButton = ({ provider }: { provider: UserLoginProviderType }) => {
+export const LoginButton = ({ provider }: { provider: UserLoginProviderType }) => {
   const loginHandler: MouseEventHandler = (e) => {
     const id = e.currentTarget.id as UserLoginProviderType;
     // TODO: 추후 hostname에 맞는 oauth route로 redirectUri 변경 필요
@@ -69,5 +69,3 @@ const LoginButton = ({ provider }: { provider: UserLoginProviderType }) => {
     </StyledButton>
   );
 };
-
-export default LoginButton;
