@@ -9,6 +9,7 @@ import { Button } from '@market-duck/components/Button/Button';
 import { userAPI } from '@market-duck/apis/userAPI';
 import styled from 'styled-components';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { useInterval } from '@market-duck/hooks/useInterval';
 
 const InputButtonBox = styled.div`
   display: flex;
@@ -17,11 +18,11 @@ const InputButtonBox = styled.div`
   white-space: nowrap;
   gap: ${AppSpcing.M};
 
-  :first-child {
+  > .inputArea {
     flex: 1;
   }
 
-  :last-child {
+  > .inputButton {
     flex: 0.3;
   }
 `;
@@ -31,7 +32,7 @@ interface VerifyData {
   verifyCode: string;
 }
 
-export const UserVerification = () => {
+export const UserPhoneNumberVerification = () => {
   const [data, setData] = useState<VerifyData>({
     phoneNum: '',
     verifyCode: '',
@@ -39,15 +40,18 @@ export const UserVerification = () => {
   const [timer, setTimer] = useState(180); // 3분(180초)
   const [isTimerActive, setIsTimerActive] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isVerifySuccess, setIsVerifySuccess] = useState<boolean | null>(null);
 
+  //인증번호 인풋 캡션
   const verifyInputCaption = isTimerActive
     ? `${Math.floor(timer / 60)}: ${timer % 60}`
     : isVerifySuccess
       ? '인증이 완료되었습니다.'
       : errorMessage;
 
+  //input handler
   const inputHandler: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { id, value } = target;
 
@@ -56,29 +60,32 @@ export const UserVerification = () => {
     setData((prev) => ({ ...prev, [id]: onlyNumber }));
   };
 
-  const validation = (type: 'phoneNum' | 'nickName', value: string) => {
-    if (type === 'phoneNum') {
-      if (value === '') return;
-      const phoneRule = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
-      return !phoneRule.test(value) ? '휴대폰 번호가 제대로 입력되었는지 확인해주세요.' : '';
-    }
+  //핸드폰 번호
+  const checkIsPhoneNumValid = (value: string) => {
+    if (value === '') return false;
+    const phoneRule = /^(01[016789]{1})[0-9]{3,4}[0-9]{4}$/;
+    return !phoneRule.test(value);
   };
 
-  //TODO:: throttle debounce?
+  //인증번호 전송
   const handleSendVerifyCode = async () => {
     try {
-      if (!validation('phoneNum', data.phoneNum)) {
+      if (!checkIsPhoneNumValid(data.phoneNum)) {
       }
-      await userAPI.sendPhoneNumVerifyNum({ phoneNumber: data.phoneNum });
-      setIsCodeSent(true);
-      setIsTimerActive(true);
-      setTimer(180);
-      setErrorMessage('');
+      const isSuccess = await userAPI.sendPhoneNumVerifyNum({ phoneNumber: data.phoneNum });
+
+      if (isSuccess) {
+        setIsCodeSent(true);
+        setIsTimerActive(true);
+        setTimer(180);
+        setPhoneError('');
+      }
     } catch (error) {
-      setErrorMessage('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
+      setPhoneError('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
+  //인증번호 체크
   const handleVerifyCode = async () => {
     if (!data.verifyCode.length) {
       setErrorMessage('인증번호를 입력해주세요.');
@@ -98,19 +105,18 @@ export const UserVerification = () => {
     }
   };
 
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isTimerActive && timer > 0) {
-      interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-    } else if (timer === 0) {
-      setIsTimerActive(false);
-      setErrorMessage('시간이 초과되었습니다. 다시 시도해주세요.');
+  useInterval(() => {
+    if (isTimerActive) {
+      setTimer((prev) => prev - 1);
     }
+  }, 1000);
 
-    return () => clearInterval(interval);
-  }, [isTimerActive, timer]);
+  useEffect(() => {
+    if (timer === 0) {
+      setIsTimerActive(false);
+      setErrorMessage(isVerifySuccess ? '' : '시간이 초과되었습니다. 다시 시도해주세요.');
+    }
+  }, [timer]);
 
   return (
     <Column gap="XL">
@@ -126,14 +132,21 @@ export const UserVerification = () => {
             id="phoneNum"
             className="inputArea"
             label="휴대폰 번호"
-            value={getPhoneNumberFormat(data?.phoneNum)}
+            value={getPhoneNumberFormat(data.phoneNum)}
             changeHandler={inputHandler}
             maxLength={13}
-            isError={!!validation('phoneNum', data?.phoneNum)}
-            caption={validation('phoneNum', data?.phoneNum)}
+            isError={!data.phoneNum.length || !checkIsPhoneNumValid(data.phoneNum)}
+            caption={phoneError}
           />
-          <Button className="inputButton" size="small" row variant="secondary" onClick={handleSendVerifyCode}>
-            인증번호 발송
+          <Button
+            disabled={isTimerActive}
+            className="inputButton"
+            size="small"
+            row
+            variant="secondary"
+            onClick={handleSendVerifyCode}
+          >
+            {isCodeSent ? '인증번호 재발송' : '인증번호 발송'}
           </Button>
         </InputButtonBox>
         <InputButtonBox>
@@ -146,7 +159,14 @@ export const UserVerification = () => {
             isError={isCodeSent && isVerifySuccess !== null && !isVerifySuccess}
             caption={isCodeSent ? verifyInputCaption : ''}
           />
-          <Button className="inputButton" size="small" row variant="secondary" onClick={handleVerifyCode}>
+          <Button
+            disabled={!isTimerActive || !isCodeSent}
+            className="inputButton"
+            size="small"
+            row
+            variant="secondary"
+            onClick={handleVerifyCode}
+          >
             인증하기
           </Button>
         </InputButtonBox>

@@ -5,10 +5,13 @@ import { UserLoginProviderType } from '@market-duck/types/user';
 import { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { Loading } from '@market-duck/components/Loading/Loading';
 
 export const Oauth = () => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const setUserData = useSetRecoilState(userDataAtom);
 
   useEffect(() => {
@@ -57,11 +60,16 @@ export const Oauth = () => {
         const data = await userAPI.getUserById({ userId });
 
         setUserData(data);
+        navigate('/signUp', { replace: true });
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  return <div>Oauth Page</div>;
+  return (
+    <div>
+      <Loading />
+    </div>
+  );
 };
