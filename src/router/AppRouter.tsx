@@ -1,5 +1,6 @@
 import { Oauth } from '@market-duck/pages/Oauth.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
+import { EditUserInfo } from '@market-duck/pages/editUserInfo/EditUserInfo.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
 import { Read } from '@market-duck/pages/feed/Read.page';
@@ -42,6 +43,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'mypage',
         Component: Mypage,
+      },
+      {
+        path: 'editUser',
+        Component: EditUserInfo,
       },
       {
         path: 'feed',

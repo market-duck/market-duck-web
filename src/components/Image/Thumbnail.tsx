@@ -1,7 +1,8 @@
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
-import { BgImage } from './BgImage';
-import styled from 'styled-components';
+import DefaultThumbnail from '@market-duck/assets/images/defaultThumbnail.svg';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import styled from 'styled-components';
+import { BgImage } from './BgImage';
 
 const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
   return {
@@ -30,6 +31,6 @@ const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $si
 `;
 
 export const Thumbnail = ({ imgSrc, size = 'md' }: { imgSrc?: string; size?: 'sm' | 'md' | 'lg' }) => {
-  const url = imgSrc || '';
+  const url = imgSrc || DefaultThumbnail;
   return <ThumbnailImg $src={url} $size={size} />;
 };

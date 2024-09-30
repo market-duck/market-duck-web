@@ -1,20 +1,37 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEventHandler, useState } from 'react';
 
-const useImageInput = () => {
-  const [imgFile, setImgFile] = useState<File | null>(null);
-  const [imgSrc, setImgSrc] = useState<string | ArrayBuffer | null>(null);
+/**
+ * ### useImageInput
+ * - 여러 이미지를 받기 위한 커스텀 훅
+ * @hook
+ */
+export const useImageInput = () => {
+  const [imgFiles, setImgFiles] = useState<File[]>([]);
+  const [imgSrcs, setImgSrcs] = useState<(string | undefined)[]>([]);
 
-  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) {
-      setImgFile(file);
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => setImgSrc(reader.result);
+  const imageHandler: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const files = e.target.files;
+    if (files && files.length) {
+      for (let index = 0; index < files.length; index++) {
+        const file = files[index];
+        setImgFiles((prev) => [...prev, file]);
+
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const result = reader.result as string | undefined;
+          if (result) {
+            setImgSrcs((prev) => [...prev, result]);
+          }
+        };
+      }
     }
   };
 
-  return { imgFile, imgSrc, imageHandler, setImgFile, setImgSrc };
-};
+  const deleteHandler = (idx: number) => {
+    setImgFiles((prev) => prev.filter((_, fileIdx) => fileIdx !== idx));
+    setImgSrcs((prev) => prev.filter((_, srcIdx) => srcIdx !== idx));
+  };
 
-export default useImageInput;
+  return { imgFiles, imgSrcs, imageHandler, setImgFiles, setImgSrcs, deleteHandler };
+};
