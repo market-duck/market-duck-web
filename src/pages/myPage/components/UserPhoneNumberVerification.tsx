@@ -24,6 +24,7 @@ const InputButtonBox = styled.div`
 
   > .inputButton {
     flex: 0.3;
+    min-width: 6.75rem;
   }
 `;
 
