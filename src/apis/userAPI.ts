@@ -30,9 +30,17 @@ class UserAPI {
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
 
-  async requestPhoneNumVerify({ email, verifyNum }: { email: string; verifyNum: string }) {
+  async sendPhoneNumVerifyNum({ phoneNumber }: { phoneNumber: string }) {
+    const { status } = await fetchClient.post(`/user/verify-phone`, {
+      phoneNumber,
+    });
+
+    return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
+  }
+
+  async verifyPhoneNum({ phoneNumber, verifyNum }: { phoneNumber: string; verifyNum: string }) {
     const { status } = await fetchClient.post(`/user/verify-num`, {
-      email,
+      phoneNumber,
       verifyNum,
     });
 
