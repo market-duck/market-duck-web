@@ -4,12 +4,20 @@ import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { Input } from '@market-duck/components/Form/Input';
 import { getPhoneNumberFormat } from '@market-duck/utils/format';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { Button } from '@market-duck/components/Button/Button';
 import { userAPI } from '@market-duck/apis/userAPI';
 import styled from 'styled-components';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { useInterval } from '@market-duck/hooks/useInterval';
+import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+
+const Container = styled(AppGutter)`
+  height: calc(100dvh - 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 const InputButtonBox = styled.div`
   display: flex;
@@ -28,12 +36,18 @@ const InputButtonBox = styled.div`
   }
 `;
 
+interface UserPhoneNumberVerificationProps {
+  page: 'signUp' | 'editUser';
+  step: 'phoneVerification' | 'userInfo';
+  onNext: () => void;
+}
+
 interface VerifyData {
   phoneNum: string;
   verifyCode: string;
 }
 
-export const UserPhoneNumberVerification = () => {
+export const UserPhoneNumberVerification = ({ page, step, onNext }: UserPhoneNumberVerificationProps) => {
   const [data, setData] = useState<VerifyData>({
     phoneNum: '',
     verifyCode: '',
@@ -106,6 +120,13 @@ export const UserPhoneNumberVerification = () => {
     }
   };
 
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = (e) => {
+    console.log(e.currentTarget.id);
+
+    //본인 인증 완료 후 호출
+    onNext();
+  };
+
   useInterval(() => {
     if (isTimerActive) {
       setTimer((prev) => prev - 1);
@@ -120,58 +141,70 @@ export const UserPhoneNumberVerification = () => {
   }, [timer]);
 
   return (
-    <Column gap="XL">
-      <Column flex={0}>
-        <PageHeading title="본인 인증" />
-        <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
-          보다 안전한 거래를 위해 본인 인증이 필요해요.
-        </Typo>
+    <Container>
+      <Column gap="XL">
+        <Column flex={0}>
+          <PageHeading title="본인 인증" />
+          <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
+            보다 안전한 거래를 위해 본인 인증이 필요해요.
+          </Typo>
+        </Column>
+        <Column gap="M" flex={0}>
+          <InputButtonBox>
+            <Input
+              id="phoneNum"
+              className="inputArea"
+              label="휴대폰 번호"
+              value={getPhoneNumberFormat(data.phoneNum)}
+              changeHandler={inputHandler}
+              maxLength={13}
+              isError={!data.phoneNum.length || !checkIsPhoneNumValid(data.phoneNum)}
+              caption={phoneError}
+            />
+            <Button
+              disabled={isTimerActive}
+              className="inputButton"
+              size="small"
+              row
+              variant="secondary"
+              onClick={handleSendVerifyCode}
+            >
+              {isCodeSent ? '인증번호 재발송' : '인증번호 발송'}
+            </Button>
+          </InputButtonBox>
+          <InputButtonBox>
+            <Input
+              id="verificationNum"
+              className="inputArea"
+              label="인증번호"
+              value={data?.verifyCode}
+              changeHandler={inputHandler}
+              isError={isCodeSent && isVerifySuccess !== null && !isVerifySuccess}
+              caption={isCodeSent ? verifyInputCaption : ''}
+            />
+            <Button
+              disabled={!isTimerActive || !isCodeSent}
+              className="inputButton"
+              size="small"
+              row
+              variant="secondary"
+              onClick={handleVerifyCode}
+            >
+              인증하기
+            </Button>
+          </InputButtonBox>
+        </Column>
       </Column>
-      <Column gap="M" flex={0}>
-        <InputButtonBox>
-          <Input
-            id="phoneNum"
-            className="inputArea"
-            label="휴대폰 번호"
-            value={getPhoneNumberFormat(data.phoneNum)}
-            changeHandler={inputHandler}
-            maxLength={13}
-            isError={!data.phoneNum.length || !checkIsPhoneNumValid(data.phoneNum)}
-            caption={phoneError}
-          />
-          <Button
-            disabled={isTimerActive}
-            className="inputButton"
-            size="small"
-            row
-            variant="secondary"
-            onClick={handleSendVerifyCode}
-          >
-            {isCodeSent ? '인증번호 재발송' : '인증번호 발송'}
+      <Column gap="XS" flex={0}>
+        <Button disabled={!isVerifySuccess} onClick={submitHandler}>
+          {page === 'signUp' ? '다음으로' : '수정하기'}
+        </Button>
+        {page === 'signUp' && (
+          <Button onClick={submitHandler} variant="secondary">
+            건너뛰기
           </Button>
-        </InputButtonBox>
-        <InputButtonBox>
-          <Input
-            id="verificationNum"
-            className="inputArea"
-            label="인증번호"
-            value={data?.verifyCode}
-            changeHandler={inputHandler}
-            isError={isCodeSent && isVerifySuccess !== null && !isVerifySuccess}
-            caption={isCodeSent ? verifyInputCaption : ''}
-          />
-          <Button
-            disabled={!isTimerActive || !isCodeSent}
-            className="inputButton"
-            size="small"
-            row
-            variant="secondary"
-            onClick={handleVerifyCode}
-          >
-            인증하기
-          </Button>
-        </InputButtonBox>
+        )}
       </Column>
-    </Column>
+    </Container>
   );
 };

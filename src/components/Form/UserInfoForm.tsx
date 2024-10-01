@@ -34,6 +34,8 @@ const Container = styled(AppGutter)`
 
 interface UserInfoFormProps {
   page: 'signUp' | 'editUser';
+  step: 'phoneVerification' | 'userInfo';
+  onNext: () => void;
 }
 
 interface SubmitUserData {
@@ -43,7 +45,7 @@ interface SubmitUserData {
   photo: File | undefined | null;
 }
 
-export const UserInfoForm = ({ page }: UserInfoFormProps) => {
+export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
   const currentUserInfo = useRecoilValue(userDataAtom);
   const [data, setData] = useState<SubmitUserData>({
     email: '',
@@ -73,6 +75,9 @@ export const UserInfoForm = ({ page }: UserInfoFormProps) => {
 
   const submitHandler: MouseEventHandler<HTMLButtonElement> = (e) => {
     console.log(e.currentTarget.id);
+
+    //api 요청 완료 후 호출
+    onNext();
   };
 
   const createProviderIcon = (provider: UserLoginProviderType) => {
