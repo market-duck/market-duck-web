@@ -19,7 +19,7 @@ import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
-  height: calc(100dvh - 48px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -34,7 +34,6 @@ const Container = styled(AppGutter)`
 
 interface UserInfoFormProps {
   page: 'signUp' | 'editUser';
-  step: 'phoneVerification' | 'userInfo';
   onNext: () => void;
 }
 
@@ -121,7 +120,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
       <Column gap="XS" flex={0}>
         <Button onClick={submitHandler}>{page === 'signUp' ? '다음으로' : '수정 완료'}</Button>
         {page === 'signUp' && (
-          <Button onClick={submitHandler} variant="secondary">
+          <Button onClick={submitHandler} variant="text">
             건너뛰기
           </Button>
         )}

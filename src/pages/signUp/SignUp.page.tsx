@@ -1,4 +1,4 @@
-import { UserInfoForm } from '@market-duck/components/Form/UserInfoForm';
+import { UserInfoForm } from '@market-duck/pages/myPage/components/UserInfoForm';
 import { UserPhoneNumberVerification } from '@market-duck/pages/myPage/components/UserPhoneNumberVerification';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { useState } from 'react';
@@ -8,13 +8,22 @@ export const SignUp = () => {
   const [step, setStep] = useState<'phoneVerification' | 'userInfo'>('phoneVerification');
   const navigate = useNavigate();
 
+  const backButtonHandler = () => {
+    if (step === 'phoneVerification') {
+      return;
+    }
+
+    if (step === 'userInfo') {
+      setStep('phoneVerification');
+    }
+  };
+
   return (
     <>
-      <NavigationTop leftButtonIconType="basic" title="회원가입" />
+      <NavigationTop leftButtonIconType="basic" title="회원가입" onLeftClick={backButtonHandler} />
       {step === 'phoneVerification' && (
         <UserPhoneNumberVerification
           page="signUp"
-          step={step}
           onNext={() => {
             setStep('userInfo');
           }}
@@ -23,7 +32,6 @@ export const SignUp = () => {
       {step === 'userInfo' && (
         <UserInfoForm
           page="signUp"
-          step={step}
           onNext={() => {
             navigate('/onboard');
           }}

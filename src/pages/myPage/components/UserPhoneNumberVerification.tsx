@@ -13,7 +13,7 @@ import { useInterval } from '@market-duck/hooks/useInterval';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 
 const Container = styled(AppGutter)`
-  height: calc(100dvh - 48px);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,9 +36,12 @@ const InputButtonBox = styled.div`
   }
 `;
 
+const TypoAlignCenter = styled(Typo)`
+  text-align: center;
+`;
+
 interface UserPhoneNumberVerificationProps {
   page: 'signUp' | 'editUser';
-  step: 'phoneVerification' | 'userInfo';
   onNext: () => void;
 }
 
@@ -47,7 +50,7 @@ interface VerifyData {
   verifyCode: string;
 }
 
-export const UserPhoneNumberVerification = ({ page, step, onNext }: UserPhoneNumberVerificationProps) => {
+export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVerificationProps) => {
   const [data, setData] = useState<VerifyData>({
     phoneNum: '',
     verifyCode: '',
@@ -146,7 +149,9 @@ export const UserPhoneNumberVerification = ({ page, step, onNext }: UserPhoneNum
         <Column flex={0}>
           <PageHeading title="본인 인증" />
           <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
-            보다 안전한 거래를 위해 본인 인증이 필요해요.
+            {page === 'signUp'
+              ? '보다 안전한 거래를 위해 본인 인증이 필요해요.'
+              : '본인 인증을 통해 휴대폰 번호를 수정할 수 있습니다.'}
           </Typo>
         </Column>
         <Column gap="M" flex={0}>
@@ -200,9 +205,14 @@ export const UserPhoneNumberVerification = ({ page, step, onNext }: UserPhoneNum
           {page === 'signUp' ? '다음으로' : '수정하기'}
         </Button>
         {page === 'signUp' && (
-          <Button onClick={submitHandler} variant="secondary">
-            건너뛰기
-          </Button>
+          <Column justify="center" flex={1}>
+            <Button onClick={submitHandler} variant="text">
+              건너뛰기
+            </Button>
+            <TypoAlignCenter tag="p" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
+              본인 인증을 생략하면 서비스 이용에 제한이 있어요.
+            </TypoAlignCenter>
+          </Column>
         )}
       </Column>
     </Container>
