@@ -19,7 +19,7 @@ import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
-  height: 100vh;
+  height: calc(100dvh - 48px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;

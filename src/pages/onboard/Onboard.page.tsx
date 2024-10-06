@@ -10,7 +10,7 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
-  height: 100dvh;
+  height: calc(100dvh - 48px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
