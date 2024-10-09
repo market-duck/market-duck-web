@@ -1,5 +1,6 @@
 import * as OutlineIcon from '@heroicons/react/24/outline';
 import * as FillIcon from '@heroicons/react/24/solid';
+import { TextButton } from '@market-duck/components/Button/TextButton';
 import { ReactNode, createElement } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -82,7 +83,13 @@ export const NavigationTop = ({
       <NavigationTopButton onClick={leftClickAction}>{leftComponent}</NavigationTopButton>
       <span className="title">{title}</span>
       {onRightClick ? (
-        <NavigationTopButton onClick={rightClickAction}>{rightComponent}</NavigationTopButton>
+        typeof rightButton === 'string' ? (
+          <TextButton variant="primary" onClick={rightClickAction}>
+            {rightButton}
+          </TextButton>
+        ) : (
+          <NavigationTopButton onClick={rightClickAction}>{rightComponent}</NavigationTopButton>
+        )
       ) : (
         <div></div>
       )}
