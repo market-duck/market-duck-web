@@ -1,10 +1,10 @@
-import { ReactNode, createElement } from 'react';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppTypo } from 'src/styles/tokens/AppTypo';
-import styled from 'styled-components';
 import * as OutlineIcon from '@heroicons/react/24/outline';
 import * as FillIcon from '@heroicons/react/24/solid';
+import { ReactNode, createElement } from 'react';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppTypo } from 'src/styles/tokens/AppTypo';
+import styled from 'styled-components';
 
 const NavigationTopWrap = styled.div`
   position: sticky;
@@ -19,11 +19,18 @@ const NavigationTopWrap = styled.div`
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   color: ${AppSemanticColor.TEXT_PRIMARY.hex};
   ${AppTypo.BODY_MD}
+
+  .title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 const NavigationTopButton = styled.button`
-  width: 1.5rem;
-  height: 1.5rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
 `;
 
 export const NavigationTop = ({
@@ -73,7 +80,7 @@ export const NavigationTop = ({
   return (
     <NavigationTopWrap>
       <NavigationTopButton onClick={leftClickAction}>{leftComponent}</NavigationTopButton>
-      <span>{title}</span>
+      <span className="title">{title}</span>
       {onRightClick ? (
         <NavigationTopButton onClick={rightClickAction}>{rightComponent}</NavigationTopButton>
       ) : (

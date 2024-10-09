@@ -1,10 +1,9 @@
-import { ListItem } from '@market-duck/components/List/ListItem';
 import * as FillIcon from '@heroicons/react/24/solid';
-import { createElement } from 'react';
+import { Column } from '@market-duck/components/Flex/Flex';
+import { ListItem } from '@market-duck/components/List/ListItem';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
-import { Column } from '@market-duck/components/Flex/Flex';
 
 const userInfoMenuList = [
   {
@@ -61,7 +60,7 @@ export const MenuList = () => {
   return (
     <Column>
       <SectionWrap>
-        <Typo type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
+        <Typo tag="span" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
           고객 정보
         </Typo>
         <div>
@@ -72,7 +71,7 @@ export const MenuList = () => {
       </SectionWrap>
 
       <SectionWrap>
-        <Typo type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
+        <Typo tag="span" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
           고객 지원
         </Typo>
         <div>
