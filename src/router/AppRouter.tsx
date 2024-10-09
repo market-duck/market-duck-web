@@ -1,5 +1,6 @@
 import { Oauth } from '@market-duck/pages/Oauth.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
+import { ContactList } from '@market-duck/pages/contact/Contact.page';
 import { EditUserInfo } from '@market-duck/pages/editUserInfo/EditUserInfo.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
@@ -70,6 +71,11 @@ export const appRouter = createBrowserRouter([
           //   Component: <></>,
           // },
         ],
+      },
+      {
+        path: 'contact',
+        Component: Outlet,
+        children: [{ path: 'list', Component: ContactList }],
       },
     ],
   },
