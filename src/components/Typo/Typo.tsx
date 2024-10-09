@@ -4,13 +4,15 @@ import { RuleSet, styled } from 'styled-components';
 
 export const DynamicTypography = styled(({ tag, children, ...props }: { tag: 'span' | 'p'; children: ReactNode }) =>
   createElement(tag, props, children),
-)<{ type: RuleSet<object> }>`
-  ${(props) => props.type}
+)<{ $type: RuleSet<object>; $weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 }>`
+  ${(props) => props.$type}
+  font-weight: ${({ $weight }) => $weight}
 `;
 
 interface OriginTypeProps {
   tag?: 'span' | 'p';
   type?: AppTypoKey;
+  weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
   className?: string;
 }
 
@@ -24,9 +26,9 @@ interface SpanTypeProps extends OriginTypeProps, HTMLAttributes<HTMLSpanElement>
 
 type TypeProps = PTypeProps | SpanTypeProps;
 
-export const Typo = ({ tag = 'span', type = 'BODY_MD', children, ...props }: TypeProps) => {
+export const Typo = ({ tag = 'span', type = 'BODY_MD', children, weight = 500, ...props }: TypeProps) => {
   return (
-    <DynamicTypography tag={tag} type={AppTypo[type]} {...props}>
+    <DynamicTypography tag={tag} $type={AppTypo[type]} $weight={weight} {...props}>
       {children}
     </DynamicTypography>
   );
