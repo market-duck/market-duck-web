@@ -52,7 +52,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     nickName: '',
     photo: null,
   });
-  const { imgFiles, imgSrcs, imageHandler } = useImageInput();
+  const { imgFiles, imgSrcs, imageHandler, deleteHandler } = useImageInput();
 
   useEffect(() => {
     setData((prev) => ({ ...prev, photo: imgFiles[0] }));
@@ -114,7 +114,14 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             isError={!!validation('nickName', data?.nickName)}
             caption={validation('nickName', data?.nickName)}
           />
-          <ImagesInput title="프로필 사진" size="lg" length={1} imageHandler={imageHandler} imgSrcs={imgSrcs} />
+          <ImagesInput
+            title="프로필 사진"
+            size="lg"
+            length={1}
+            imageHandler={imageHandler}
+            imgSrcs={imgSrcs}
+            deleteHandler={deleteHandler}
+          />
         </Column>
       </Column>
       <Column gap="XS" flex={0}>
