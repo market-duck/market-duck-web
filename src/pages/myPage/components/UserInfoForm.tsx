@@ -34,6 +34,7 @@ const Container = styled(AppGutter)`
 
 interface UserInfoFormProps {
   page: 'signUp' | 'editUser';
+  onNext: () => void;
 }
 
 interface SubmitUserData {
@@ -43,7 +44,7 @@ interface SubmitUserData {
   photo: File | undefined | null;
 }
 
-export const UserInfoForm = ({ page }: UserInfoFormProps) => {
+export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
   const currentUserInfo = useRecoilValue(userDataAtom);
   const [data, setData] = useState<SubmitUserData>({
     email: '',
@@ -73,6 +74,9 @@ export const UserInfoForm = ({ page }: UserInfoFormProps) => {
 
   const submitHandler: MouseEventHandler<HTMLButtonElement> = (e) => {
     console.log(e.currentTarget.id);
+
+    //api 요청 완료 후 호출
+    onNext();
   };
 
   const createProviderIcon = (provider: UserLoginProviderType) => {
@@ -123,7 +127,7 @@ export const UserInfoForm = ({ page }: UserInfoFormProps) => {
       <Column gap="XS" flex={0}>
         <Button onClick={submitHandler}>{page === 'signUp' ? '다음으로' : '수정 완료'}</Button>
         {page === 'signUp' && (
-          <Button onClick={submitHandler} variant="secondary">
+          <Button onClick={submitHandler} variant="text">
             건너뛰기
           </Button>
         )}

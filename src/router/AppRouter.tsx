@@ -55,7 +55,6 @@ export const appRouter = createBrowserRouter([
         path: 'feed',
         Component: Outlet,
         children: [
-          { path: 'read', Component: Read },
           {
             path: 'read',
             Component: Read,

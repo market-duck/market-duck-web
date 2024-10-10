@@ -1,4 +1,4 @@
-import { UserInfoForm } from '@market-duck/components/Form/UserInfoForm';
+import { UserInfoForm } from '@market-duck/pages/myPage/components/UserInfoForm';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 
 export const EditUserInfo = () => {
