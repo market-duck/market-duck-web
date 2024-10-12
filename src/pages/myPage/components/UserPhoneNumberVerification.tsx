@@ -211,7 +211,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
         </Button>
         {page === 'signUp' && (
           <Column justify="center" flex={1}>
-            <Button onClick={submitHandler} variant="text">
+            <Button onClick={onNext} variant="text">
               건너뛰기
             </Button>
             <TypoAlignCenter tag="p" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>

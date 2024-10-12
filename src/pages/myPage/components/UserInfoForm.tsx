@@ -104,8 +104,35 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             </Row>
           </Column>
         )}
-        <PageHeading title={`회원 정보 ${page === 'signUp' ? '입력' : '수정'}`} />
+        {page === 'signUp' && <PageHeading title="회원 정보 입력" />}
         <Column gap="M" flex={0}>
+          {page === 'editUser' && (
+            <Column gap="M" flex={0}>
+              <Column alignItems="start" className={AppSemanticColor.TEXT_SECONDARY.color}>
+                <Typo tag="p" type="CAPTION_MD" weight={600}>
+                  계정
+                </Typo>
+                <Typo tag="p" type="BODY_MD" weight={500}>
+                  {/* TODO:: google/kakao icon */}
+                  muji@gmail.com
+                </Typo>
+              </Column>
+              <Column alignItems="start" className={AppSemanticColor.TEXT_SECONDARY.color}>
+                <Typo tag="p" type="CAPTION_MD" weight={600}>
+                  휴대폰 번호
+                </Typo>
+                <Row alignItems="center" gap="S">
+                  <Typo tag="p" type="BODY_MD" weight={500}>
+                    {/* TODO:: google/kakao icon */}
+                    010-4133-3538
+                  </Typo>
+                  <Button size="small" onClick={() => onNext()}>
+                    수정
+                  </Button>
+                </Row>
+              </Column>
+            </Column>
+          )}
           <Input
             id="nickName"
             label="닉네임"
