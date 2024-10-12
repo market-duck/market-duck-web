@@ -56,7 +56,7 @@ export const MenuList = () => {
     },
     {
       name: '공지사항',
-      action: () => {},
+      action: () => navigate('/notice/list'),
     },
   ];
 
