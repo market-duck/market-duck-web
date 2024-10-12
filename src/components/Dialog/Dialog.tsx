@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const StyledModalContainer = styled.dialog`
   width: calc(100% - ${AppSpcing.XXL});
-  max-width: 308px;
+  min-width: 308px;
   border-radius: ${AppRadii.M};
   background-color: ${AppColor.WHITE.hex};
   border: none;
@@ -50,6 +50,7 @@ interface DialogProps extends DialogHTMLAttributes<HTMLDialogElement> {
   desc: string;
   confirmBtnVariant?: buttonVariantType;
   confirmBtnHandler?: MouseEventHandler;
+  customConfirmBtnText?: string;
 }
 
 export interface DialogHandle {
@@ -57,9 +58,12 @@ export interface DialogHandle {
   close: () => void;
 }
 
+//TODO:: 모달 버튼 워딩 변경
 export const Dialog = forwardRef<DialogHandle, DialogProps>(
-  ({ title, desc, confirmBtnVariant, confirmBtnHandler, ...props }, ref) => {
+  ({ title, desc, confirmBtnVariant, confirmBtnHandler, customConfirmBtnText, ...props }, ref) => {
     const dialogRef = useRef<HTMLDialogElement>(null);
+
+    const dialogDescList = desc ? desc.split('<br/>') : [];
 
     useImperativeHandle(ref, () => ({
       open: () => {
@@ -99,16 +103,22 @@ export const Dialog = forwardRef<DialogHandle, DialogProps>(
             <Typo tag="p" type="HEADING_SM" className="title">
               {title}
             </Typo>
-            <Typo tag="p" type="BODY_SM" className="desc">
-              {desc}
-            </Typo>
+            <Column>
+              {dialogDescList.map((line) => {
+                return (
+                  <Typo tag="p" type="BODY_SM" className="desc">
+                    {line}
+                  </Typo>
+                );
+              })}
+            </Column>
           </Column>
           <Row gap="XS">
             <Button size="small" row variant="secondary" onClick={closeHandler}>
               취소
             </Button>
             <Button size="small" row variant={confirmBtnVariant ?? 'primary'} onClick={confirmBtnHandler}>
-              확인
+              {customConfirmBtnText ?? '확인'}
             </Button>
           </Row>
         </Column>
