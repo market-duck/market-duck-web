@@ -25,7 +25,7 @@ export const MenuList = () => {
   const userInfoMenuList = [
     {
       name: '회원 정보 수정',
-      action: () => {},
+      action: () => navigate('/editUser'),
     },
     {
       name: '내가 작성한 피드',

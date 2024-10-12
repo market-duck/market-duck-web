@@ -12,7 +12,6 @@ import { Login } from '@market-duck/pages/login/Login.page';
 import { Mypage } from '@market-duck/pages/myPage/MyPage.page';
 import { NoticeDetail } from '@market-duck/pages/notice/NoticeDetail.page';
 import { NoticeList } from '@market-duck/pages/notice/NoticeList.page';
-import { Onboard } from '@market-duck/pages/onboard/Onboard.page';
 import { SignUp } from '@market-duck/pages/signUp/SignUp.page';
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { AppLayout } from 'src/layout/AppLayout';
@@ -36,10 +35,6 @@ export const appRouter = createBrowserRouter([
       {
         path: 'signUp',
         Component: SignUp,
-      },
-      {
-        path: 'onboard',
-        Component: Onboard,
       },
       {
         path: 'alert',

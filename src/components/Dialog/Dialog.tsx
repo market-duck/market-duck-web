@@ -106,7 +106,7 @@ export const Dialog = forwardRef<DialogHandle, DialogProps>(
             <Column>
               {dialogDescList.map((line) => {
                 return (
-                  <Typo tag="p" type="BODY_SM" className="desc">
+                  <Typo key={line} tag="p" type="BODY_SM" className="desc">
                     {line}
                   </Typo>
                 );

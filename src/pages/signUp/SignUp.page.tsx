@@ -3,9 +3,10 @@ import { UserPhoneNumberVerification } from '@market-duck/pages/myPage/component
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { SelectInterestTag } from '@market-duck/pages/myPage/components/SelectInterestTag';
 
 export const SignUp = () => {
-  const [step, setStep] = useState<'phoneVerification' | 'userInfo'>('phoneVerification');
+  const [step, setStep] = useState<'phoneVerification' | 'userInfo' | 'onBoard'>('phoneVerification');
   const navigate = useNavigate();
 
   const backButtonHandler = () => {
@@ -16,11 +17,19 @@ export const SignUp = () => {
     if (step === 'userInfo') {
       setStep('phoneVerification');
     }
+
+    if (step === 'onBoard') {
+      setStep('userInfo');
+    }
   };
 
   return (
     <>
-      <NavigationTop leftButtonIconType="basic" title="회원가입" onLeftClick={backButtonHandler} />
+      <NavigationTop
+        leftButtonIconType="basic"
+        title={step === 'onBoard' ? '온보딩' : '회원가입'}
+        onLeftClick={backButtonHandler}
+      />
       {step === 'phoneVerification' && (
         <UserPhoneNumberVerification
           page="signUp"
@@ -33,7 +42,15 @@ export const SignUp = () => {
         <UserInfoForm
           page="signUp"
           onNext={() => {
-            navigate('/onboard');
+            setStep('onBoard');
+          }}
+        />
+      )}
+      {step === 'onBoard' && (
+        <SelectInterestTag
+          page="signUp"
+          onNext={() => {
+            navigate('/');
           }}
         />
       )}
