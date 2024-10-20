@@ -1,23 +1,41 @@
 import { Button } from '@market-duck/components/Button/Button';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { ReactNode, forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { useDialog } from '@market-duck/hooks/useDialog';
+import { MouseEventHandler, ReactNode } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
-const StyledBottomSheet = styled.dialog`
+const StyledBottomSheet = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 768px;
-  background-color: ${AppColor.WHITE.hex};
-  border: none;
-  border-radius: ${AppRadii.L} ${AppRadii.L} ${AppRadii.NONE} ${AppRadii.NONE};
-  padding: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+
+  position: fixed;
+  top: 0;
   bottom: 0;
-  margin: auto auto 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 
   .container {
+    width: 100%;
+    max-width: 768px;
+    background-color: ${AppColor.WHITE.hex};
+    border: none;
+    border-radius: ${AppRadii.L} ${AppRadii.L} ${AppRadii.NONE} ${AppRadii.NONE};
+    padding: 0;
+    bottom: 0;
+    margin: auto auto 0;
+  }
+
+  .contents {
     padding: ${AppSpcing.M};
   }
 
@@ -41,6 +59,7 @@ const StyledBottomSheet = styled.dialog`
 `;
 
 export interface BottomSheetProps {
+  id: string;
   title?: string;
   desc?: string;
   buttonTitle?: string;
@@ -48,76 +67,44 @@ export interface BottomSheetProps {
   customContent?: ReactNode;
 }
 
-export interface BottomSheetHandle {
-  open: () => void;
-  close: () => void;
-}
-
-export const BottomSheet = forwardRef<BottomSheetHandle, BottomSheetProps>(
-  ({ title, desc, buttonTitle = '확인', customContent, hasButton = false }, ref) => {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
-    useImperativeHandle(ref, () => ({
-      open: () => {
-        if (dialogRef.current) {
-          dialogRef.current.showModal();
-        }
-      },
-      close: () => {
-        if (dialogRef.current) {
-          dialogRef.current.close();
-        }
-      },
-    }));
-
-    const closeHandler = () => {
-      if (dialogRef.current) {
-        dialogRef.current.close();
-      }
-    };
-
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (dialogRef.current && event.target === dialogRef.current) {
-          dialogRef.current.close();
-        }
-      };
-
-      if (dialogRef.current) {
-        dialogRef.current.addEventListener('click', handleClickOutside);
-      }
-    }, []);
-
-    return (
-      <StyledBottomSheet ref={dialogRef}>
+export const BottomSheet = ({
+  id,
+  title,
+  desc,
+  buttonTitle = '확인',
+  customContent,
+  hasButton = false,
+}: BottomSheetProps) => {
+  const { close } = useDialog();
+  const closeHandler: MouseEventHandler = (e) => {
+    e.preventDefault();
+    close(id);
+  };
+  return (
+    <StyledBottomSheet onClick={closeHandler}>
+      <div className="container">
         <Column gap="XL" className="container">
           <Column className="content">
             {!!customContent ? (
               <>{customContent}</>
             ) : (
               <>
-                <Typo type="HEADING_SM" className="title">
+                <Typo tag="p" type="HEADING_SM" className="title">
                   {title}
                 </Typo>
-                <Typo type="BODY_SM" className="desc">
+                <Typo tag="p" type="BODY_SM" className="desc">
                   {desc}
                 </Typo>
               </>
             )}
           </Column>
           {hasButton && (
-            <Button
-              size="large"
-              onClick={() => {
-                closeHandler();
-              }}
-              row
-            >
+            <Button size="large" onClick={closeHandler} row>
               {buttonTitle}
             </Button>
           )}
         </Column>
-      </StyledBottomSheet>
-    );
-  },
-);
+      </div>
+    </StyledBottomSheet>
+  );
+};
