@@ -2,7 +2,7 @@ import { Button, buttonVariantType } from '@market-duck/components/Button/Button
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
-import { DialogHTMLAttributes, MouseEventHandler } from 'react';
+import { HTMLAttributes, MouseEventHandler } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -46,7 +46,7 @@ const StyledModalContainer = styled.div`
   }
 `;
 
-interface DialogProps extends DialogHTMLAttributes<HTMLDivElement> {
+interface DialogProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
   title: string;
   desc: string;
@@ -84,10 +84,12 @@ export const Dialog = ({
             </Column>
           </Column>
           <Row gap="XS">
-            <Button size="small" row variant="secondary" onClick={closeHandler}>
-              취소
-            </Button>
-            <Button size="small" row variant={confirmBtnVariant} onClick={confirm}>
+            {confirm && (
+              <Button size="small" row variant="secondary" onClick={closeHandler}>
+                취소
+              </Button>
+            )}
+            <Button size="small" row variant={confirmBtnVariant} onClick={confirm ?? closeHandler}>
               {customConfirmBtnText}
             </Button>
           </Row>
