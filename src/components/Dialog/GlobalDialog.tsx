@@ -26,6 +26,7 @@ export const GlobalDialog = () => {
                   desc={dialog.desc}
                   confirmBtnVariant={dialog.positiveBtnVariant}
                   customConfirmBtnText={dialog.positiveBtnText}
+                  confirm={dialog.confirm}
                 />
               );
             case DialogType.BOTTOM_SHEET:

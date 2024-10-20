@@ -51,7 +51,7 @@ interface DialogProps extends DialogHTMLAttributes<HTMLDivElement> {
   title: string;
   desc: string;
   confirmBtnVariant?: buttonVariantType;
-  confirmBtnHandler?: MouseEventHandler;
+  confirm?: MouseEventHandler;
   customConfirmBtnText?: string;
 }
 
@@ -61,7 +61,7 @@ export const Dialog = ({
   title,
   desc,
   confirmBtnVariant = 'primary',
-  confirmBtnHandler,
+  confirm,
   customConfirmBtnText = '확인',
   ...props
 }: DialogProps) => {
@@ -87,7 +87,7 @@ export const Dialog = ({
             <Button size="small" row variant="secondary" onClick={closeHandler}>
               취소
             </Button>
-            <Button size="small" row variant={confirmBtnVariant} onClick={confirmBtnHandler}>
+            <Button size="small" row variant={confirmBtnVariant} onClick={confirm}>
               {customConfirmBtnText}
             </Button>
           </Row>

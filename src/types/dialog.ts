@@ -1,4 +1,5 @@
 import { buttonVariantType } from '@market-duck/components/Button/Button';
+import { ButtonClickHandler } from '@market-duck/types/handler';
 import { ReactNode } from 'react';
 
 export enum DialogType {
@@ -29,6 +30,7 @@ interface ConfirmDialog extends BaseDialog {
   type: DialogType.CONFIRM;
   positiveBtnText?: string;
   positiveBtnVariant?: buttonVariantType;
+  confirm: ButtonClickHandler;
 }
 
 export type Dialog = AlertDialog | ConfirmDialog | BottomSheet;

@@ -1,6 +1,7 @@
 import { dialogAtom } from '@market-duck/atoms/dialog.atom';
 import { buttonVariantType } from '@market-duck/components/Button/Button';
 import { DialogType } from '@market-duck/types/dialog';
+import { ButtonClickHandler } from '@market-duck/types/handler';
 import { ReactNode } from 'react';
 import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { v4 } from 'uuid';
@@ -25,10 +26,29 @@ export const useDialog = () => {
     desc: string;
     positiveBtnText?: string;
     positiveBtnVariant?: buttonVariantType;
-  }) => {
+  }): Promise<boolean> => {
     const id = v4();
-    setDialogs((prev) => [...prev, { id, type: DialogType.CONFIRM, title, desc, positiveBtnText, positiveBtnVariant }]);
-    return id;
+    const promise = new Promise<boolean>((resolve) => {
+      const confirm: ButtonClickHandler = () => {
+        resolve(true);
+        close(id);
+      };
+
+      setDialogs((prev) => [
+        ...prev,
+        {
+          id,
+          type: DialogType.CONFIRM,
+          title,
+          desc,
+          positiveBtnText,
+          positiveBtnVariant,
+          confirm,
+        },
+      ]);
+    });
+
+    return promise;
   };
 
   const bottomSheet = ({
