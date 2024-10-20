@@ -1,10 +1,10 @@
 import * as FillIcon from '@heroicons/react/24/solid';
 import { TextButton } from '@market-duck/components/Button/TextButton';
-import { Dialog, DialogHandle } from '@market-duck/components/Dialog/Dialog';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { ListItem } from '@market-duck/components/List/ListItem';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { useRef } from 'react';
+import { useDialog } from '@market-duck/hooks/useDialog';
+import { ButtonClickHandler } from '@market-duck/types/handler';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
@@ -20,7 +20,14 @@ const ArrowRightIcon = styled(FillIcon.ChevronRightIcon)`
 
 export const MenuList = () => {
   const navigate = useNavigate();
-  const dialogRef = useRef<DialogHandle>(null);
+  const { confirm } = useDialog();
+
+  const withdrawalHandler: ButtonClickHandler = () => {
+    const id = confirm({
+      title: '정말로 마켓덕을 떠나시겠어요?',
+      desc: '탈퇴하시면 회원님의 모든 정보와 활동이 삭제됩니다.\n삭제된 정보는 복구 불가능합니다.',
+    });
+  };
 
   const userInfoMenuList = [
     {
@@ -89,28 +96,12 @@ export const MenuList = () => {
       </SectionWrap>
 
       <SectionWrap alignItems="start">
-        <TextButton
-          variant="secondary"
-          onClick={() => {
-            if (dialogRef.current) {
-              dialogRef.current.open();
-            }
-          }}
-        >
+        <TextButton variant="secondary" onClick={withdrawalHandler}>
           <Typo tag="span" type="BODY_SM" weight={500}>
             회원 탈퇴
           </Typo>
         </TextButton>
       </SectionWrap>
-      <Dialog
-        title="정말로 마켓덕을 떠나시겠어요?"
-        desc="탈퇴하시면 회원님의 모든 정보와 활동이 삭제됩니다.<br/>삭제된 정보는 복구 불가능합니다."
-        ref={dialogRef}
-        confirmBtnHandler={() => {
-          console.log('탈퇴할거지롱!');
-        }}
-        customConfirmBtnText="탈퇴"
-      />
     </Column>
   );
 };
