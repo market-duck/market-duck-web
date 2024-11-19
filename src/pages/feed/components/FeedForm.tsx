@@ -8,13 +8,14 @@ import { useRef } from 'react';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { SelectOption } from '@market-duck/components/Select/Select';
 import { thousandComma } from '@market-duck/utils/price';
-import { BottomSheet, BottomSheetHandle } from '@market-duck/components/Dialog/BottomSheet';
+import { BottomSheet } from '@market-duck/components/Dialog/BottomSheet';
 import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
 import { Button } from '@market-duck/components/Button/Button';
 import { useForm } from '@market-duck/hooks/useForm';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
+import { useDialog } from '@market-duck/hooks/useDialog';
 
 const SelectWrap = styled(Column)``;
 
@@ -110,19 +111,38 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
     },
   });
 
-  const genreDialogRef = useRef<BottomSheetHandle>(null);
-  const goodsDialogRef = useRef<BottomSheetHandle>(null);
+  const { bottomSheet } = useDialog();
 
   const handleGenreClick = () => {
-    if (genreDialogRef.current) {
-      genreDialogRef.current.open();
-    }
+    bottomSheet({
+      customContent: (
+        <SearchSelect
+          searchResultList={genreDummySearch}
+          handleChange={(selected) => {
+            const isAlreadySelected = values.genre.some((item) => item.value === selected.value);
+            if (!isAlreadySelected) {
+              handleChange('genre', [...values.genre, selected]);
+            }
+          }}
+        />
+      ),
+    });
   };
 
   const handleGoodsClick = () => {
-    if (goodsDialogRef.current) {
-      goodsDialogRef.current.open();
-    }
+    bottomSheet({
+      customContent: (
+        <SearchSelect
+          searchResultList={goodsDummySearch}
+          handleChange={(selected) => {
+            const isAlreadySelected = values.goods.some((item) => item.value === selected.value);
+            if (!isAlreadySelected) {
+              handleChange('goods', [...values.goods, selected]);
+            }
+          }}
+        />
+      ),
+    });
   };
 
   return (
@@ -196,34 +216,6 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       <Button disabled={Object.keys(errors).length > 0} row size="large" onClick={handleSubmit}>
         작성하기
       </Button>
-      <BottomSheet
-        customContent={
-          <SearchSelect
-            searchResultList={genreDummySearch}
-            handleChange={(selected) => {
-              const isAlreadySelected = values.genre.some((item) => item.value === selected.value);
-              if (!isAlreadySelected) {
-                handleChange('genre', [...values.genre, selected]);
-              }
-            }}
-          />
-        }
-        ref={genreDialogRef}
-      />
-      <BottomSheet
-        customContent={
-          <SearchSelect
-            searchResultList={goodsDummySearch}
-            handleChange={(selected) => {
-              const isAlreadySelected = values.goods.some((item) => item.value === selected.value);
-              if (!isAlreadySelected) {
-                handleChange('goods', [...values.goods, selected]);
-              }
-            }}
-          />
-        }
-        ref={goodsDialogRef}
-      />
     </FormContainer>
   );
 };

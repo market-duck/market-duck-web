@@ -38,7 +38,7 @@ export const GlobalDialog = () => {
                   desc={dialog.desc}
                   buttonTitle={dialog.buttonTitle}
                   hasButton={dialog.hasButton}
-                  customContent={dialog.children}
+                  customContent={dialog.customContent}
                 />
               );
             default:

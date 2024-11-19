@@ -92,18 +92,18 @@ export const useDialog = () => {
     desc,
     buttonTitle,
     hasButton,
-    children,
+    customContent,
   }: {
-    title: string;
-    desc: string;
+    title?: string;
+    desc?: string;
     buttonTitle?: string;
     hasButton?: boolean;
-    children?: ReactNode;
+    customContent?: ReactNode;
   }) => {
     const id = v4();
     setDialogs((prev) => [
       ...prev,
-      { id, type: DialogType.BOTTOM_SHEET, title, desc, buttonTitle, hasButton, children },
+      { id, type: DialogType.BOTTOM_SHEET, title, desc, buttonTitle, hasButton, customContent },
     ]);
     return id;
   };

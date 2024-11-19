@@ -2,7 +2,7 @@ import { Button } from '@market-duck/components/Button/Button';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, forwardRef, useImperativeHandle, useRef } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -67,44 +67,42 @@ export interface BottomSheetProps {
   customContent?: ReactNode;
 }
 
-export const BottomSheet = ({
-  id,
-  title,
-  desc,
-  buttonTitle = '확인',
-  customContent,
-  hasButton = false,
-}: BottomSheetProps) => {
-  const { close } = useDialog();
-  const closeHandler: MouseEventHandler = (e) => {
-    e.preventDefault();
-    close(id);
-  };
-  return (
-    <StyledBottomSheet onClick={closeHandler}>
-      <div className="container">
-        <Column gap="XL" className="container">
-          <Column className="content">
-            {!!customContent ? (
-              <>{customContent}</>
-            ) : (
-              <>
-                <Typo tag="p" type="HEADING_SM" className="title">
-                  {title}
-                </Typo>
-                <Typo tag="p" type="BODY_SM" className="desc">
-                  {desc}
-                </Typo>
-              </>
+export const BottomSheet = forwardRef(
+  ({ id, title, desc, buttonTitle = '확인', customContent, hasButton = false }: BottomSheetProps, ref) => {
+    const { close } = useDialog();
+    const closeHandler: MouseEventHandler = (e) => {
+      e.preventDefault();
+      close(id);
+    };
+    const bottomSheetRef = useRef(null);
+    useImperativeHandle(ref, () => bottomSheetRef.current);
+
+    return (
+      <StyledBottomSheet onClick={closeHandler}>
+        <div className="container">
+          <Column gap="XL" className="container">
+            <Column className="content">
+              {!!customContent ? (
+                <>{customContent}</>
+              ) : (
+                <>
+                  <Typo tag="p" type="HEADING_SM" className="title">
+                    {title}
+                  </Typo>
+                  <Typo tag="p" type="BODY_SM" className="desc">
+                    {desc}
+                  </Typo>
+                </>
+              )}
+            </Column>
+            {hasButton && (
+              <Button size="large" onClick={closeHandler} row>
+                {buttonTitle}
+              </Button>
             )}
           </Column>
-          {hasButton && (
-            <Button size="large" onClick={closeHandler} row>
-              {buttonTitle}
-            </Button>
-          )}
-        </Column>
-      </div>
-    </StyledBottomSheet>
-  );
-};
+        </div>
+      </StyledBottomSheet>
+    );
+  },
+);

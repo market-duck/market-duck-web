@@ -3,14 +3,14 @@ import { ReqFeedModelData } from '@market-duck/apis/models/FeedModel';
 import { NetworkResultType } from '@market-duck/types/api';
 
 class FeedAPI {
-  //TODO:: 체크하기 - 새롭게 업로드시에 다중 업로드 & 피드 수정시에 추가 업로드도 가능
+  //새롭게 업로드시 & 피드 수정시에 추가 업로드도 가능
   async uploadFeedImages({ feedId, imgList }: { feedId: number; imgList: File[] }) {
     const file = new FormData();
     imgList.forEach((item) => file.append('file', item));
     const { status } = await fetchClient.post(`feed/image/${feedId}`, file);
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
-  //TODO:: API 변경 체크
+  //특정 피드의 업로드된 이미지 리스트에서 특정 인덱스에 해당하는 이미지를 제거한다
   async deleteFeedImages({ feedId, index }: { feedId: number; index: number }) {
     const { status } = await fetchClient.patch(`/feed/${feedId}/${index}}`, { feedId, index });
 
