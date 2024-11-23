@@ -4,11 +4,9 @@ import { TextArea } from '@market-duck/components/Form/TextArea';
 import { Select } from '@market-duck/components/Select/Select';
 import { FeedImageUpload } from './FeedImageUpload';
 import { Tab } from '@market-duck/components/Tab/Tab';
-import { useRef } from 'react';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { SelectOption } from '@market-duck/components/Select/Select';
 import { thousandComma } from '@market-duck/utils/price';
-import { BottomSheet } from '@market-duck/components/Dialog/BottomSheet';
 import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
 import { Button } from '@market-duck/components/Button/Button';
 import { useForm } from '@market-duck/hooks/useForm';
@@ -16,6 +14,10 @@ import { Column } from '@market-duck/components/Flex/Flex';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { useDialog } from '@market-duck/hooks/useDialog';
+import { feedAPI } from '@market-duck/apis/feedAPI';
+import { categoryAPI } from '@market-duck/apis/categoryAPI';
+import { useMutation } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 const SelectWrap = styled(Column)``;
 
@@ -70,6 +72,11 @@ interface InitialValue {
 // }
 
 export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edit'; editData?: InitialValue }) => {
+  const getCategoryData = async () => {
+    const genreList = await categoryAPI.getCategoryList({ categoryType: 'GENRE' });
+    const goodsList = await categoryAPI.getCategoryList({ categoryType: 'GOODS' });
+  };
+
   const { values, errors, handleChange, handleSubmit } = useForm<InitialValue>({
     initialValues:
       type === 'edit' && editData
@@ -82,6 +89,7 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
             content: '',
           },
     onSubmit: (values) => {
+      // const success = await feedAPI.createFeed();
       console.log('submit!!!!!!!!!!!!:', values);
     },
     validate: (values) => {
@@ -110,6 +118,12 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       return errorObj;
     },
   });
+
+  // const { mutate: uploadImg } = useMutation({
+  //   mutationFn: ({ feedId, imgList }) => {
+  //     return feedAPI.uploadFeedImages({ feedId, imgList });
+  //   },
+  // });
 
   const { bottomSheet } = useDialog();
 
@@ -144,6 +158,10 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       ),
     });
   };
+
+  useEffect(() => {
+    getCategoryData();
+  }, []);
 
   return (
     <FormContainer>
