@@ -1,3 +1,4 @@
+import { FeedModel } from '@market-duck/apis/models/feedModel';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { FeedList } from '@market-duck/components/List/FeedList';
 import { Tag } from '@market-duck/components/Tag/Tag';
@@ -20,12 +21,12 @@ const Heading = styled.h4`
 
 interface CardSelectionProps {
   title: string;
-  feeds: any; //TODO: 차후 feed model type으로 변경
+  feeds: FeedModel[];
   tag: string;
   nickName: string;
 }
 
-export const CardRecommend = ({ nickName, title, feeds, tag }: CardSelectionProps) => {
+export const RecommendCard = ({ nickName, title, feeds, tag }: CardSelectionProps) => {
   return (
     <Column>
       <Heading>
