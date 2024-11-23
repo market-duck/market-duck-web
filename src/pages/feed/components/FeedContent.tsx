@@ -69,12 +69,9 @@ export const FeedContent = ({ feedDetail }: { feedDetail: FeedDetailModel }) => 
       <Row justify="between" alignItems="center" className="feedAuthorContainer">
         <Row gap="XS" alignItems="center" flex={1}>
           <Thumbnail size="md" imgSrc={feedDetail.userInfo.profileImageUrl} />
-          <Column flex={1}>
+          <Column flex={1} alignItems="center">
             <Typo tag="p" className="user" type="BODY_SM">
               {feedDetail.userInfo.nickname}
-            </Typo>
-            <Typo tag="p" className="twitterId" type="CAPTION_SM">
-              @트위터
             </Typo>
           </Column>
         </Row>
