@@ -1,35 +1,31 @@
+import { feedAPI } from '@market-duck/apis/feedAPI';
+import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Column } from '@market-duck/components/Flex/Flex';
+import { FeedList } from '@market-duck/components/List/FeedList';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { CardRecommend } from '@market-duck/pages/home/components/CardRecommend';
+import { RecommendFeedsForUser } from '@market-duck/pages/home/components/RecommendFeedsForUser';
+import { useQuery } from '@tanstack/react-query';
+import { useRecoilValue } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 
 export const Home = () => {
-  const dummyNickName = '단단무지';
-  const feedDummy = {
-    title: 'title',
-    price: 999,
-    tagList: ['tag1', 'tag2'],
-    status: 'possible',
-    createdAt: new Date(),
-    viewCount: 9,
-    likedCount: 9,
-    imgSrc: 'https://placehold.co/400',
-  };
-  const dummyFeeds = new Array(2).fill(feedDummy).map((item, idx) => ({ ...item, id: idx }));
+  const user = useRecoilValue(userDataAtom);
+
+  // TODO: page, infinityQuery 적용 필요
+  const { data } = useQuery({
+    queryKey: ['home', 'feeds'],
+    queryFn: () => feedAPI.getFeeds({ page: 0 }),
+    enabled: !user,
+  });
+
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="홈" />
       <AppGutter>
         <Column gap="XL">
-          <Typo tag="p" type="HEADING_SM" className={AppSemanticColor.TEXT_PRIMARY.color}>
-            반가워요, {dummyNickName}님!
-          </Typo>
-          <CardRecommend feeds={dummyFeeds} title="최근 피드" tag="주술회전" nickName={dummyNickName} />
-          <CardRecommend feeds={dummyFeeds} title="인기 피드" tag="주술회전" nickName={dummyNickName} />
-          <CardRecommend feeds={dummyFeeds} title="최근 피드" tag="아크릴 스탠드" nickName={dummyNickName} />
-          <CardRecommend feeds={dummyFeeds} title="인기 피드" tag="아크릴 스탠드" nickName={dummyNickName} />
+          {user ? <RecommendFeedsForUser user={user} /> : data && <FeedList feeds={data?.feeds} />}
           <Typo tag="p" type="CAPTION_SM" className={AppSemanticColor.TEXT_PRIMARY.color}>
             copyright @팀마켓덕
           </Typo>

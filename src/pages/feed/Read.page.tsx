@@ -1,9 +1,12 @@
+import { feedAPI } from '@market-duck/apis/feedAPI';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Button } from '@market-duck/components/Button/Button';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { FeedContent } from '@market-duck/pages/feed/components/FeedContent';
+import { useQuery } from '@tanstack/react-query';
 import { MouseEvent } from 'react';
+import { useParams } from 'react-router-dom';
 import { AppColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
@@ -26,6 +29,12 @@ export const Read = () => {
   // TODO: 클라이언트에서 가지고 있는 유저 정보(id)와 게시글의 userId를 비교해 내 글일때 핸들링 필요(버튼 핸들러 및 드롭다운 등)
   // const isMyFeed: boolean = true;
   const isMyFeed: boolean = false;
+  const params = useParams();
+  const feedId = Number(params.feedId);
+  const { data: feedDetail } = useQuery({
+    queryKey: ['feed', 'read', feedId],
+    queryFn: () => feedAPI.getFeedDetail({ feedId }),
+  });
 
   const btnHandler = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
     const { id } = currentTarget;
@@ -48,7 +57,7 @@ export const Read = () => {
     <>
       <NavigationTop title="피드" />
       <Wrap>
-        <FeedContent />
+        {feedDetail && <FeedContent feedDetail={feedDetail} />}
         <Row className="btnContainer" gap="XS">
           <Button id="secondary" size="medium" variant="secondary" row onClick={btnHandler}>
             {isMyFeed ? '삭제' : '찜'}

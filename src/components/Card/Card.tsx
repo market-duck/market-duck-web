@@ -1,22 +1,24 @@
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { BgImage } from '@market-duck/components/Image/BgImage';
 import { StatusTag, StatusTagColorType } from '@market-duck/components/Tag/StatusTag';
+import { FeedStatusType } from '@market-duck/types/feed';
+import { getTimeDiff } from '@market-duck/utils/date';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
-type StatusType = 'possible' | 'processing' | 'completed';
-
-function getStatusWord(status: StatusType) {
+function getStatusWord(status: FeedStatusType) {
   switch (status) {
-    case 'possible':
+    case 'ON_SALE':
       return { text: '거래가능', color: 'green' };
-    case 'processing':
+    case 'IN_TRANSACTION':
       return { text: '거래중', color: 'blue' };
-    case 'completed':
+    case 'SOLD_OUT':
       return { text: '거래완료', color: 'neutral' };
+    default:
+      return { text: '', color: '' };
   }
 }
 
@@ -78,13 +80,13 @@ export const Card = ({
   price: number;
   imgSrc?: string;
   tagList?: Array<string>;
-  status: StatusType;
+  status: FeedStatusType;
   createdAt: Date;
   viewCount: number;
   likedCount: number;
 }) => {
   //TODO:: 추후 시간으로 formatting 필요; (아마 시간, 분, 초 등 단위 다양화 할 수도 있음)
-  const lastViewed = createdAt;
+  const relativeTime = getTimeDiff(createdAt);
 
   const statusWord = getStatusWord(status);
 
@@ -105,7 +107,7 @@ export const Card = ({
         <p className="title">{title}</p>
         <p className="price">{price}원</p>
         <Row className="bottom-info" gap="XXS" justify={'end'} alignItems={'center'}>
-          <span>1시간 전</span>
+          <span>{relativeTime}</span>
           <span>조회수 {viewCount}</span>
           <span>찜 {likedCount}</span>
         </Row>
