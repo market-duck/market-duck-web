@@ -39,9 +39,9 @@ const CardWrap = styled(Column)`
 `;
 
 const ItemImg = styled(BgImage)`
-  background-size: contain;
-  width: 10.4rem;
-  height: 10.4rem;
+  background-size: cover;
+  width: 100%;
+  aspect-ratio: 1/1;
   margin-bottom: ${AppSpcing.XXS};
   border-radius: ${AppRadii.L};
 `;
