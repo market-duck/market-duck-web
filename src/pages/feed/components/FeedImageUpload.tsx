@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { Row } from '@market-duck/components/Flex/Flex';
+//TODO:: 변경 후 붙이기
+import { ImagesInput } from '@market-duck/components/Form/ImageInput';
+import { useImageInput } from '@market-duck/hooks/useImageInput';
 
 const ImageUploadWrap = styled.div`
   display: flex;

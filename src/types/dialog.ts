@@ -14,11 +14,13 @@ interface BaseDialog {
   desc: string;
 }
 
-interface BottomSheet extends BaseDialog {
+interface BottomSheet extends Pick<BaseDialog, 'id'> {
   type: DialogType.BOTTOM_SHEET;
+  title?: string;
+  desc?: string;
   buttonTitle?: string;
   hasButton?: boolean;
-  children?: ReactNode;
+  customContent?: ReactNode;
 }
 
 interface AlertDialog extends BaseDialog {
