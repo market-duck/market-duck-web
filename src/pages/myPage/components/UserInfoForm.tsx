@@ -55,7 +55,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
   const { images, deleteIdx, imageHandler, deleteHandler } = useImageInput();
 
   useEffect(() => {
-    setData((prev) => ({ ...prev, photo: images[0].file }));
+    setData((prev) => ({ ...prev, photo: images[0]?.file }));
   }, [images]);
 
   const inputHandler: ChangeEventHandler<HTMLInputElement> = ({ target }) => {

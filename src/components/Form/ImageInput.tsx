@@ -1,4 +1,4 @@
-import { XCircleIcon } from '@heroicons/react/24/solid';
+import { CameraIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -6,6 +6,7 @@ import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { ImageItem } from '@market-duck/types/image';
 import { ChangeEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
@@ -44,6 +45,37 @@ const ImagesContainer = styled.ul`
   padding-bottom: ${AppSpcing.S};
 `;
 
+const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
+  return {
+    className: `size-${$size}`,
+  };
+})`
+  background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: ${AppSpcing.XXXS};
+
+  &.size-sm {
+    width: ${AppSpcing.XL};
+    height: ${AppSpcing.XL};
+    border-radius: ${AppRadii.S};
+  }
+
+  &.size-md {
+    width: ${AppSpcing.XXXL};
+    height: ${AppSpcing.XXXL};
+    border-radius: ${AppRadii.M};
+  }
+
+  &.size-lg {
+    width: ${AppSpcing.XXXXL};
+    height: ${AppSpcing.XXXXL};
+    border-radius: ${AppRadii.L};
+  }
+`;
+
 /**
  * ### ImageInput
  * - 여러 이미지를 받을 수 있는 Image Input
@@ -51,7 +83,7 @@ const ImagesContainer = styled.ul`
  * @require length, imgSrcs, imageHandler, deleteHandle
  * @component
  */
-export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler, size }: ImageInputsProps) => {
+export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler, size = 'md' }: ImageInputsProps) => {
   return (
     <Container gap="XXS">
       {title && (
@@ -62,9 +94,12 @@ export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler
       <ImagesContainer>
         {length > images.length && (
           <li>
-            <label htmlFor="image">
-              <Thumbnail size={size} />
-            </label>
+            <ImageButton htmlFor="image" $size={size}>
+              <CameraIcon width={32} fill={AppSemanticColor.TEXT_PRIMARY.hex} />
+              <Typo tag="span" type="CAPTION_MD" weight={400} className={AppSemanticColor.TEXT_PRIMARY.color}>
+                {images.length} / {length}
+              </Typo>
+            </ImageButton>
           </li>
         )}
         {images.map((images, idx) => (
