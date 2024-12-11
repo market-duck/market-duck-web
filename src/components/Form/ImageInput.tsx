@@ -3,6 +3,7 @@ import { Column } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { ImageItem } from '@market-duck/types/image';
 import { ChangeEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -18,7 +19,7 @@ const Container = styled(Column)`
 interface ImageInputsProps {
   title?: string;
   length: number;
-  imgSrcs: (string | undefined)[];
+  images: ImageItem[];
   imageHandler: ChangeEventHandler<HTMLInputElement>;
   deleteHandler: (idx: number) => void;
   size?: 'sm' | 'md' | 'lg';
@@ -47,10 +48,10 @@ const ImagesContainer = styled.ul`
  * ### ImageInput
  * - 여러 이미지를 받을 수 있는 Image Input
  * - 상위 컴포넌트에서 {@link useImageInput} 을 사용해주세요.
- * @require length, imgSrcs, imageHandler, deleteHandler
+ * @require length, imgSrcs, imageHandler, deleteHandle
  * @component
  */
-export const ImagesInput = ({ title, length, imgSrcs, imageHandler, deleteHandler, size }: ImageInputsProps) => {
+export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler, size }: ImageInputsProps) => {
   return (
     <Container gap="XXS">
       {title && (
@@ -59,16 +60,16 @@ export const ImagesInput = ({ title, length, imgSrcs, imageHandler, deleteHandle
         </Typo>
       )}
       <ImagesContainer>
-        {length > imgSrcs.length && (
+        {length > images.length && (
           <li>
             <label htmlFor="image">
               <Thumbnail size={size} />
             </label>
           </li>
         )}
-        {imgSrcs.map((src, idx) => (
+        {images.map((images, idx) => (
           <ThumbnailContainer key={idx}>
-            <Thumbnail imgSrc={src} size={size} />
+            <Thumbnail imgSrc={images.src} size={size} />
             <button className="deleteBtn" onClick={() => deleteHandler(idx)}>
               <XCircleIcon />
             </button>

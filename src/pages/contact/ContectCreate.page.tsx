@@ -44,7 +44,7 @@ export const ContactCreate = () => {
       return errorObj;
     },
   });
-  const { imgFiles, imgSrcs, imageHandler, deleteHandler } = useImageInput();
+  const { images, serverImageHandler, imageHandler, deleteHandler, deleteIdx } = useImageInput();
   const navigate = useNavigate();
 
   return (
@@ -89,8 +89,8 @@ export const ContactCreate = () => {
             <ImagesInput
               title="이미지 업로드"
               size="lg"
-              length={5}
-              imgSrcs={imgSrcs}
+              length={10}
+              images={images}
               imageHandler={imageHandler}
               deleteHandler={deleteHandler}
             />

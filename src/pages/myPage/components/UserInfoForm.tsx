@@ -52,11 +52,11 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     nickName: '',
     photo: null,
   });
-  const { imgFiles, imgSrcs, imageHandler, deleteHandler } = useImageInput();
+  const { images, deleteIdx, imageHandler, deleteHandler } = useImageInput();
 
   useEffect(() => {
-    setData((prev) => ({ ...prev, photo: imgFiles[0] }));
-  }, [imgFiles]);
+    setData((prev) => ({ ...prev, photo: images[0].file }));
+  }, [images]);
 
   const inputHandler: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
     const { id, value } = target;
@@ -146,7 +146,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             size="lg"
             length={1}
             imageHandler={imageHandler}
-            imgSrcs={imgSrcs}
+            images={images}
             deleteHandler={deleteHandler}
           />
         </Column>
