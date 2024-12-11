@@ -1,6 +1,10 @@
-import { Column } from '@market-duck/components/Flex/Flex';
+import { ChevronRightIcon } from '@heroicons/react/24/solid';
+import { FeedModel } from '@market-duck/apis/models/feedModel';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { FeedList } from '@market-duck/components/List/FeedList';
 import { Tag } from '@market-duck/components/Tag/Tag';
+import { Typo } from '@market-duck/components/Typo/Typo';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
@@ -12,27 +16,30 @@ const Heading = styled.h4`
   .desc {
     font-weight: 600;
     ${AppTypo.BODY_SM}
-  }
-  .title {
-    ${AppTypo.HEADING_SM}
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex}
   }
 `;
 
 interface CardSelectionProps {
   title: string;
-  feeds: any; //TODO: 차후 feed model type으로 변경
+  feeds: FeedModel[];
   tag: string;
   nickName: string;
 }
 
-export const CardRecommend = ({ nickName, title, feeds, tag }: CardSelectionProps) => {
+export const RecommendCard = ({ nickName, title, feeds, tag }: CardSelectionProps) => {
   return (
     <Column>
       <Heading>
         <span className="desc">
           {nickName}님이 좋아하는 <Tag text={tag} color="secondary" /> 의
         </span>
-        <span className="title">{title}</span>
+        <Row justify="between" className="title">
+          <Typo tag="h3" type="HEADING_SM">
+            {title}
+          </Typo>
+          <ChevronRightIcon color={AppSemanticColor.ICON_PRIMARY.hex} />
+        </Row>
       </Heading>
       <FeedList feeds={feeds} />
     </Column>

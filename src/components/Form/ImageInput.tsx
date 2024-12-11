@@ -1,10 +1,12 @@
-import { XCircleIcon } from '@heroicons/react/24/solid';
+import { CameraIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { ImageItem } from '@market-duck/types/image';
 import { ChangeEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
@@ -18,7 +20,7 @@ const Container = styled(Column)`
 interface ImageInputsProps {
   title?: string;
   length: number;
-  imgSrcs: (string | undefined)[];
+  images: ImageItem[];
   imageHandler: ChangeEventHandler<HTMLInputElement>;
   deleteHandler: (idx: number) => void;
   size?: 'sm' | 'md' | 'lg';
@@ -43,14 +45,45 @@ const ImagesContainer = styled.ul`
   padding-bottom: ${AppSpcing.S};
 `;
 
+const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
+  return {
+    className: `size-${$size}`,
+  };
+})`
+  background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: ${AppSpcing.XXXS};
+
+  &.size-sm {
+    width: ${AppSpcing.XL};
+    height: ${AppSpcing.XL};
+    border-radius: ${AppRadii.S};
+  }
+
+  &.size-md {
+    width: ${AppSpcing.XXXL};
+    height: ${AppSpcing.XXXL};
+    border-radius: ${AppRadii.M};
+  }
+
+  &.size-lg {
+    width: ${AppSpcing.XXXXL};
+    height: ${AppSpcing.XXXXL};
+    border-radius: ${AppRadii.L};
+  }
+`;
+
 /**
  * ### ImageInput
  * - 여러 이미지를 받을 수 있는 Image Input
  * - 상위 컴포넌트에서 {@link useImageInput} 을 사용해주세요.
- * @require length, imgSrcs, imageHandler, deleteHandler
+ * @require length, imgSrcs, imageHandler, deleteHandle
  * @component
  */
-export const ImagesInput = ({ title, length, imgSrcs, imageHandler, deleteHandler, size }: ImageInputsProps) => {
+export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler, size = 'md' }: ImageInputsProps) => {
   return (
     <Container gap="XXS">
       {title && (
@@ -59,16 +92,19 @@ export const ImagesInput = ({ title, length, imgSrcs, imageHandler, deleteHandle
         </Typo>
       )}
       <ImagesContainer>
-        {length > imgSrcs.length && (
+        {length > images.length && (
           <li>
-            <label htmlFor="image">
-              <Thumbnail size={size} />
-            </label>
+            <ImageButton htmlFor="image" $size={size}>
+              <CameraIcon width={32} fill={AppSemanticColor.TEXT_PRIMARY.hex} />
+              <Typo tag="span" type="CAPTION_MD" weight={400} className={AppSemanticColor.TEXT_PRIMARY.color}>
+                {images.length} / {length}
+              </Typo>
+            </ImageButton>
           </li>
         )}
-        {imgSrcs.map((src, idx) => (
+        {images.map((images, idx) => (
           <ThumbnailContainer key={idx}>
-            <Thumbnail imgSrc={src} size={size} />
+            <Thumbnail imgSrc={images.src} size={size} />
             <button className="deleteBtn" onClick={() => deleteHandler(idx)}>
               <XCircleIcon />
             </button>
