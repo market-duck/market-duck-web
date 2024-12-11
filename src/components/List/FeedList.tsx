@@ -1,3 +1,4 @@
+import { FeedModel } from '@market-duck/apis/models/feedModel';
 import { Card } from '@market-duck/components/Card/Card';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
@@ -10,22 +11,22 @@ const Grid = styled.ul`
 `;
 
 interface FeedListProps {
-  feeds: any; //TODO: 차후 feed model type으로 변경
+  feeds: FeedModel[];
 }
 
 export const FeedList = ({ feeds }: FeedListProps) => {
   return (
     <Grid>
-      {feeds.map((feed: any) => (
+      {feeds.map((feed) => (
         <Card
-          key={feed?.id}
+          key={feed.feedId}
           title={feed?.title}
           price={feed?.price}
-          status="possible" // TODO: 차후 feed?.status로 변경
-          imgSrc={feed?.imgSrc}
+          status={feed.status}
+          imgSrc={feed?.mainImageUrl}
           createdAt={feed?.createdAt}
           viewCount={feed?.viewCount}
-          likedCount={feed?.likedCount}
+          likedCount={feed.likeCount}
         />
       ))}
     </Grid>

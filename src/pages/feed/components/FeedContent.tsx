@@ -1,9 +1,11 @@
+import { FeedDetailModel } from '@market-duck/apis/models/feedModel';
 import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Tag } from '@market-duck/components/Tag/Tag';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { FeedImageSlider } from '@market-duck/pages/feed/components/FeedImageSlider';
+import { getTimeDiff } from '@market-duck/utils/date';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -41,7 +43,8 @@ const Wrap = styled(Column)`
   }
 `;
 
-export const FeedContent = () => {
+export const FeedContent = ({ feedDetail }: { feedDetail: FeedDetailModel }) => {
+  const relativeTime = getTimeDiff(feedDetail.createdAt);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dropdownItems = [
     {
@@ -65,38 +68,38 @@ export const FeedContent = () => {
     <Wrap className="contents" gap="M">
       <Row justify="between" alignItems="center" className="feedAuthorContainer">
         <Row gap="XS" alignItems="center" flex={1}>
-          <Thumbnail size="md" imgSrc="https://placehold.co/400" />
-          <Column flex={1}>
+          <Thumbnail size="md" imgSrc={feedDetail.userInfo.profileImageUrl} />
+          <Column flex={1} alignItems="center">
             <Typo tag="p" className="user" type="BODY_SM">
-              단단무지 님
-            </Typo>
-            <Typo tag="p" className="twitterId" type="CAPTION_SM">
-              @트위터
+              {feedDetail.userInfo.nickname}
             </Typo>
           </Column>
         </Row>
         <DropDownMenu items={dropdownItems} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Row>
-      <FeedImageSlider imgSrcs={['https://placehold.co/500x400', 'https://placehold.co/400']} />
+      <FeedImageSlider imgSrcs={feedDetail.images.map((image) => image.fileUrl)} />
       <Column className="contents" gap="XXS">
         <Typo tag="p" className="feedInfo" type="CAPTION_SM">
-          1시간 전 조회수 0 찜 0
+          {relativeTime} 조회수 {feedDetail.viewCount} 찜 {feedDetail.likeCount}
         </Typo>
         <Row className="tagContainer" gap="XS">
-          <Tag color="secondary" text="앙상블 스타즈!!" /> <Tag color="secondary" text="누이" />
+          {feedDetail.genreCategory.map((category) => (
+            <Tag color="secondary" text={category.categoryName} />
+          ))}
+          {feedDetail.goodsCategory.map((category) => (
+            <Tag color="secondary" text={category.categoryName} />
+          ))}
         </Row>
-        <Column className="descContainer" gap="XXS">
+        <Column className="descContainer" gap="XS">
           <Typo tag="p" className="title" type="BODY_LG">
-            앙스타 누이
+            {feedDetail.title}
           </Typo>
           <Typo tag="p" className="price" type="BODY_LG">
-            {(100000).toLocaleString()}원
+            {feedDetail.price.toLocaleString()}원
           </Typo>
-          <Typo
-            tag="p"
-            className="desc"
-            type="BODY_MD"
-          >{`자세한건 사진 참고해주세요\nA 가져가시는 분은 +B 데려가주셔야 합니다 \n사용감O 합배송O\nGS 반값택배 사용 `}</Typo>
+          <Typo tag="p" className="desc" type="BODY_MD">
+            {feedDetail.content}
+          </Typo>
         </Column>
       </Column>
     </Wrap>
