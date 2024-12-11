@@ -90,7 +90,7 @@ export const FeedContent = ({ feedDetail }: { feedDetail: FeedDetailModel }) => 
             <Tag color="secondary" text={category.categoryName} />
           ))}
         </Row>
-        <Column className="descContainer" gap="XXS">
+        <Column className="descContainer" gap="XS">
           <Typo tag="p" className="title" type="BODY_LG">
             {feedDetail.title}
           </Typo>
