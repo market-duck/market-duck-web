@@ -1,12 +1,7 @@
 import { fetchClient, openFetchClient } from '@market-duck/apis/fetchClient';
-import {
-  FeedDetailModel,
-  FeedModel,
-  IFeedDetailModelData,
-  IFeedModelData,
-  ReqFeedModelData,
-} from '@market-duck/apis/models/feedModel';
+import { FeedDetailModel, FeedModel, IFeedDetailModelData, IFeedModelData } from '@market-duck/apis/models/feedModel';
 import { IAPIResponse, NetworkResultType } from '@market-duck/types/api';
+import { ReqFeedDataType } from '@market-duck/types/feed';
 
 class FeedAPI {
   async getFeeds({ page, genreIds, goodsIds }: { page: number; genreIds?: number[]; goodsIds?: number[] }) {
@@ -44,12 +39,12 @@ class FeedAPI {
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
 
-  async createFeed(feedData: ReqFeedModelData) {
+  async createFeed(feedData: ReqFeedDataType) {
     const { status } = await fetchClient.post('feed', feedData);
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
 
-  async editFeed({ feedId, feedData }: { feedId: number; feedData: ReqFeedModelData }) {
+  async editFeed({ feedId, feedData }: { feedId: number; feedData: ReqFeedDataType }) {
     const { status } = await fetchClient.patch(`feed/${feedId}`, feedData);
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }

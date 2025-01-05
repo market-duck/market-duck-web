@@ -98,12 +98,3 @@ export class FeedDetailModel extends BaseFeedModel {
     return new FeedDetailModel(data);
   }
 }
-
-export interface ReqFeedModelData {
-  title: string;
-  content: string;
-  price: number;
-  feedStatus: FeedStatusType;
-  feedGoodsCategories: Array<CategoryModel>;
-  feedGenreCategories: Array<CategoryModel>;
-}
