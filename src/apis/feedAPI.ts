@@ -1,9 +1,12 @@
-import { fetchClient } from '@market-duck/apis/fetchClient';
-import { ReqFeedModelData } from '@market-duck/apis/models/FeedModel';
-import { NetworkResultType } from '@market-duck/types/api';
-import { openFetchClient } from '@market-duck/apis/fetchClient';
-import { FeedDetailModel, FeedModel, IFeedDetailModelData, IFeedModelData } from '@market-duck/apis/models/feedModel';
-import { IAPIResponse } from '@market-duck/types/api';
+import { fetchClient, openFetchClient } from '@market-duck/apis/fetchClient';
+import {
+  FeedDetailModel,
+  FeedModel,
+  IFeedDetailModelData,
+  IFeedModelData,
+  ReqFeedModelData,
+} from '@market-duck/apis/models/feedModel';
+import { IAPIResponse, NetworkResultType } from '@market-duck/types/api';
 
 class FeedAPI {
   async getFeeds({ page, genreIds, goodsIds }: { page: number; genreIds?: number[]; goodsIds?: number[] }) {
@@ -19,13 +22,12 @@ class FeedAPI {
       pageInfo,
     };
   }
-
   async getFeedDetail({ feedId }: { feedId: number }) {
     const {
       data: { data },
     } = await openFetchClient.get<IAPIResponse<IFeedDetailModelData>>(`/feed/detail/${feedId}`);
     return FeedDetailModel.fromJson(data);
-    
+  }
   //새롭게 업로드시 & 피드 수정시에 추가 업로드도 가능
   async uploadFeedImages({ feedId, imgList }: { feedId: number; imgList: File[] }) {
     const file = new FormData();
