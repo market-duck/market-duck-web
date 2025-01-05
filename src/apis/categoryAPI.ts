@@ -1,5 +1,5 @@
 import { openFetchClient } from '@market-duck/apis/fetchClient';
-import { CategoryModel } from '@market-duck/apis/models/CategoryModel';
+import { CategoryModel } from '@market-duck/apis/models/categoryModel';
 import { IAPIResponse } from '@market-duck/types/api';
 import { CategoryType } from '@market-duck/types/category';
 

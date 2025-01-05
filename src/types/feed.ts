@@ -1,3 +1,5 @@
+import { CategoryModel } from '@market-duck/apis/models/categoryModel';
+
 export type FeedStatusType =
   | 'ON_SALE'
   | 'IN_TRANSACTION'
@@ -5,3 +7,12 @@ export type FeedStatusType =
   | 'SALE_STOPPED'
   | 'DELETED_BY_ADMIN'
   | 'DELETED';
+
+export interface ReqFeedDataType {
+  title: string;
+  content: string;
+  price: number;
+  feedStatus: FeedStatusType;
+  feedGoodsCategories: Array<CategoryModel>;
+  feedGenreCategories: Array<CategoryModel>;
+}
