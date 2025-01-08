@@ -1,5 +1,4 @@
 import { fetchClient } from '@market-duck/apis/fetchClient';
-import { ReqFeedModelData } from '@market-duck/apis/models/FeedModel';
 import { NetworkResultType } from '@market-duck/types/api';
 import { openFetchClient } from '@market-duck/apis/fetchClient';
 import { FeedDetailModel, FeedModel, IFeedDetailModelData, IFeedModelData } from '@market-duck/apis/models/feedModel';
@@ -25,7 +24,8 @@ class FeedAPI {
       data: { data },
     } = await openFetchClient.get<IAPIResponse<IFeedDetailModelData>>(`/feed/detail/${feedId}`);
     return FeedDetailModel.fromJson(data);
-    
+  }
+
   //새롭게 업로드시 & 피드 수정시에 추가 업로드도 가능
   async uploadFeedImages({ feedId, imgList }: { feedId: number; imgList: File[] }) {
     const file = new FormData();
@@ -39,12 +39,14 @@ class FeedAPI {
 
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
-  async createFeed(feedData: ReqFeedModelData) {
+  //TODO:: any
+  async createFeed(feedData: any) {
     const { status } = await fetchClient.post('feed', feedData);
 
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
-  async editFeed({ feedId, feedData }: { feedId: number; feedData: ReqFeedModelData }) {
+  //TODO:: any
+  async editFeed({ feedId, feedData }: { feedId: number; feedData: any }) {
     const { status } = await fetchClient.patch(`feed/${feedId}`, feedData);
 
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
