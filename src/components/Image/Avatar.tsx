@@ -8,8 +8,8 @@ const AvatarImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size 
     className: `size-${$size}`,
   };
 })`
-  background-size: contain;
-  border-radius: ${AppRadii.CIRCLE};
+  background-size: cover;
+  border-radius: ${AppRadii.M};
 
   &.size-sm {
     width: ${AppSpcing.XXL};

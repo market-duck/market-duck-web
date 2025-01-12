@@ -3,6 +3,6 @@ export type UserLoginProviderType = 'GOOGLE' | 'KAKAO' | 'APPLE';
 export type UserAuthority = 'ADMIN' | 'USER';
 
 export interface EditUserType {
-  nickname: string;
-  phoneNumber: string;
+  nickname?: string;
+  phoneNumber?: string;
 }
