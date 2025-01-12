@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, useState } from 'react';
+import { InputHTMLAttributes, ReactNode, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -80,7 +80,10 @@ const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean }>(({ $er
   ${AppTypo.CAPTION_MD};
 `;
 
-interface InputProps extends HTMLAttributes<HTMLInputElement> {
+type InputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'prefix' | 'suffix' | 'value' | 'type' | 'style' | 'maxLength'
+> & {
   value: string;
   placeholder?: string;
   maxLength?: number;
@@ -91,7 +94,8 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
   prefix?: ReactNode;
   suffix?: ReactNode;
   caption?: string;
-}
+  type?: 'password' | 'search' | 'text' | 'pay';
+};
 
 /**
  * @requires value
@@ -100,6 +104,7 @@ interface InputProps extends HTMLAttributes<HTMLInputElement> {
 
 export const Input = ({
   value,
+  type,
   maxLength,
   changeHandler,
   placeholder,
@@ -135,6 +140,7 @@ export const Input = ({
           onChange={changeHandler}
           onFocus={onFocus}
           onBlur={onBlur}
+          type={type}
           {...props}
         />
         {suffix}
