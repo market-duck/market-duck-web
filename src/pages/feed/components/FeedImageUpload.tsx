@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { Row } from '@market-duck/components/Flex/Flex';
 //TODO:: 변경 후 붙이기
@@ -15,35 +14,13 @@ const ImageUploadWrap = styled.div`
   }
 `;
 
-const ImageList = styled(Row)`
-  gap: ${AppSpcing.XXS};
-  overflow-x: scroll;
-`;
-
 export const FeedImageUpload = () => {
-  const dummyImageDataList = [
-    {
-      id: '1',
-      src: 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    },
-    {
-      id: '2',
-      src: 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    },
-    {
-      id: '3',
-      src: 'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    },
-  ];
+  const { images, deleteHandler, imageHandler, serverImageHandler } = useImageInput();
 
   return (
     <ImageUploadWrap>
       <p className="label"></p>
-      <ImageList>
-        {dummyImageDataList.map((item) => {
-          return <Thumbnail key={item.id} imgSrc={item.src} size="lg" />;
-        })}
-      </ImageList>
+      <ImagesInput size="lg" length={10} imageHandler={imageHandler} images={images} deleteHandler={deleteHandler} />
     </ImageUploadWrap>
   );
 };

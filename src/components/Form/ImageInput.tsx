@@ -56,6 +56,7 @@ const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }
   justify-content: center;
   align-items: center;
   gap: ${AppSpcing.XXXS};
+  cursor: pointer;
 
   &.size-sm {
     width: ${AppSpcing.XL};
@@ -115,7 +116,7 @@ export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler
         style={{ display: 'none' }}
         id="image"
         type="file"
-        accept="image/*"
+        accept={'.gif, .jpg, .jpeg, .png, .heic'}
         maxLength={length}
         onChange={imageHandler}
         multiple={length > 1}
