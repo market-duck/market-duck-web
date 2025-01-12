@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { Input } from '@market-duck/components/Form/Input';
 import { TextArea } from '@market-duck/components/Form/TextArea';
 import { Select } from '@market-duck/components/Select/Select';
-import { FeedImageUpload } from './FeedImageUpload';
 import { Tab } from '@market-duck/components/Tab/Tab';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { SelectOption } from '@market-duck/components/Select/Select';
@@ -18,6 +17,18 @@ import { feedAPI } from '@market-duck/apis/feedAPI';
 import { categoryAPI } from '@market-duck/apis/categoryAPI';
 import { useMutation } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ImagesInput } from '@market-duck/components/Form/ImageInput';
+import { useImageInput } from '@market-duck/hooks/useImageInput';
+
+const ImageUploadWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  > .label {
+    margin-bottom: ${AppSpcing.XXS};
+  }
+`;
 
 const SelectWrap = styled(Column)``;
 
@@ -72,10 +83,21 @@ interface InitialValue {
 // }
 
 export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edit'; editData?: InitialValue }) => {
+  //TODO:: 필요시 successHandler props로 받거나..
+  const navigate = useNavigate();
+
   const getCategoryData = async () => {
-    const genreList = await categoryAPI.getCategoryList({ categoryType: 'GENRE' });
-    const goodsList = await categoryAPI.getCategoryList({ categoryType: 'GOODS' });
+    //TODO:: API ERROR SHOULD BE FIX
+    // const genreList = await categoryAPI.getCategoryList({ categoryType: 'GENRE', page: 0, size: 12, categoryName: '' });
+    // const goodsList = await categoryAPI.getCategoryList({
+    //   categoryType: 'GOODS',
+    //   page: 0,
+    //   size: 12,
+    //   categoryName: '사카모토 데이즈',
+    // });
   };
+
+  const { images, deleteHandler, imageHandler } = useImageInput();
 
   const { values, errors, handleChange, handleSubmit } = useForm<InitialValue>({
     initialValues:
@@ -88,20 +110,52 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
             price: '',
             content: '',
           },
-    onSubmit: (values) => {
-      // const success = await feedAPI.createFeed();
-      console.log('submit!!!!!!!!!!!!:', values);
+    onSubmit: async (values) => {
+      console.log({ values });
+
+      //피드 등록
+      // const { success, feedId } = await feedAPI.createFeed({
+      //   title: values.title,
+      //   content: values.content,
+      //   price: Number(values.price.replace(/,/g, '')),
+      //   feedStatus: 'ON_SALE',
+      //   goodsCategories: [
+      //     {
+      //       categoryId: 1,
+      //       categoryType: 'GOODS',
+      //     },
+      //   ],
+      //   genreCategories: [
+      //     {
+      //       categoryId: 1,
+      //       categoryType: 'GENRE',
+      //     },
+      //   ],
+      // });
+
+      //이미지 등록
+      if (images.length) {
+        const imgList = images.filter((img) => img.file !== null).map((item) => item.file);
+        console.log({ imgList });
+        await feedAPI.uploadFeedImages({ feedId: 4, imgList: imgList as File[] });
+      }
+
+      // if (success) {
+      //   //TODO:: 성공시 feed detail 페이지로 이동
+      //   // navigate('');
+      //   console.log('성공! feed detail로 이동시키기!');
+      // }
     },
     validate: (values) => {
       const errorObj: { [key: string]: string } = {};
 
-      if (!values.genre.length) {
-        errorObj.genre = '장르를 선택해주세요';
-      }
+      // if (!values.genre.length) {
+      //   errorObj.genre = '장르를 선택해주세요';
+      // }
 
-      if (!values.goods.length) {
-        errorObj.goods = '장르를 선택해주세요';
-      }
+      // if (!values.goods.length) {
+      //   errorObj.goods = '장르를 선택해주세요';
+      // }
 
       if (!values.title) {
         errorObj.title = '제목을 입력해주세요';
@@ -118,12 +172,6 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       return errorObj;
     },
   });
-
-  // const { mutate: uploadImg } = useMutation({
-  //   mutationFn: ({ feedId, imgList }) => {
-  //     return feedAPI.uploadFeedImages({ feedId, imgList });
-  //   },
-  // });
 
   const { bottomSheet } = useDialog();
 
@@ -179,7 +227,18 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
           },
         ]}
       />
-      <FeedImageUpload />
+      <ImageUploadWrap>
+        <p className="label"></p>
+        <ImagesInput
+          size="lg"
+          length={10}
+          imageHandler={(e) => {
+            imageHandler(e);
+          }}
+          images={images}
+          deleteHandler={deleteHandler}
+        />
+      </ImageUploadWrap>
       <SelectWrap>
         <Select
           placeholder="장르 태그 선택"
@@ -215,8 +274,9 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       />
       <Input
         placeholder="가격"
-        value={values.price}
+        value={thousandComma(values.price)}
         changeHandler={(e) => {
+          console.log(e.target.value);
           handleChange('price', thousandComma(e.target.value));
         }}
         isError={!!errors.price}

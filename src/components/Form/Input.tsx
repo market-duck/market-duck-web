@@ -94,7 +94,7 @@ type InputProps = Omit<
   prefix?: ReactNode;
   suffix?: ReactNode;
   caption?: string;
-  type?: 'password' | 'search' | 'text' | 'pay';
+  type?: 'password' | 'search' | 'text';
 };
 
 /**
@@ -126,6 +126,8 @@ export const Input = ({
   const onBlur = () => {
     setIsFocus(false);
   };
+
+  console.log({ value });
 
   return (
     <InputWrap>
