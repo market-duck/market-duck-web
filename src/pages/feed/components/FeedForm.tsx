@@ -15,11 +15,11 @@ import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { categoryAPI } from '@market-duck/apis/categoryAPI';
-import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { FeedType } from '@market-duck/types/feed';
 
 const ImageUploadWrap = styled.div`
   display: flex;
@@ -83,18 +83,19 @@ interface InitialValue {
 // }
 
 export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edit'; editData?: InitialValue }) => {
+  const [feedType, setFeedType] = useState<FeedType>('SALE');
   //TODO:: 필요시 successHandler props로 받거나..
   const navigate = useNavigate();
 
   const getCategoryData = async () => {
     //TODO:: API ERROR SHOULD BE FIX
-    // const genreList = await categoryAPI.getCategoryList({ categoryType: 'GENRE', page: 0, size: 12, categoryName: '' });
-    // const goodsList = await categoryAPI.getCategoryList({
-    //   categoryType: 'GOODS',
-    //   page: 0,
-    //   size: 12,
-    //   categoryName: '사카모토 데이즈',
-    // });
+    const genreList = await categoryAPI.getCategoryList({ categoryType: 'GENRE', page: 0, size: 12, categoryName: '' });
+    const goodsList = await categoryAPI.getCategoryList({
+      categoryType: 'GOODS',
+      page: 0,
+      size: 12,
+      categoryName: '',
+    });
   };
 
   const { images, deleteHandler, imageHandler } = useImageInput();
@@ -114,24 +115,25 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       console.log({ values });
 
       //피드 등록
-      // const { success, feedId } = await feedAPI.createFeed({
-      //   title: values.title,
-      //   content: values.content,
-      //   price: Number(values.price.replace(/,/g, '')),
-      //   feedStatus: 'ON_SALE',
-      //   goodsCategories: [
-      //     {
-      //       categoryId: 1,
-      //       categoryType: 'GOODS',
-      //     },
-      //   ],
-      //   genreCategories: [
-      //     {
-      //       categoryId: 1,
-      //       categoryType: 'GENRE',
-      //     },
-      //   ],
-      // });
+      const { success, feedId } = await feedAPI.createFeed({
+        title: values.title,
+        content: values.content,
+        price: Number(values.price.replace(/,/g, '')),
+        feedStatus: 'ON_SALE_OR_BUY',
+        feedType,
+        goodsCategories: [
+          {
+            categoryId: 1,
+            categoryType: 'GOODS',
+          },
+        ],
+        genreCategories: [
+          {
+            categoryId: 1,
+            categoryType: 'GENRE',
+          },
+        ],
+      });
 
       //이미지 등록
       if (images.length) {
@@ -141,7 +143,7 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       }
 
       // if (success) {
-      //   //TODO:: 성공시 feed detail 페이지로 이동
+      //   //TODO:: 성공시 feed detail 페이지로 이동, feedId 필요
       //   // navigate('');
       //   console.log('성공! feed detail로 이동시키기!');
       // }
@@ -216,16 +218,18 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       <Tab
         tabList={[
           {
-            id: 'sell',
+            id: 'SALE',
             name: '판매',
-            value: 'sell',
           },
           {
-            id: 'buy',
+            id: 'BUY',
             name: '구매',
-            value: 'buy',
           },
         ]}
+        selectedTab={feedType}
+        setSelectedTab={(tabId) => {
+          setFeedType(tabId as FeedType);
+        }}
       />
       <ImageUploadWrap>
         <p className="label"></p>

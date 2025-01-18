@@ -72,6 +72,16 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     }
   };
 
+  //delete Profile은 삭제 버튼 누르는 시점에 api 요청 한다
+  const deleteProfileImageHandler = async (idx: number) => {
+    if (currentUserInfo?.userId) {
+      const newUserData = await userAPI.deleteProfileImage({ userId: currentUserInfo?.userId });
+      deleteHandler(idx);
+
+      setCurrentUserInfo(newUserData);
+    }
+  };
+
   //TODO:: submitHandler step 별로 있어야 할 거 같고, 지금 작성해둔 거 개구림
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
     console.log({ data });
@@ -162,7 +172,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             length={1}
             imageHandler={imageHandler}
             images={images}
-            deleteHandler={deleteHandler}
+            deleteHandler={deleteProfileImageHandler}
           />
         </Column>
       </Column>

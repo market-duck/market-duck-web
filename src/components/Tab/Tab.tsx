@@ -7,7 +7,6 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 interface TabItem {
   id: string;
   name: string;
-  value: string;
 }
 
 const ItemWrap = styled.div.attrs<{ $isSelected: boolean }>(({ $isSelected }) => {
@@ -42,8 +41,15 @@ const TabItem = ({ tabName, isSelected, onClick }: { tabName: string; isSelected
   );
 };
 
-export const Tab = ({ tabList }: { tabList: Array<TabItem> }) => {
-  const [selectedTab, setSelectedTab] = useState<string>(tabList[0].id);
+export const Tab = ({
+  tabList,
+  selectedTab,
+  setSelectedTab,
+}: {
+  tabList: Array<TabItem>;
+  selectedTab: string; //tabId 저장
+  setSelectedTab: (tabId: string) => void;
+}) => {
   return (
     <TabWrap>
       {tabList.map((item) => {

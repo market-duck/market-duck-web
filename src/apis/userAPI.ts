@@ -30,6 +30,11 @@ class UserAPI {
     return UserModel.fromJson(data);
   }
 
+  async deleteProfileImage({ userId }: { userId: number }) {
+    const { data } = await fetchClient.delete(`/user/${userId}/profile-image`);
+    return UserModel.fromJson(data);
+  }
+
   async sendPhoneNumVerifyNum({ phoneNumber }: { phoneNumber: string }) {
     const { status } = await fetchClient.post(`/user/verify-phone`, {
       phoneNumber,
