@@ -38,7 +38,7 @@ export const RecommendCard = ({ nickName, title, feeds, tag }: CardSelectionProp
           <Typo tag="h3" type="HEADING_SM">
             {title}
           </Typo>
-          <ChevronRightIcon color={AppSemanticColor.ICON_PRIMARY.hex} />
+          <ChevronRightIcon color={AppSemanticColor.ICON_PRIMARY.hex} width={24} />
         </Row>
       </Heading>
       <FeedList feeds={feeds} />

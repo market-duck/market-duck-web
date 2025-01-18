@@ -5,6 +5,7 @@ import { StatusTag, StatusTagColorType } from '@market-duck/components/Tag/Statu
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { FeedStatusType } from '@market-duck/types/feed';
 import { getTimeDiff } from '@market-duck/utils/date';
+import { Link } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -13,7 +14,7 @@ import styled from 'styled-components';
 
 function getStatusWord(status: FeedStatusType) {
   switch (status) {
-    case 'ON_SALE':
+    case 'ON_SALE_OR_BUY':
       return { text: '거래가능', color: 'green' };
     case 'IN_TRANSACTION':
       return { text: '거래중', color: 'blue' };
@@ -62,6 +63,7 @@ const InfoBox = styled(Column)`
 `;
 
 export const Card = ({
+  id,
   title,
   price,
   imgSrc,
@@ -71,6 +73,7 @@ export const Card = ({
   viewCount,
   likedCount,
 }: {
+  id: number;
   title: string;
   price: number;
   imgSrc?: string;
@@ -89,7 +92,11 @@ export const Card = ({
     <CardWrap>
       <div className="image">
         {/* TODO:: 추후 default img src 연결 */}
-        {imgSrc && <ItemImg $src={imgSrc} />}
+        {imgSrc && (
+          <Link to={`/feed/read/${id}`}>
+            <ItemImg $src={imgSrc} />
+          </Link>
+        )}
         <StatusTag className="status-tag" text={statusWord.text} color={statusWord.color as StatusTagColorType} />
       </div>
       <InfoBox>
@@ -99,9 +106,11 @@ export const Card = ({
               return <StatusTag key={item} text={item} color="neutral" />;
             })}
         </Row>
-        <Typo tag="p" type="BODY_SM" weight={600} className={AppSemanticColor.TEXT_PRIMARY.color}>
-          {title}
-        </Typo>
+        <Link to={`/feed/read/${id}`}>
+          <Typo tag="p" type="BODY_SM" weight={600} className={AppSemanticColor.TEXT_PRIMARY.color}>
+            {title}
+          </Typo>
+        </Link>
         <Typo tag="p" type="CAPTION_MD" weight={400} className={AppSemanticColor.TEXT_SECONDARY.color}>
           {price}원
         </Typo>
