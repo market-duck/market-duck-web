@@ -3,13 +3,26 @@ import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { BgImage } from './BgImage';
+import { XCircleIcon } from '@heroicons/react/24/solid';
+
+const ThumbNailWrap = styled.div`
+  position: relative;
+
+  .deleteBtn {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
+`;
 
 const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
   return {
     className: `size-${$size}`,
   };
 })`
-  background-size: contain;
+  background-size: cover;
 
   &.size-sm {
     width: ${AppSpcing.XL};
@@ -30,7 +43,24 @@ const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $si
   }
 `;
 
-export const Thumbnail = ({ imgSrc, size = 'md' }: { imgSrc?: string; size?: 'sm' | 'md' | 'lg' }) => {
+export const Thumbnail = ({
+  imgSrc,
+  size = 'md',
+  deleteHandler,
+}: {
+  imgSrc?: string;
+  size?: 'sm' | 'md' | 'lg';
+  deleteHandler?: () => void;
+}) => {
   const url = imgSrc || DefaultThumbnail;
-  return <ThumbnailImg $src={url} $size={size} />;
+  return (
+    <ThumbNailWrap>
+      <ThumbnailImg $src={url} $size={size} />
+      {deleteHandler && (
+        <button className="deleteBtn" onClick={deleteHandler}>
+          <XCircleIcon />
+        </button>
+      )}
+    </ThumbNailWrap>
+  );
 };
