@@ -31,7 +31,7 @@ export const Read = () => {
     <>
       <NavigationTop title="피드" leftButtonIconType="back" />
       <Wrap>{feedDetail && <FeedContent feedDetail={feedDetail} isMyFeed={isMyFeed} />}</Wrap>
-      <FeedBottomBtns isMyFeed={isMyFeed} />
+      {feedDetail && <FeedBottomBtns feedDetail={feedDetail} isMyFeed={isMyFeed} />}
     </>
   );
 };

@@ -1,8 +1,13 @@
 import { ChatBubbleLeftRightIcon, HeartIcon as LineHeart } from '@heroicons/react/24/outline';
+import { feedAPI } from '@market-duck/apis/feedAPI';
+import { FeedDetailModel } from '@market-duck/apis/models/feedModel';
 import { Button } from '@market-duck/components/Button/Button';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { ButtonClickHandler } from '@market-duck/types/handler';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
@@ -27,14 +32,30 @@ const BtnContents = styled(Row)`
   }
 `;
 
-export const FeedBottomBtns = ({ isMyFeed }: { isMyFeed: boolean }) => {
-  const btnHandler: ButtonClickHandler = ({ currentTarget }) => {
+export const FeedBottomBtns = ({ isMyFeed, feedDetail }: { isMyFeed: boolean; feedDetail: FeedDetailModel }) => {
+  const navigate = useNavigate();
+  const { confirm } = useDialog();
+  const { mutateAsync } = useMutation({
+    mutationKey: ['feed', 'read', feedDetail.feedId],
+    mutationFn: async () => {
+      await feedAPI.deleteFeed({ feedId: feedDetail.feedId });
+    },
+  });
+  const btnHandler: ButtonClickHandler = async ({ currentTarget }) => {
     const { id } = currentTarget;
     if (isMyFeed) {
       if (id === 'primary') {
-        console.log('수정');
+        navigate('/feed/edit', { state: feedDetail });
       } else if (id === 'secondary') {
-        console.log('삭제');
+        const result = await confirm({
+          title: '피드 삭제',
+          desc: '피드를 삭제하시겠어요?',
+          positiveBtnText: '삭제',
+        });
+        if (result) {
+          await mutateAsync();
+          navigate(-1);
+        }
       }
     } else {
       if (id === 'primary') {
