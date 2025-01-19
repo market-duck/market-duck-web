@@ -1,12 +1,11 @@
 import { loginAPI } from '@market-duck/apis/loginAPI';
 import { userAPI } from '@market-duck/apis/userAPI';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
+import { Loading } from '@market-duck/components/Loading/Loading';
 import { UserLoginProviderType } from '@market-duck/types/user';
 import { useEffect } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { useNavigate } from 'react-router-dom';
-import { Loading } from '@market-duck/components/Loading/Loading';
 
 export const Oauth = () => {
   const [searchParams] = useSearchParams();
@@ -53,14 +52,13 @@ export const Oauth = () => {
       const { oauthAccessToken, loginType } = requestData;
 
       if (oauthAccessToken && loginType) {
-        const { accessToken, userId } = await loginAPI.requestSignInAndUp({ oauthAccessToken, loginType });
+        const { accessToken, userId, userStatus } = await loginAPI.requestSignInAndUp({ oauthAccessToken, loginType });
 
         localStorage.setItem('accessToken', accessToken);
-
+        localStorage.setItem('userId', userId.toString());
         const data = await userAPI.getUserById({ userId });
-
         setUserData(data);
-        navigate('/signUp', { replace: true });
+        userStatus === 'ACTIVE' ? navigate('/feed', { replace: true }) : navigate('/signUp', { replace: true });
       }
     } catch (error) {
       console.error(error);
