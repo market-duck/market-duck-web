@@ -8,11 +8,16 @@ export type FeedStatusType =
   | 'DELETED_BY_ADMIN'
   | 'DELETED';
 
+export type FeedType = 'SALE' | 'BUY';
+
+type CategoryReqType = Omit<CategoryModel, 'categoryName'>;
+
 export interface ReqFeedDataType {
   title: string;
   content: string;
   price: number;
   feedStatus: FeedStatusType;
-  feedGoodsCategories: Array<CategoryModel>;
-  feedGenreCategories: Array<CategoryModel>;
+  feedType: FeedType;
+  goodsCategories: Array<CategoryReqType>;
+  genreCategories: Array<CategoryReqType>;
 }

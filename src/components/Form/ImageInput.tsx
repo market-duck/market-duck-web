@@ -1,4 +1,4 @@
-import { CameraIcon, XCircleIcon } from '@heroicons/react/24/solid';
+import { CameraIcon } from '@heroicons/react/24/solid';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -28,13 +28,6 @@ interface ImageInputsProps {
 
 const ThumbnailContainer = styled.li`
   position: relative;
-  .deleteBtn {
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-  }
 `;
 
 const ImagesContainer = styled.ul`
@@ -56,6 +49,7 @@ const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }
   justify-content: center;
   align-items: center;
   gap: ${AppSpcing.XXXS};
+  cursor: pointer;
 
   &.size-sm {
     width: ${AppSpcing.XL};
@@ -104,10 +98,7 @@ export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler
         )}
         {images.map((images, idx) => (
           <ThumbnailContainer key={idx}>
-            <Thumbnail imgSrc={images.src} size={size} />
-            <button className="deleteBtn" onClick={() => deleteHandler(idx)}>
-              <XCircleIcon />
-            </button>
+            <Thumbnail imgSrc={images.src} size={size} deleteHandler={() => deleteHandler(idx)} />
           </ThumbnailContainer>
         ))}
       </ImagesContainer>
@@ -115,7 +106,7 @@ export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler
         style={{ display: 'none' }}
         id="image"
         type="file"
-        accept="image/*"
+        accept={'.gif, .jpg, .jpeg, .png, .heic'}
         maxLength={length}
         onChange={imageHandler}
         multiple={length > 1}

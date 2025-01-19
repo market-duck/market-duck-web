@@ -1,3 +1,4 @@
+import { UserModel } from '@market-duck/apis/models/userModel';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Avatar } from '@market-duck/components/Image/Avatar';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -9,35 +10,28 @@ import styled from 'styled-components';
 const ProfileWrap = styled(Row)`
   justify-content: flex-start;
   align-items: center;
+  gap: ${AppSpcing.S};
   background-color: ${AppSemanticColor.BG_SECONDARY.hex};
   border-radius: ${AppRadii.M};
   margin-bottom: 1.5rem;
+  margin-top: ${AppSpcing.M};
+  padding: ${AppSpcing.S};
 `;
 
-//TODO:: userInfo schema에 따라 type 변경하기
-export const UserProfile = ({
-  userInfo,
-}: {
-  userInfo: {
-    name: string;
-    imgSrc: string;
-    email: string;
-    phoneNum: string;
-  };
-}) => {
+export const UserProfile = ({ userInfo }: { userInfo: UserModel }) => {
   return (
     <ProfileWrap>
-      <Avatar imgSrc={userInfo.imgSrc} size="lg" />
+      <Avatar imgSrc={userInfo.profileImageUrl} size="lg" />
       <div className="user-data">
         <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
-          어쩌고 님{/* userInfo.name */}
+          {userInfo.nickname}님
         </Typo>
         <div>
           <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
-            ooo@pppp.com{/* userInfo.email */}
+            {userInfo.username}
           </Typo>
           <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
-            010-1234-5678{/* userInfo.phoneNum */}
+            {userInfo.phoneNumber}
           </Typo>
         </div>
       </div>

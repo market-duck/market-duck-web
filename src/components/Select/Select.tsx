@@ -27,6 +27,8 @@ const ArrowDownIcon = styled(FillIcon.ChevronDownIcon)`
 
 const MultiValueArea = styled(Row)`
   overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export interface SelectOption {

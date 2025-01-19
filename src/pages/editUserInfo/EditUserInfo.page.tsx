@@ -30,7 +30,7 @@ export const EditUserInfo = () => {
 
   return (
     <>
-      <NavigationTop leftButtonIconType="basic" title="회원가입" onLeftClick={backButtonHandler} />
+      <NavigationTop leftButtonIconType="basic" title="회원정보 수정" onLeftClick={backButtonHandler} />
       {step === 'userInfo' && (
         <UserInfoForm
           page="editUser"

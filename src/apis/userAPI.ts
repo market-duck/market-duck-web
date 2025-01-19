@@ -26,8 +26,13 @@ class UserAPI {
   async uploadProfileImage({ userId, image }: { userId: number; image: File }) {
     const postData = new FormData();
     postData.append('file', image);
-    const { status } = await fetchClient.post(`/user/${userId}/profile-image`, postData);
-    return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
+    const { data } = await fetchClient.post(`/user/${userId}/profile-image`, postData);
+    return UserModel.fromJson(data);
+  }
+
+  async deleteProfileImage({ userId }: { userId: number }) {
+    const { data } = await fetchClient.delete(`/user/${userId}/profile-image`);
+    return UserModel.fromJson(data);
   }
 
   async sendPhoneNumVerifyNum({ phoneNumber }: { phoneNumber: string }) {

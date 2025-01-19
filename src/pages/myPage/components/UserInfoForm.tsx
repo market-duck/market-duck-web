@@ -8,7 +8,6 @@ import { Button } from '@market-duck/components/Button/Button';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
-import { PageHeading } from '@market-duck/components/PageHeading/PageHeading';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
@@ -41,21 +40,23 @@ interface UserInfoFormProps {
 }
 
 interface SubmitUserData {
-  email: string;
-  phoneNum: string;
-  nickName: string;
-  photo: File | undefined | null;
+  email?: string;
+  phoneNum?: string;
+  nickName?: string;
+  photo?: File | undefined | null;
 }
 
 export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
-  const [currentUserInfo, setUserInfo] = useRecoilState(userDataAtom);
-  const [data, setData] = useState<SubmitUserData>({
-    email: '',
-    phoneNum: '',
-    nickName: '',
-    photo: null,
+  const [currentUserInfo, setCurrentUserInfo] = useRecoilState(userDataAtom);
+  const [data, setData] = useState<SubmitUserData>(() => {
+    if (currentUserInfo?.nickname) {
+      return {
+        nickName: currentUserInfo.nickname,
+      };
+    }
+    return {};
   });
-  const { images, deleteIdx, imageHandler, deleteHandler } = useImageInput();
+  const { images, deleteIdx, imageHandler, deleteHandler, serverImageHandler } = useImageInput();
   const { mutateAsync } = useMutation({
     mutationKey: ['patch', 'user', currentUserInfo?.userId],
     mutationFn: async (data: SubmitUserData) => {
@@ -68,15 +69,6 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     },
   });
   const { alert } = useDialog();
-
-  useEffect(() => {
-    if (currentUserInfo) {
-      setData((prev) => ({
-        ...prev,
-        nickName: currentUserInfo.nickname,
-      }));
-    }
-  }, [currentUserInfo]);
 
   useEffect(() => {
     setData((prev) => ({ ...prev, photo: images[0]?.file }));
@@ -94,17 +86,41 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     }
   };
 
-  // TODO: 서버에 요청 보내기 전 validation 로직 추가 필요
+  //delete Profile은 삭제 버튼 누르는 시점에 api 요청 한다
+  const deleteProfileImageHandler = async (idx: number) => {
+    if (currentUserInfo?.userId) {
+      const newUserData = await userAPI.deleteProfileImage({ userId: currentUserInfo?.userId });
+      deleteHandler(idx);
 
-  const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
-    console.log(e.currentTarget.id);
-    try {
-      const res = await mutateAsync(data);
-      if (res) setUserInfo(res);
-      onNext();
-    } catch (err) {
-      alert({ title: '회원정보 수정 실패', desc: '서버에서 문제가 발생하였습니다.\n잠시 후 다시 시도해주세요.' });
+      setCurrentUserInfo(newUserData);
     }
+  };
+
+  //TODO:: submitHandler step 별로 있어야 할 거 같고, 지금 작성해둔 거 개구림
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
+    console.log({ data });
+
+    if (!currentUserInfo?.userId) {
+      return console.error('유저 아이디 정보가 없음');
+    }
+
+    if (data.nickName || data.phoneNum) {
+      const newUserData = await userAPI.editUserById({
+        userId: currentUserInfo?.userId,
+        userData: { nickname: data.nickName, phoneNumber: data.phoneNum },
+      });
+
+      setCurrentUserInfo(newUserData);
+    }
+
+    if (data.photo) {
+      const newUserData = await userAPI.uploadProfileImage({ userId: currentUserInfo.userId, image: data.photo });
+
+      setCurrentUserInfo(newUserData);
+    }
+
+    //api 요청 완료 후 호출
+    onNext();
   };
 
   const createProviderIcon = (provider: UserLoginProviderType) => {
@@ -117,6 +133,12 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
         return <Apple width={16} />;
     }
   };
+
+  useEffect(() => {
+    if (currentUserInfo?.profileImageUrl) {
+      serverImageHandler([currentUserInfo.profileImageUrl]);
+    }
+  }, []);
 
   return (
     <Container>
@@ -132,27 +154,16 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             </Row>
           </Column>
         )}
-        {page === 'signUp' && <PageHeading title="회원 정보 입력" />}
         <Column gap="M" flex={0}>
           {page === 'editUser' && (
             <Column gap="M" flex={0}>
-              <Column alignItems="start" className={AppSemanticColor.TEXT_SECONDARY.color}>
-                <Typo tag="p" type="CAPTION_MD" weight={600}>
-                  계정
-                </Typo>
-                <Typo tag="p" type="BODY_MD" weight={500}>
-                  {/* TODO:: google/kakao icon */}
-                  muji@gmail.com
-                </Typo>
-              </Column>
               <Column alignItems="start" className={AppSemanticColor.TEXT_SECONDARY.color}>
                 <Typo tag="p" type="CAPTION_MD" weight={600}>
                   휴대폰 번호
                 </Typo>
                 <Row alignItems="center" gap="S">
                   <Typo tag="p" type="BODY_MD" weight={500}>
-                    {/* TODO:: google/kakao icon */}
-                    010-4133-3538
+                    {currentUserInfo?.phoneNumber}
                   </Typo>
                   <Button size="small" onClick={() => onNext()}>
                     수정
@@ -164,10 +175,10 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
           <Input
             id="nickName"
             label="닉네임"
-            value={data?.nickName}
+            value={data?.nickName || ''}
             changeHandler={inputHandler}
-            isError={!!validation('nickName', data?.nickName)}
-            caption={validation('nickName', data?.nickName)}
+            isError={!!validation('nickName', data?.nickName || '')}
+            caption={validation('nickName', data?.nickName || '')}
           />
           <ImagesInput
             title="프로필 사진"
@@ -175,7 +186,7 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             length={1}
             imageHandler={imageHandler}
             images={images}
-            deleteHandler={deleteHandler}
+            deleteHandler={deleteProfileImageHandler}
           />
         </Column>
       </Column>

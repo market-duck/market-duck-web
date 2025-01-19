@@ -38,12 +38,15 @@ class FeedAPI {
     const { status } = await fetchClient.patch(`/feed/${feedId}/${index}}`, { feedId, index });
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
-
   async createFeed(feedData: ReqFeedDataType) {
-    const { status } = await fetchClient.post('feed', feedData);
-    return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
-  }
+    const { status, data } = await fetchClient.post('feed', feedData);
+    const isSuccess = status <= 299;
 
+    return {
+      success: isSuccess ? NetworkResultType.success : NetworkResultType.fail,
+      feedId: isSuccess ? data.feedId : null,
+    };
+  }
   async editFeed({ feedId, feedData }: { feedId: number; feedData: ReqFeedDataType }) {
     const { status } = await fetchClient.patch(`feed/${feedId}`, feedData);
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
