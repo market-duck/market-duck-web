@@ -45,7 +45,6 @@ class LoginAPI {
     const res = await axios.post(reqUrl, postData, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
     });
-    console.log(res);
     return res.data;
   }
 }
