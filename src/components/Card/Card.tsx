@@ -121,11 +121,11 @@ export const Card = ({
           </Row>
           <Row gap="XXXS" alignItems="center">
             <HeartIcon />
-            {viewCount}
+            {likedCount}
           </Row>
           <Row gap="XXXS" alignItems="center">
             <EyeIcon />
-            {likedCount}
+            {viewCount}
           </Row>
         </Row>
       </InfoBox>

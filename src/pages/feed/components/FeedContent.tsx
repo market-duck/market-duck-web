@@ -43,7 +43,7 @@ const Wrap = styled(Column)`
   }
 `;
 
-export const FeedContent = ({ feedDetail }: { feedDetail: FeedDetailModel }) => {
+export const FeedContent = ({ feedDetail, isMyFeed }: { feedDetail: FeedDetailModel; isMyFeed: boolean }) => {
   const relativeTime = getTimeDiff(feedDetail.createdAt);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const dropdownItems = [
@@ -75,7 +75,12 @@ export const FeedContent = ({ feedDetail }: { feedDetail: FeedDetailModel }) => 
             </Typo>
           </Column>
         </Row>
-        <DropDownMenu items={dropdownItems} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
+        <DropDownMenu
+          items={dropdownItems}
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+          disabled={!isMyFeed}
+        />
       </Row>
       <FeedImageSlider imgSrcs={feedDetail.images.map((image) => image.fileUrl)} />
       <Column className="contents" gap="XXS">
