@@ -694,14 +694,14 @@ export const AppSemanticColor = {
     color: 'fc-gray-500',
   },
   BORDER_SECONDARY: {
-    hex: '#B6B6B6',
-    bg: 'bg-gray-400',
-    color: 'fc-gray-400',
-  },
-  BORDER_TERTIARY: {
     hex: '#CACACA',
     bg: 'bg-gray-300',
     color: 'fc-gray-300',
+  },
+  BORDER_TERTIARY: {
+    hex: '#E3E3E3',
+    bg: 'bg-gray-100',
+    color: 'fc-gray-100',
   },
   BORDER_FOCUS_RING: {
     hex: '#208408',

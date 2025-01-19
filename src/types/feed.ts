@@ -4,7 +4,7 @@ export type FeedStatusType =
   | 'ON_SALE_OR_BUY'
   | 'IN_TRANSACTION'
   | 'SOLD_OUT'
-  | 'SALE_STOPPED'
+  | 'STOPPED'
   | 'DELETED_BY_ADMIN'
   | 'DELETED';
 

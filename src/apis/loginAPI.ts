@@ -1,4 +1,5 @@
 import { openFetchClient } from '@market-duck/apis/fetchClient';
+import { ILoginUserModelData } from '@market-duck/apis/models/userModel';
 import { IAPIResponse } from '@market-duck/types/api';
 import { UserLoginProviderType } from '@market-duck/types/user';
 import { envManager } from '@market-duck/utils/env';
@@ -12,20 +13,13 @@ class LoginAPI {
   }: {
     oauthAccessToken: string;
     loginType: UserLoginProviderType;
-  }): Promise<{
-    accessToken: string;
-    userId: number;
-  }> {
-    const { data } = await openFetchClient.post<IAPIResponse<any>>(`/user/login`, {
+  }): Promise<ILoginUserModelData> {
+    const { data } = await openFetchClient.post<IAPIResponse<ILoginUserModelData>>(`/user/login`, {
       oauthAccessToken,
       loginType,
     });
-    const { accessToken, userId } = data.data;
 
-    return {
-      accessToken,
-      userId,
-    };
+    return data.data;
   }
 
   //TODO:: response data check

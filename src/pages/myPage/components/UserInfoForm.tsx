@@ -9,10 +9,12 @@ import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { UserLoginProviderType } from '@market-duck/types/user';
+import { useMutation } from '@tanstack/react-query';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
@@ -55,6 +57,18 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     return {};
   });
   const { images, deleteIdx, imageHandler, deleteHandler, serverImageHandler } = useImageInput();
+  const { mutateAsync } = useMutation({
+    mutationKey: ['patch', 'user', currentUserInfo?.userId],
+    mutationFn: async (data: SubmitUserData) => {
+      if (!currentUserInfo?.userId) return;
+      const res = await userAPI.editUserById({
+        userId: currentUserInfo?.userId,
+        userData: { nickname: data.nickName, phoneNumber: currentUserInfo.phoneNumber },
+      });
+      return res;
+    },
+  });
+  const { alert } = useDialog();
 
   useEffect(() => {
     setData((prev) => ({ ...prev, photo: images[0]?.file }));

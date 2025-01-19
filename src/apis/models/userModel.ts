@@ -1,5 +1,15 @@
 import { UserAuthority, UserLoginProviderType, UserStatusType } from '@market-duck/types/user';
 
+export interface ILoginUserModelData {
+  accessToken: string;
+  userId: number;
+  username: string;
+  nickname: string;
+  email: string;
+  authority: UserAuthority;
+  userStatus: UserStatusType;
+}
+
 export interface IBaseUserModelData {
   userId: number;
   nickname: string;
@@ -11,6 +21,7 @@ export interface IBaseUserModelData {
   createdAt: string;
   updatedAt: string;
 }
+
 export interface IUserModelData extends IBaseUserModelData {
   phoneNumber: string;
   emailVerified: boolean;

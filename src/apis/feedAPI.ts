@@ -10,7 +10,7 @@ class FeedAPI {
     const {
       data: { data, pageInfo },
     } = await openFetchClient.get<IAPIResponse<IFeedModelData[]>>(
-      `/feed?page=${page}&genreIds=${genreIdToString}&goodsIds=${goodsIdsToString}`,
+      `/feed?page=${page}&genreIds=${genreIdToString ?? ''}&goodsIds=${goodsIdsToString ?? ''}`,
     );
     return {
       feeds: data.map((feed) => FeedModel.fromJson(feed)),

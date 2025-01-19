@@ -20,6 +20,7 @@ export const FeedList = ({ feeds }: FeedListProps) => {
       {feeds.map((feed) => (
         <Card
           key={feed.feedId}
+          id={feed.feedId}
           title={feed?.title}
           price={feed?.price}
           status={feed.status}

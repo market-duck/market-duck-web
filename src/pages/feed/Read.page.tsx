@@ -37,7 +37,7 @@ export const Read = () => {
 
   return (
     <>
-      <NavigationTop title="피드" />
+      <NavigationTop title="피드" leftButtonIconType="back" />
       <Wrap>{feedDetail && <FeedContent feedDetail={feedDetail} />}</Wrap>
       {isMyFeed !== null && <FeedBottomBtns isMyFeed={isMyFeed} />}
     </>
