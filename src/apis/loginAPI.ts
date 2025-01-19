@@ -22,7 +22,6 @@ class LoginAPI {
     return data.data;
   }
 
-  //TODO:: response data check
   async reissueToken({ userId }: { userId: number }): Promise<{ accessToken: string }> {
     const { data } = await openFetchClient.post<IAPIResponse<any>>(`/user/reissue-token/${userId}`);
 

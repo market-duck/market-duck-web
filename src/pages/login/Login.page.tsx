@@ -1,9 +1,11 @@
 import Logo from '@market-duck/assets/images/logo.svg?react';
+import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { LoginButton } from '@market-duck/pages/login/components/LoginButton';
+import { useResetRecoilState } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
 
@@ -24,6 +26,8 @@ const Container = styled(AppGutter)`
 `;
 
 export const Login = () => {
+  const resetUserData = useResetRecoilState(userDataAtom);
+  resetUserData();
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="홈" />
