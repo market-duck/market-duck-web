@@ -22,7 +22,6 @@ class LoginAPI {
     return data.data;
   }
 
-  //TODO:: response data check
   async reissueToken({ userId }: { userId: number }): Promise<{ accessToken: string }> {
     const { data } = await openFetchClient.post<IAPIResponse<any>>(`/user/reissue-token/${userId}`);
 
@@ -46,7 +45,6 @@ class LoginAPI {
     const res = await axios.post(reqUrl, postData, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8' },
     });
-    console.log(res);
     return res.data;
   }
 }

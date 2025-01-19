@@ -36,7 +36,6 @@ export const LoginButton = ({ provider }: { provider: UserLoginProviderType }) =
     // TODO: 추후 hostname에 맞는 oauth route로 redirectUri 변경 필요
     const redirectUri = 'http://localhost:5173/oauth';
     const providerApiId = envManager.getProviderKey(id);
-    console.log(id, providerApiId);
 
     if (id === 'KAKAO') {
       location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${providerApiId}&redirect_uri=${redirectUri}&response_type=code`;

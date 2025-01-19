@@ -14,7 +14,12 @@ class FetchClient {
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) config.headers.Authorization = `${accessToken}`;
       return config;
-    }, interceptor.onReject);
+    });
+
+    this.server.interceptors.response.use(
+      (response) => response,
+      (error) => interceptor.onReject(error),
+    );
   }
 
   async get<T = any>(url: string, config?: AxiosRequestConfig) {

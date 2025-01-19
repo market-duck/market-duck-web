@@ -63,5 +63,3 @@ class EnvManager {
   }
 }
 export const envManager = new EnvManager({ ...import.meta.env });
-
-console.log(import.meta.env);

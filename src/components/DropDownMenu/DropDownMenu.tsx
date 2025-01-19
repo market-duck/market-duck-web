@@ -1,13 +1,14 @@
 import { ChevronDownIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
+import { ButtonClickHandler } from '@market-duck/types/handler';
 import { Dispatch, HTMLAttributes, MouseEvent, SetStateAction, useEffect, useRef, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppElevation } from 'src/styles/tokens/AppElevation';
+import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Wrap = styled.div<{ $isDotMenu?: boolean }>`
+const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined }>`
   display: inline-flex;
   position: relative;
   ${AppTypo.BODY_SM}
@@ -38,6 +39,11 @@ const Wrap = styled.div<{ $isDotMenu?: boolean }>`
     border-radius: ${AppRadii.M};
     font-weight: 500;
     color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
+    ${({ $disabled }) =>
+      $disabled &&
+      css`
+        cursor: default;
+      `};
     &:hover {
       color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_HOVER.hex};
       background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};
@@ -67,17 +73,18 @@ const Wrap = styled.div<{ $isDotMenu?: boolean }>`
 interface MenuItemType {
   id: string;
   name: string;
-  handler: (e: MouseEvent<HTMLButtonElement>) => void;
+  handler: (e: MouseEvent<HTMLButtonElement>, index: number) => void;
 }
 
 interface DropDownMenuProps extends HTMLAttributes<HTMLUListElement> {
   items: MenuItemType[];
   isDotMenu?: boolean;
-  selectedIndex?: number; // 선택적으로 변경
-  setSelectedIndex?: Dispatch<SetStateAction<number>>; // 선택적으로 변경
+  selectedIndex?: number;
+  setSelectedIndex?: Dispatch<SetStateAction<number>>;
+  disabled?: boolean;
 }
 
-export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu }: DropDownMenuProps) => {
+export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu, disabled }: DropDownMenuProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -103,19 +110,24 @@ export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu
     if (!isDotMenu && setSelectedIndex) {
       setSelectedIndex(idx);
     }
-    items[idx].handler(e);
+    items[idx].handler(e, idx);
+    setIsOpen((prev) => !prev);
+  };
+
+  const openHandler: ButtonClickHandler = () => {
+    if (disabled) return;
     setIsOpen((prev) => !prev);
   };
 
   return (
-    <Wrap ref={dropDownRef} $isDotMenu={isDotMenu}>
-      <button className="selectedItem" onClick={() => setIsOpen((prev) => !prev)}>
+    <Wrap ref={dropDownRef} $isDotMenu={isDotMenu} $disabled={disabled}>
+      <button className="selectedItem" onClick={openHandler} disabled={disabled}>
         {isDotMenu ? (
           <EllipsisHorizontalIcon width={16} />
         ) : (
           <>
             <span>{items[selectedIndex ?? 0].name}</span>
-            <ChevronDownIcon width={16} />
+            {!disabled && <ChevronDownIcon width={16} />}
           </>
         )}
       </button>

@@ -1,3 +1,4 @@
+import { NotFound } from '@market-duck/pages/NotFound.page';
 import { Oauth } from '@market-duck/pages/Oauth.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
 import { ContactList } from '@market-duck/pages/contact/ContactList.page';
@@ -19,6 +20,7 @@ import { AppLayout } from 'src/layout/AppLayout';
 export const appRouter = createBrowserRouter([
   {
     element: <AppLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         path: '/',
@@ -87,6 +89,7 @@ export const appRouter = createBrowserRouter([
           { path: 'detail', Component: NoticeDetail },
         ],
       },
+      { path: '*', element: <NotFound /> },
     ],
   },
 ]);

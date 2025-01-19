@@ -1,14 +1,19 @@
-import { FeedForm } from './components/FeedForm';
+import { FeedDetailModel } from '@market-duck/apis/models/feedModel';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
+import { useLocation } from 'react-router-dom';
+import { FeedForm } from './components/FeedForm';
 
 export const Edit = () => {
+  const { state: feedDetail } = useLocation();
+
+  const { title, price, content, goodsCategory, genreCategory } = feedDetail as FeedDetailModel;
   const editData = {
-    genre: [{ label: '장르1', value: 'genre1' }],
-    goods: [{ label: '장르1', value: 'genre1' }],
-    title: '입력된 제목',
-    price: '10000',
-    content: '입력된 콘텐츠\n',
+    genre: genreCategory.map((category) => ({ label: category.categoryName, value: `${category.categoryId}` })),
+    goods: goodsCategory.map((category) => ({ label: category.categoryName, value: `${category.categoryId}` })),
+    title,
+    price: `${price}`,
+    content,
   };
 
   return (
