@@ -73,14 +73,14 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined }
 interface MenuItemType {
   id: string;
   name: string;
-  handler: (e: MouseEvent<HTMLButtonElement>) => void;
+  handler: (e: MouseEvent<HTMLButtonElement>, index: number) => void;
 }
 
 interface DropDownMenuProps extends HTMLAttributes<HTMLUListElement> {
   items: MenuItemType[];
   isDotMenu?: boolean;
-  selectedIndex?: number; // 선택적으로 변경
-  setSelectedIndex?: Dispatch<SetStateAction<number>>; // 선택적으로 변경
+  selectedIndex?: number;
+  setSelectedIndex?: Dispatch<SetStateAction<number>>;
   disabled?: boolean;
 }
 
@@ -110,7 +110,7 @@ export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu
     if (!isDotMenu && setSelectedIndex) {
       setSelectedIndex(idx);
     }
-    items[idx].handler(e);
+    items[idx].handler(e, idx);
     setIsOpen((prev) => !prev);
   };
 
