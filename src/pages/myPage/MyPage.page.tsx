@@ -1,4 +1,3 @@
-import { userAPI } from '@market-duck/apis/userAPI';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
