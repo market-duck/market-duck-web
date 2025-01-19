@@ -1,3 +1,4 @@
+import { userAPI } from '@market-duck/apis/userAPI';
 import Apple from '@market-duck/assets/icons/apple.svg?react';
 import Google from '@market-duck/assets/icons/google.svg?react';
 import Kakao from '@market-duck/assets/icons/kakao.svg?react';
@@ -9,10 +10,12 @@ import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { PageHeading } from '@market-duck/components/PageHeading/PageHeading';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { UserLoginProviderType } from '@market-duck/types/user';
+import { useMutation } from '@tanstack/react-query';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
@@ -45,7 +48,7 @@ interface SubmitUserData {
 }
 
 export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
-  const currentUserInfo = useRecoilValue(userDataAtom);
+  const [currentUserInfo, setUserInfo] = useRecoilState(userDataAtom);
   const [data, setData] = useState<SubmitUserData>({
     email: '',
     phoneNum: '',
@@ -53,6 +56,27 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     photo: null,
   });
   const { images, deleteIdx, imageHandler, deleteHandler } = useImageInput();
+  const { mutateAsync } = useMutation({
+    mutationKey: ['patch', 'user', currentUserInfo?.userId],
+    mutationFn: async (data: SubmitUserData) => {
+      if (!currentUserInfo?.userId) return;
+      const res = await userAPI.editUserById({
+        userId: currentUserInfo?.userId,
+        userData: { nickname: data.nickName, phoneNumber: currentUserInfo.phoneNumber },
+      });
+      return res;
+    },
+  });
+  const { alert } = useDialog();
+
+  useEffect(() => {
+    if (currentUserInfo) {
+      setData((prev) => ({
+        ...prev,
+        nickName: currentUserInfo.nickname,
+      }));
+    }
+  }, [currentUserInfo]);
 
   useEffect(() => {
     setData((prev) => ({ ...prev, photo: images[0]?.file }));
@@ -72,11 +96,15 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
 
   // TODO: 서버에 요청 보내기 전 validation 로직 추가 필요
 
-  const submitHandler: MouseEventHandler<HTMLButtonElement> = (e) => {
+  const submitHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
     console.log(e.currentTarget.id);
-
-    //api 요청 완료 후 호출
-    onNext();
+    try {
+      const res = await mutateAsync(data);
+      if (res) setUserInfo(res);
+      onNext();
+    } catch (err) {
+      alert({ title: '회원정보 수정 실패', desc: '서버에서 문제가 발생하였습니다.\n잠시 후 다시 시도해주세요.' });
+    }
   };
 
   const createProviderIcon = (provider: UserLoginProviderType) => {
