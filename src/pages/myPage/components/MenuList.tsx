@@ -26,6 +26,8 @@ export const MenuList = () => {
     const result = await confirm({
       title: '정말로 마켓덕을 떠나시겠어요?',
       desc: '탈퇴하시면 회원님의 모든 정보와 활동이 삭제됩니다.\n삭제된 정보는 복구 불가능합니다.',
+      positiveBtnText: '탈퇴',
+      positiveBtnVariant: 'danger',
     });
 
     if (result) console.log('예 그럼 제가 나가겠습니다.');

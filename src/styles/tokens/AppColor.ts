@@ -704,9 +704,9 @@ export const AppSemanticColor = {
     color: 'fc-gray-100',
   },
   BORDER_FOCUS_RING: {
-    hex: '#208408',
-    bg: 'bg-green-600',
-    color: 'fc-green-600',
+    hex: '#C7E6B9',
+    bg: 'bg-green-100',
+    color: 'fc-green-100',
   },
   BORDER_INFO: {
     hex: '#A4CBFE',

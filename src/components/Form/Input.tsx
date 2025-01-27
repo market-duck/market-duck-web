@@ -26,9 +26,8 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   display: flex;
   gap: ${AppSpcing.XXS};
   width: 100%;
-  height: 2rem;
   border-radius: ${AppRadii.M};
-  padding: ${AppSpcing.XXS};
+  padding: ${AppSpcing.XS} ${AppSpcing.S};
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   color: ${AppSemanticColor.TEXT_TERTIARY.hex};
@@ -54,12 +53,14 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   &.is-focus {
     background-color: ${AppSemanticColor.BG_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
   }
 
   &.is-error {
     background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.TEXT_DANGER.hex};
   }
 
