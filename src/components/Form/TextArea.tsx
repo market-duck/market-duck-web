@@ -26,7 +26,7 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   width: 100%;
   height: 12.25rem;
   border-radius: ${AppRadii.M};
-  padding: ${AppSpcing.XS};
+  padding: ${AppSpcing.XS} ${AppSpcing.S};
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
 
   &:hover {
@@ -38,12 +38,14 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   &.is-focus {
     background-color: ${AppSemanticColor.BG_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
   }
 
   &.is-error {
     background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.TEXT_DANGER.hex};
   }
 

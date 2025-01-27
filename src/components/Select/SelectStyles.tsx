@@ -29,9 +29,8 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 2rem;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
-  padding: ${AppSpcing.XXS};
+  padding: ${AppSpcing.XS} ${AppSpcing.S};
   padding-right: 32px;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
@@ -42,12 +41,14 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
   &.is-focus {
     background-color: ${AppSemanticColor.BG_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
   }
 
   &.is-error {
     background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    border-width: 2px;
     border-color: ${AppSemanticColor.TEXT_DANGER.hex};
   }
 

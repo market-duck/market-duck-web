@@ -1,16 +1,16 @@
+import { userAPI } from '@market-duck/apis/userAPI';
+import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+import { Button } from '@market-duck/components/Button/Button';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
+import { Input } from '@market-duck/components/Form/Input';
 import { PageHeading } from '@market-duck/components/PageHeading/PageHeading';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { Input } from '@market-duck/components/Form/Input';
+import { useInterval } from '@market-duck/hooks/useInterval';
 import { getPhoneNumberFormat } from '@market-duck/utils/format';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
-import { Button } from '@market-duck/components/Button/Button';
-import { userAPI } from '@market-duck/apis/userAPI';
-import styled from 'styled-components';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
-import { useInterval } from '@market-duck/hooks/useInterval';
-import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
   height: calc(100dvh - 48px);
@@ -23,7 +23,7 @@ const InputButtonBox = styled(Row)`
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  gap: ${AppSpcing.M};
+  gap: ${AppSpcing.XS};
 
   > .inputArea {
     flex: 1;
@@ -173,7 +173,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
             <Button
               disabled={!checkIsPhoneNumValid(data.phoneNum) || isTimerActive}
               className="inputButton"
-              size="small"
+              size="medium"
               row
               variant="secondary"
               onClick={handleSendVerifyCode}
@@ -195,7 +195,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
             <Button
               disabled={!isTimerActive || !isCodeSent}
               className="inputButton"
-              size="small"
+              size="medium"
               row
               variant="secondary"
               onClick={handleVerifyCode}

@@ -1,25 +1,24 @@
-import styled from 'styled-components';
+import { categoryAPI } from '@market-duck/apis/categoryAPI';
+import { feedAPI } from '@market-duck/apis/feedAPI';
+import { Button } from '@market-duck/components/Button/Button';
+import { Column } from '@market-duck/components/Flex/Flex';
+import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { TextArea } from '@market-duck/components/Form/TextArea';
-import { Select } from '@market-duck/components/Select/Select';
+import { Select, SelectOption } from '@market-duck/components/Select/Select';
 import { Tab } from '@market-duck/components/Tab/Tab';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
-import { SelectOption } from '@market-duck/components/Select/Select';
-import { thousandComma } from '@market-duck/utils/price';
-import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
-import { Button } from '@market-duck/components/Button/Button';
-import { useForm } from '@market-duck/hooks/useForm';
-import { Column } from '@market-duck/components/Flex/Flex';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { useDialog } from '@market-duck/hooks/useDialog';
-import { feedAPI } from '@market-duck/apis/feedAPI';
-import { categoryAPI } from '@market-duck/apis/categoryAPI';
+import { useForm } from '@market-duck/hooks/useForm';
+import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
+import { FeedType } from '@market-duck/types/feed';
+import { thousandComma } from '@market-duck/utils/price';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ImagesInput } from '@market-duck/components/Form/ImageInput';
-import { useImageInput } from '@market-duck/hooks/useImageInput';
-import { FeedType } from '@market-duck/types/feed';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppTypo } from 'src/styles/tokens/AppTypo';
+import styled from 'styled-components';
 
 const ImageUploadWrap = styled.div`
   display: flex;
@@ -56,7 +55,7 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: ${AppSpcing.M};
+  gap: ${AppSpcing.XS};
   padding-bottom: 4.3rem;
 `;
 

@@ -1,3 +1,5 @@
+import * as OutlineIcon from '@heroicons/react/24/outline';
+import * as FillIcon from '@heroicons/react/24/solid';
 import { ButtonHTMLAttributes, createElement } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
@@ -5,8 +7,6 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 import { RuleSet } from 'styled-components/dist/types';
-import * as FillIcon from '@heroicons/react/24/solid';
-import * as OutlineIcon from '@heroicons/react/24/outline';
 
 interface CssObjectType {
   [key: string]: RuleSet<object>;
@@ -42,7 +42,7 @@ const size: CssObjectType = {
 type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
-export type buttonVariantType = 'primary' | 'secondary' | 'text';
+export type buttonVariantType = 'primary' | 'secondary' | 'danger' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
@@ -62,12 +62,27 @@ const variant: CssObjectType = {
 
   secondary: css`
     background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
-    color: ${AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.hex};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
     &:hover {
       background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};
     }
     &:active {
       background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS.hex};
+    }
+    &:disabled {
+      color: ${AppSemanticColor.TEXT_DISABLED.hex};
+      background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    }
+  `,
+
+  danger: css`
+    background-color: ${AppSemanticColor.BG_DANGER.hex};
+    color: ${AppSemanticColor.TEXT_INVERSE.hex};
+    &:hover {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_HOVER.hex};
+    }
+    &:active {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_PRESS.hex};
     }
     &:disabled {
       color: ${AppSemanticColor.TEXT_DISABLED.hex};

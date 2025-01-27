@@ -51,6 +51,7 @@ export const FeedBottomBtns = ({ isMyFeed, feedDetail }: { isMyFeed: boolean; fe
           title: '피드 삭제',
           desc: '피드를 삭제하시겠어요?',
           positiveBtnText: '삭제',
+          positiveBtnVariant: 'danger',
         });
         if (result) {
           await mutateAsync();
@@ -67,15 +68,20 @@ export const FeedBottomBtns = ({ isMyFeed, feedDetail }: { isMyFeed: boolean; fe
   };
   return (
     <BtnContainer gap="XS">
-      <Button id="secondary" size="medium" variant="secondary" row onClick={btnHandler}>
+      <Button id="secondary" size="medium" variant={isMyFeed ? 'danger' : 'secondary'} row onClick={btnHandler}>
         {isMyFeed ? (
           '삭제'
         ) : (
           <BtnContents gap="XS">
             {/* Todo: 찜 여부 확인해서 아이콘 렌더링 필요 */}
-            <LineHeart color={AppSemanticColor.ICON_INTERACTIVE_PRIMARY.hex} />
-            {/* <FillHeart color={AppSemanticColor.ICON_INTERACTIVE_PRIMARY.hex} /> */}
-            <Typo tag="span" type="BODY_MD" className={AppSemanticColor.TEXT_INTERACTIVE_PRIMARY.color} align="center">
+            <LineHeart color={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.hex} />
+            {/* <FillHeart color={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.hex} /> */}
+            <Typo
+              tag="span"
+              type="BODY_MD"
+              className={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.color}
+              align="center"
+            >
               찜
             </Typo>
           </BtnContents>
