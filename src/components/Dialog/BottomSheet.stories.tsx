@@ -1,7 +1,7 @@
 import { Button } from '@market-duck/components/Button/Button';
-import { BottomSheet, BottomSheetHandle } from '@market-duck/components/Dialog/BottomSheet';
+import { BottomSheet } from '@market-duck/components/Dialog/BottomSheet';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { Meta } from '@storybook/react';
-import { useRef } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 
 const meta = {
@@ -19,18 +19,15 @@ const meta = {
 } satisfies Meta<typeof BottomSheet>;
 
 export const Default = () => {
-  const dialogRef = useRef<BottomSheetHandle>(null);
+  const { bottomSheet } = useDialog();
 
   const handleClick = () => {
-    if (dialogRef.current) {
-      dialogRef.current.open();
-    }
+    bottomSheet({ title: '타이틀', desc: '내용' });
   };
 
   return (
     <>
       <Button onClick={handleClick}>Open Dialog</Button>
-      <BottomSheet title="타이틀" desc="내용" ref={dialogRef} />
     </>
   );
 };

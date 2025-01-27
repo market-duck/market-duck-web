@@ -1,7 +1,7 @@
 import { Button } from '@market-duck/components/Button/Button';
-import { Dialog, DialogHandle } from '@market-duck/components/Dialog/Dialog';
+import { Dialog } from '@market-duck/components/Dialog/Dialog';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { Meta } from '@storybook/react';
-import { useRef } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 
 const meta = {
@@ -19,18 +19,15 @@ const meta = {
 } satisfies Meta<typeof Dialog>;
 
 export const Default = () => {
-  const dialogRef = useRef<DialogHandle>(null);
+  const { alert } = useDialog();
 
   const handleClick = () => {
-    if (dialogRef.current) {
-      dialogRef.current.open();
-    }
+    alert({ title: '타이틀', desc: '내용' });
   };
 
   return (
     <>
       <Button onClick={handleClick}>Open Dialog</Button>
-      <Dialog title="타이틀" desc="내용" ref={dialogRef} />
     </>
   );
 };

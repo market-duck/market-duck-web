@@ -88,10 +88,10 @@ export const NotifyListItem = ({ area = 'left', data, onClick }: NotifyListItemP
       <button className="btn" onClick={onClick}>
         {area === 'left' && <Area />}
         <Column className="contents" alignItems={'start'}>
-          <Typo type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
+          <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color}>
             {data?.content}
           </Typo>
-          <Typo type="CAPTION_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
+          <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
             {getTimeDiff(data?.createdAt)}
           </Typo>
         </Column>

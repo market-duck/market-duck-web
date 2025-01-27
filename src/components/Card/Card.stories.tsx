@@ -17,10 +17,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Example: Story = {
   args: {
+    id: 0,
     title: '하이큐 굿즈 일괄 처분',
     price: 30000,
     tagList: ['하이큐', '소년만화'],
-    status: 'processing',
+    status: 'IN_TRANSACTION',
     createdAt: new Date(),
     viewCount: 10,
     likedCount: 3,
