@@ -30,7 +30,7 @@ const StyledBottomSheet = styled.div`
     background-color: ${AppColor.WHITE.hex};
     border: none;
     border-radius: ${AppRadii.L} ${AppRadii.L} ${AppRadii.NONE} ${AppRadii.NONE};
-    padding: 0;
+    padding: ${AppSpcing.M};
     bottom: 0;
     margin: auto auto 0;
   }
@@ -80,7 +80,7 @@ export const BottomSheet = forwardRef(
     return (
       <StyledBottomSheet onClick={closeHandler}>
         <div className="container">
-          <Column gap="XL" className="container">
+          <Column gap="XL">
             <Column className="content">
               {!!customContent ? (
                 <>{customContent}</>
