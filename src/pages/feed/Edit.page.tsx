@@ -7,13 +7,15 @@ import { FeedForm } from './components/FeedForm';
 export const Edit = () => {
   const { state: feedDetail } = useLocation();
 
-  const { title, price, content, goodsCategory, genreCategory } = feedDetail as FeedDetailModel;
+  const { feedId, title, price, content, goodsCategory, genreCategory, images } = feedDetail as FeedDetailModel;
   const editData = {
-    genre: genreCategory.map((category) => ({ label: category.categoryName, value: `${category.categoryId}` })),
-    goods: goodsCategory.map((category) => ({ label: category.categoryName, value: `${category.categoryId}` })),
+    feedId,
+    genre: genreCategory,
+    goods: goodsCategory,
     title,
     price: `${price}`,
     content,
+    images: images.map((item) => item.fileUrl),
   };
 
   return (

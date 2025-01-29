@@ -18,7 +18,7 @@ const Container = styled.div<{ $isError: boolean; $isFocus: boolean }>`
   position: relative;
   display: flex;
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   ${(props) => {
     if (props.$isFocus)
@@ -38,6 +38,7 @@ const Container = styled.div<{ $isError: boolean; $isFocus: boolean }>`
   border-radius: ${AppRadii.M};
   white-space: nowrap;
   ${AppTypo.BODY_MD};
+  font-weight: 500;
   cursor: pointer;
 
   .inputArea {
@@ -109,9 +110,16 @@ interface SearchCategoryProps {
   changeSelectedsHandler: (value: CategoryModel[]) => void;
   categoryType: CategoryType;
   isError: boolean;
+  placeholder?: string;
 }
 
-export const SearchCategory = ({ selecteds, changeSelectedsHandler, categoryType, isError }: SearchCategoryProps) => {
+export const SearchCategory = ({
+  selecteds,
+  changeSelectedsHandler,
+  categoryType,
+  isError,
+  placeholder,
+}: SearchCategoryProps) => {
   const [inputValue, setInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
   const { isOpen: isFocus, setIsOpen: setIsFocus, dropdownRef: focusRef } = useHandleClickOutside();
@@ -143,6 +151,7 @@ export const SearchCategory = ({ selecteds, changeSelectedsHandler, categoryType
     changeSelectedsHandler([...selecteds, selected]);
     setInputValue('');
     setSearchValue('');
+    setIsFocus(false);
   };
 
   const deleteHandler = (deleteItem: CategoryModel) => {
@@ -167,7 +176,7 @@ export const SearchCategory = ({ selecteds, changeSelectedsHandler, categoryType
       $isFocus={isFocus}
       $isError={isError}
     >
-      <Column gap="XS">
+      <Column gap="XS" justify="center">
         {!!selecteds.length && (
           <Row flexWrap="wrap" className="tags">
             {selecteds.map((item) => {
@@ -194,6 +203,7 @@ export const SearchCategory = ({ selecteds, changeSelectedsHandler, categoryType
             }}
           />
         )}
+        {!isFocus && !selecteds.length && <span className={AppSemanticColor.TEXT_SECONDARY.color}>{placeholder}</span>}
       </Column>
       <Column justify="center" alignItems="center">
         {selecteds.length || inputValue.length ? <DeleteIcon onClick={deleteAllHandler} /> : <ArrowDownIcon />}
