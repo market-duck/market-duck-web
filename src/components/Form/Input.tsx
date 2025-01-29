@@ -128,8 +128,6 @@ export const Input = ({
     setIsFocus(false);
   };
 
-  console.log({ value });
-
   return (
     <InputWrap>
       {label && <p className="input-label">{label}</p>}
