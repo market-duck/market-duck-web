@@ -8,6 +8,7 @@ import { Input } from '@market-duck/components/Form/Input';
 import { TextArea } from '@market-duck/components/Form/TextArea';
 import { SearchCategory } from '@market-duck/components/SearchCategory/SearchCategory';
 import { Tab } from '@market-duck/components/Tab/Tab';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { useForm } from '@market-duck/hooks/useForm';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { FeedStatusType, FeedType, ReqFeedDataType } from '@market-duck/types/feed';
@@ -60,6 +61,7 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
   const [feedType, setFeedType] = useState<FeedType>('SALE');
   const navigate = useNavigate();
   const { images, deleteHandler, imageHandler, serverImageHandler } = useImageInput();
+  const { bottomSheet } = useDialog();
 
   const { mutateAsync: createFeed } = useMutation({
     mutationKey: ['feed', 'create'],
@@ -128,6 +130,11 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
 
       if (receivedFeedId) {
         navigate(`/feed/read/${receivedFeedId}`);
+        bottomSheet({
+          title: `🎉 ${feedType === 'BUY' ? '구매' : '판매'} 피드 ${type === 'create' ? '작성' : '수정'}을 완료했습니다!`,
+          hasButton: true,
+          buttonTitle: '공유하기',
+        });
       }
     },
     validate: (values) => {
