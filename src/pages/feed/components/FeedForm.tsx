@@ -1,16 +1,15 @@
 import { categoryAPI } from '@market-duck/apis/categoryAPI';
 import { feedAPI } from '@market-duck/apis/feedAPI';
+import { CategoryModel } from '@market-duck/apis/models/categoryModel';
 import { Button } from '@market-duck/components/Button/Button';
 import { Column } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { TextArea } from '@market-duck/components/Form/TextArea';
-import { Select, SelectOption } from '@market-duck/components/Select/Select';
+import { SearchCategory } from '@market-duck/components/SearchCategory/SearchCategory';
 import { Tab } from '@market-duck/components/Tab/Tab';
-import { useDialog } from '@market-duck/hooks/useDialog';
 import { useForm } from '@market-duck/hooks/useForm';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
-import { SearchSelect } from '@market-duck/pages/feed/components/SearchSelect';
 import { FeedType } from '@market-duck/types/feed';
 import { thousandComma } from '@market-duck/utils/price';
 import { useEffect, useState } from 'react';
@@ -66,8 +65,8 @@ const Caption = styled.p`
 `;
 
 interface InitialValue {
-  genre: Array<SelectOption>;
-  goods: Array<SelectOption>;
+  genre: Array<CategoryModel>;
+  goods: Array<CategoryModel>;
   title: string;
   price: string;
   content: string;
@@ -150,13 +149,13 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
     validate: (values) => {
       const errorObj: { [key: string]: string } = {};
 
-      // if (!values.genre.length) {
-      //   errorObj.genre = '장르를 선택해주세요';
-      // }
+      if (!values.genre.length) {
+        errorObj.genre = '장르를 선택해주세요';
+      }
 
-      // if (!values.goods.length) {
-      //   errorObj.goods = '장르를 선택해주세요';
-      // }
+      if (!values.goods.length) {
+        errorObj.goods = '장르를 선택해주세요';
+      }
 
       if (!values.title) {
         errorObj.title = '제목을 입력해주세요';
@@ -173,40 +172,6 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       return errorObj;
     },
   });
-
-  const { bottomSheet } = useDialog();
-
-  const handleGenreClick = () => {
-    bottomSheet({
-      customContent: (
-        <SearchSelect
-          searchResultList={genreDummySearch}
-          handleChange={(selected) => {
-            const isAlreadySelected = values.genre.some((item) => item.value === selected.value);
-            if (!isAlreadySelected) {
-              handleChange('genre', [...values.genre, selected]);
-            }
-          }}
-        />
-      ),
-    });
-  };
-
-  const handleGoodsClick = () => {
-    bottomSheet({
-      customContent: (
-        <SearchSelect
-          searchResultList={goodsDummySearch}
-          handleChange={(selected) => {
-            const isAlreadySelected = values.goods.some((item) => item.value === selected.value);
-            if (!isAlreadySelected) {
-              handleChange('goods', [...values.goods, selected]);
-            }
-          }}
-        />
-      ),
-    });
-  };
 
   useEffect(() => {
     getCategoryData();
@@ -243,26 +208,24 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
         />
       </ImageUploadWrap>
       <SelectWrap>
-        <Select
-          placeholder="장르 태그 선택"
-          selectType="multi"
-          value={values.genre}
-          onChangeValue={(selected) => {
+        <SearchCategory
+          selecteds={values.genre}
+          changeSelectedsHandler={(selected) => {
             handleChange('genre', selected);
           }}
-          onCustomOpen={handleGenreClick}
+          categoryType="GOODS"
+          isError={!!errors.genre}
         />
         {errors.genre && <Caption>{errors.genre}</Caption>}
       </SelectWrap>
       <SelectWrap>
-        <Select
-          placeholder="굿즈 태그 선택"
-          selectType="multi"
-          value={values.goods}
-          onChangeValue={(selected) => {
+        <SearchCategory
+          selecteds={values.goods}
+          changeSelectedsHandler={(selected) => {
             handleChange('goods', selected);
           }}
-          onCustomOpen={handleGoodsClick}
+          categoryType="GENRE"
+          isError={!!errors.goods}
         />
         {errors.goods && <Caption>{errors.goods}</Caption>}
       </SelectWrap>

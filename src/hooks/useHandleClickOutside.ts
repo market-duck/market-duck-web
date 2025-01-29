@@ -17,5 +17,5 @@ export const useHandleClickOutside = () => {
     };
   }, [dropdownRef, setIsOpen]);
 
-  return [isOpen, setIsOpen, dropdownRef];
+  return { isOpen, setIsOpen, dropdownRef };
 };
