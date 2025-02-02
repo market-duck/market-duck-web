@@ -33,8 +33,8 @@ const StyledButton = styled(Button)`
 export const LoginButton = ({ provider }: { provider: UserLoginProviderType }) => {
   const loginHandler: MouseEventHandler = (e) => {
     const id = e.currentTarget.id as UserLoginProviderType;
-    // TODO: 추후 hostname에 맞는 oauth route로 redirectUri 변경 필요
-    const redirectUri = 'http://localhost:5173/oauth';
+    const { origin } = new URL(location.href);
+    const redirectUri = `${origin}/oauth`;
     const providerApiId = envManager.getProviderKey(id);
 
     if (id === 'KAKAO') {
