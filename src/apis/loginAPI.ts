@@ -34,11 +34,13 @@ class LoginAPI {
 
   async getKakaoToken(code: string) {
     const reqUrl = 'https://kauth.kakao.com/oauth/token';
+    const { origin } = new URL(location.href);
+    const redirectUri = `${origin}/oauth`;
 
     const postData = {
       grant_type: 'authorization_code',
       client_id: envManager.getProviderKey('KAKAO'),
-      redirect_uri: 'http://localhost:5173/oauth',
+      redirect_uri: redirectUri,
       code,
     };
 
