@@ -58,7 +58,7 @@ export const Thumbnail = ({
     <ThumbNailWrap>
       <ThumbnailImg $src={url} $size={size} />
       {deleteHandler && (
-        <button className="deleteBtn" onClick={deleteHandler}>
+        <button type="button" className="deleteBtn" onClick={deleteHandler}>
           <XCircleIcon />
         </button>
       )}
