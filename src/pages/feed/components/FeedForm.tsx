@@ -59,6 +59,7 @@ type EditData = FeedFormData & { feedId: number; images: string[] };
 export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edit'; editData?: EditData }) => {
   const isEditFeed = type === 'edit' && !!editData;
   const [feedType, setFeedType] = useState<FeedType>('SALE');
+  const [deleteImgIdxList, setDeleteImgIdxList] = useState<number[]>([]);
   const navigate = useNavigate();
   const { images, deleteHandler, imageHandler, serverImageHandler } = useImageInput();
   const { bottomSheet } = useDialog();
@@ -112,6 +113,15 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
           receivedFeedId = feedId;
         }
       } else if (isEditFeed) {
+        //이미지 삭제 병렬 처리
+        if (deleteImgIdxList.length) {
+          const success = await feedAPI.deleteFeedImages({ feedId: editData.feedId, indexIdList: deleteImgIdxList });
+
+          if (!success) {
+            alert('이미지 삭제에 실패했습니다!');
+          }
+        }
+
         //피드 수정
         const { success, feedId } = await editFeed({ submitData, feedId: editData?.feedId });
 
@@ -121,10 +131,10 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       }
 
       if (receivedFeedId) {
+        const newImgList = images.filter((img) => img.file !== null && !img.isUploaded).map((img) => img.file);
         //이미지 등록
-        if (images.length) {
-          const imgList = images.filter((img) => img.file !== null && !img.isUploaded).map((item) => item.file);
-          await feedAPI.uploadFeedImages({ feedId: receivedFeedId, imgList: imgList as File[] });
+        if (newImgList.length) {
+          await feedAPI.uploadFeedImages({ feedId: receivedFeedId, imgList: newImgList as File[] });
         }
       }
 
@@ -164,13 +174,12 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
     },
   });
 
-  const deleteImageHandler = async (imgIndex: number) => {
-    if (isEditFeed && images[imgIndex].isUploaded) {
-      const success = await feedAPI.deleteFeedImages({ feedId: editData.feedId, indexIdList: [imgIndex] });
-
-      if (!success) {
-        alert('이미지 삭제에 실패했습니다!');
-      }
+  const deleteImageHandler = async (imgIndex: number, originIndex?: number) => {
+    //여기서 imgIndex는 단순히 현재 이미지 리스트의 index를 뜻하는 거고
+    //서버로 보내야 할 거는 editInfo인 경우에 가지는 index로... 처음에 세팅이 되어야 할듯
+    console.log({ imgIndex, originIndex });
+    if (isEditFeed && images[imgIndex].isUploaded && originIndex !== undefined) {
+      setDeleteImgIdxList((prev) => [...prev, originIndex]);
     }
     //컴포넌트 내에서 제거
     deleteHandler(imgIndex);
