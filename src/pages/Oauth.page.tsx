@@ -58,7 +58,7 @@ export const Oauth = () => {
         localStorage.setItem('userId', userId.toString());
         const data = await userAPI.getUserById({ userId });
         setUserData(data);
-        userStatus === 'ACTIVE' ? navigate('/feed', { replace: true }) : navigate('/signUp', { replace: true });
+        userStatus === 'ACTIVE' ? navigate('/', { replace: true }) : navigate('/signUp', { replace: true });
       }
     } catch (error) {
       console.error(error);

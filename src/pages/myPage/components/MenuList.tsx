@@ -48,7 +48,7 @@ export const MenuList = () => {
     },
     {
       name: '설정',
-      action: () => {},
+      action: () => navigate('/setting'),
     },
     {
       name: '로그아웃',

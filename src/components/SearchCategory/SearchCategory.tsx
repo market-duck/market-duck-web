@@ -166,6 +166,8 @@ export const SearchCategory = ({
     setSearchValue('');
   };
 
+  // TODO: 추천 카테고리 API 추가 시 반영 필요 (기본 드롭다운 형태)
+
   return (
     <Container
       ref={focusRef}

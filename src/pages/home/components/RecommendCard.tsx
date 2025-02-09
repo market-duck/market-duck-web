@@ -24,15 +24,15 @@ interface CardSelectionProps {
   title: string;
   feeds: FeedModel[];
   tag: string;
-  nickName: string;
+  nickname: string;
 }
 
-export const RecommendCard = ({ nickName, title, feeds, tag }: CardSelectionProps) => {
+export const RecommendCard = ({ nickname, title, feeds, tag }: CardSelectionProps) => {
   return (
     <Column>
       <Heading>
         <span className="desc">
-          {nickName}님이 좋아하는 <Tag text={tag} color="secondary" /> 의
+          {nickname}님이 좋아하는 <Tag text={tag} color="secondary" /> 의
         </span>
         <Row justify="between" className="title">
           <Typo tag="h3" type="HEADING_SM">

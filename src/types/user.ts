@@ -5,4 +5,6 @@ export type UserAuthority = 'ADMIN' | 'USER';
 export interface EditUserType {
   nickname?: string;
   phoneNumber?: string;
+  goodsCategory?: number[];
+  genreCategory?: number[];
 }

@@ -1,9 +1,9 @@
+import { XCircleIcon } from '@heroicons/react/24/solid';
 import DefaultThumbnail from '@market-duck/assets/images/defaultThumbnail.svg';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { BgImage } from './BgImage';
-import { XCircleIcon } from '@heroicons/react/24/solid';
 
 const ThumbNailWrap = styled.div`
   position: relative;
@@ -23,6 +23,7 @@ const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $si
   };
 })`
   background-size: cover;
+  background-position: center;
 
   &.size-sm {
     width: ${AppSpcing.XL};

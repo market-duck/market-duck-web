@@ -1,3 +1,4 @@
+import { UserModel } from '@market-duck/apis/models/userModel';
 import { userAPI } from '@market-duck/apis/userAPI';
 import Apple from '@market-duck/assets/icons/apple.svg?react';
 import Google from '@market-duck/assets/icons/google.svg?react';
@@ -9,10 +10,9 @@ import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
-import { UserLoginProviderType } from '@market-duck/types/user';
-import { useMutation } from '@tanstack/react-query';
+import { EditUserType, UserLoginProviderType } from '@market-duck/types/user';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
@@ -37,38 +37,27 @@ const Container = styled(AppGutter)`
 interface UserInfoFormProps {
   page: 'signUp' | 'editUser';
   onNext: () => void;
+  mutate: UseMutateAsyncFunction<UserModel | undefined, Error, EditUserType, unknown>;
 }
 
 interface SubmitUserData {
   email?: string;
-  phoneNum?: string;
-  nickName?: string;
+  phoneNumber?: string;
+  nickname?: string;
   photo?: File | undefined | null;
 }
 
-export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
+export const UserInfoForm = ({ page, onNext, mutate }: UserInfoFormProps) => {
   const [currentUserInfo, setCurrentUserInfo] = useRecoilState(userDataAtom);
   const [data, setData] = useState<SubmitUserData>(() => {
     if (currentUserInfo?.nickname) {
       return {
-        nickName: currentUserInfo.nickname,
+        nickname: currentUserInfo.nickname,
       };
     }
     return {};
   });
   const { images, deleteIdx, imageHandler, deleteHandler, serverImageHandler } = useImageInput();
-  const { mutateAsync } = useMutation({
-    mutationKey: ['patch', 'user', currentUserInfo?.userId],
-    mutationFn: async (data: SubmitUserData) => {
-      if (!currentUserInfo?.userId) return;
-      const res = await userAPI.editUserById({
-        userId: currentUserInfo?.userId,
-        userData: { nickname: data.nickName, phoneNumber: currentUserInfo.phoneNumber },
-      });
-      return res;
-    },
-  });
-  const { alert } = useDialog();
 
   useEffect(() => {
     setData((prev) => ({ ...prev, photo: images[0]?.file }));
@@ -79,8 +68,8 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     setData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const validation = (type: 'nickName', value: string) => {
-    if (type === 'nickName') {
+  const validation = (type: 'nickname', value: string) => {
+    if (type === 'nickname') {
       const length = value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, '$&$1').length;
       return length >= 13 ? '닉네임은 한글 6자, 영어 12자 이하여야 합니다.' : '';
     }
@@ -96,26 +85,19 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
     }
   };
 
-  //TODO:: submitHandler step 별로 있어야 할 거 같고, 지금 작성해둔 거 개구림
   const submitHandler: MouseEventHandler<HTMLButtonElement> = async () => {
-    console.log({ data });
+    const { nickname, phoneNumber, photo } = data;
 
     if (!currentUserInfo?.userId) {
       return console.error('유저 아이디 정보가 없음');
     }
 
-    if (data.nickName || data.phoneNum) {
-      const newUserData = await userAPI.editUserById({
-        userId: currentUserInfo?.userId,
-        userData: { nickname: data.nickName, phoneNumber: data.phoneNum },
-      });
-
-      setCurrentUserInfo(newUserData);
+    if (nickname || phoneNumber) {
+      await mutate({ nickname, phoneNumber });
     }
 
-    if (data.photo) {
-      const newUserData = await userAPI.uploadProfileImage({ userId: currentUserInfo.userId, image: data.photo });
-
+    if (photo) {
+      const newUserData = await userAPI.uploadProfileImage({ userId: currentUserInfo.userId, image: photo });
       setCurrentUserInfo(newUserData);
     }
 
@@ -173,12 +155,12 @@ export const UserInfoForm = ({ page, onNext }: UserInfoFormProps) => {
             </Column>
           )}
           <Input
-            id="nickName"
+            id="nickname"
             label="닉네임"
-            value={data?.nickName || ''}
+            value={data?.nickname || ''}
             changeHandler={inputHandler}
-            isError={!!validation('nickName', data?.nickName || '')}
-            caption={validation('nickName', data?.nickName || '')}
+            isError={!!validation('nickname', data?.nickname || '')}
+            caption={validation('nickname', data?.nickname || '')}
           />
           <ImagesInput
             title="프로필 사진"

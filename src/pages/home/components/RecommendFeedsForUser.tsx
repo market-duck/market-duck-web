@@ -25,13 +25,13 @@ export const RecommendFeedsForUser = ({ user }: { user: UserModel }) => {
       </Typo>
       {!isLoading && data && (
         <>
-          <RecommendCard feeds={data?.feeds} title="최근 피드" tag="주술회전" nickName={user?.nickname} />
+          <RecommendCard feeds={data?.feeds} title="최근 피드" tag="주술회전" nickname={user?.nickname} />
           <Divider />
-          <RecommendCard feeds={data.feeds} title="인기 피드" tag="주술회전" nickName={user?.nickname} />
+          <RecommendCard feeds={data.feeds} title="인기 피드" tag="주술회전" nickname={user?.nickname} />
           <Divider />
-          <RecommendCard feeds={data.feeds} title="최근 피드" tag="아크릴 스탠드" nickName={user?.nickname} />
+          <RecommendCard feeds={data.feeds} title="최근 피드" tag="아크릴 스탠드" nickname={user?.nickname} />
           <Divider />
-          <RecommendCard feeds={data.feeds} title="인기 피드" tag="아크릴 스탠드" nickName={user?.nickname} />
+          <RecommendCard feeds={data.feeds} title="인기 피드" tag="아크릴 스탠드" nickname={user?.nickname} />
         </>
       )}
     </Column>

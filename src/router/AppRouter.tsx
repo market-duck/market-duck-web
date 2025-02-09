@@ -5,6 +5,7 @@ import { ContactList } from '@market-duck/pages/contact/ContactList.page';
 import { ContactRead } from '@market-duck/pages/contact/ContactRead.page';
 import { ContactCreate } from '@market-duck/pages/contact/ContectCreate.page';
 import { EditUserInfo } from '@market-duck/pages/editUserInfo/EditUserInfo.page';
+import { Setting } from '@market-duck/pages/editUserInfo/Setting.page';
 import { Create } from '@market-duck/pages/feed/Create.page';
 import { Edit } from '@market-duck/pages/feed/Edit.page';
 import { Read } from '@market-duck/pages/feed/Read.page';
@@ -49,6 +50,10 @@ export const appRouter = createBrowserRouter([
       {
         path: 'editUser',
         Component: EditUserInfo,
+      },
+      {
+        path: 'setting',
+        Component: Setting,
       },
       {
         path: 'feed',
