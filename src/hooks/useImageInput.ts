@@ -33,10 +33,12 @@ export const useImageInput = () => {
   };
 
   const serverImageHandler = (serverImgSrcs: string[]) => {
-    const serverImages = serverImgSrcs.map((src) => ({
+    const serverImages = serverImgSrcs.map((src, index) => ({
       src,
       file: null,
       isUploaded: true,
+      //삭제 시 사용
+      originIndex: index,
     }));
     setImages((prev) => [...serverImages, ...prev]);
   };

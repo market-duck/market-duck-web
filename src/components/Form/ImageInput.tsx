@@ -22,7 +22,7 @@ interface ImageInputsProps {
   length: number;
   images: ImageItem[];
   imageHandler: ChangeEventHandler<HTMLInputElement>;
-  deleteHandler: (idx: number) => void;
+  deleteHandler: (idx: number, originIndex?: number) => void;
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -98,7 +98,7 @@ export const ImagesInput = ({ title, length, images, imageHandler, deleteHandler
         )}
         {images.map((images, idx) => (
           <ThumbnailContainer key={idx}>
-            <Thumbnail imgSrc={images.src} size={size} deleteHandler={() => deleteHandler(idx)} />
+            <Thumbnail imgSrc={images.src} size={size} deleteHandler={() => deleteHandler(idx, images?.originIndex)} />
           </ThumbnailContainer>
         ))}
       </ImagesContainer>
