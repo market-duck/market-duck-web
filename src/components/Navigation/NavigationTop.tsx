@@ -96,7 +96,7 @@ export const NavigationTop = ({
           <NavigationTopButton onClick={rightClickAction}>{RightComponent}</NavigationTopButton>
         )
       ) : (
-        <div></div>
+        RightComponent
       )}
     </NavigationTopWrap>
   );
