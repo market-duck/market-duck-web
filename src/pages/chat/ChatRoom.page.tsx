@@ -1,0 +1,52 @@
+import { userDataAtom } from '@market-duck/atoms/user.atom';
+import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
+import { Chat } from '@market-duck/components/Chat/Chat';
+import { ChatHeader } from '@market-duck/components/Chat/ChatHeader';
+import { SendMessage } from '@market-duck/components/Chat/SendMessage';
+import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu';
+import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  position: relative;
+`;
+
+export const ChatRoom = () => {
+  const userData = useRecoilValue(userDataAtom);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!userData) {
+      // return navigate('/login');
+    }
+  }, []);
+
+  // if (!userData) return null;
+
+  const dropdownItems = [
+    {
+      id: 'leave',
+      name: '나가기',
+      handler: () => {},
+    },
+    { id: 'report', name: '신고하기', handler: () => {} },
+    { id: 'block', name: '차단하기', handler: () => {} },
+  ];
+  return (
+    <Container>
+      <NavigationTop
+        leftButtonIconType="back"
+        title={'nickname'}
+        rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
+      />
+      <ChatHeader />
+      <AppGutter>
+        <Chat />
+      </AppGutter>
+      <SendMessage />
+    </Container>
+  );
+};
