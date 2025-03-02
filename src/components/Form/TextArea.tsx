@@ -28,31 +28,30 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   border-radius: ${AppRadii.M};
   padding: ${AppSpcing.XS} ${AppSpcing.S};
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+  outline: none;
 
   &:hover {
     background-color: ${AppSemanticColor.BG_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
-    border-color: ${AppSemanticColor.BORDER_SECONDARY.hex};
+    box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_SECONDARY.hex} inset;
   }
 
   &.is-focus {
     background-color: ${AppSemanticColor.BG_SECONDARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
-    border-width: 2px;
-    border-color: ${AppSemanticColor.BORDER_FOCUS_RING.hex};
+    box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_FOCUS_RING.hex} inset;
   }
 
   &.is-error {
     background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
-    border-width: 2px;
-    border-color: ${AppSemanticColor.TEXT_DANGER.hex};
+    box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_FOCUS_RING.hex} inset;
   }
 
   &.is-disabled {
     background-color: ${AppSemanticColor.BG_DISABLED.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
-    border-color: ${AppSemanticColor.BORDER_TERTIARY.hex};
+    box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_FOCUS_RING.hex} inset;
   }
 `;
 
