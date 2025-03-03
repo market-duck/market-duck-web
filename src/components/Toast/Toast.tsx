@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Row } from '../Flex/Flex';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { Typo } from '../Typo/Typo';
 
 /**
  * @usage 원하는 곳에서 Toast 컴포넌트 호출 및 사용
@@ -40,15 +41,6 @@ export const CustomToastContainer = styled(ToastContainer)`
 
 const ToastMsgWrap = styled(Row)`
   width: 100%;
-  font-weight: 500;
-
-  .title {
-    ${AppTypo.BODY_LG};
-  }
-
-  .desc {
-    ${AppTypo.BODY_SM}
-  }
 
   .closeIcon {
     cursor: pointer;
@@ -59,8 +51,12 @@ const Msg = ({ closeToast, title, desc }: Omit<ToastProps, 'type'> & { closeToas
   return (
     <ToastMsgWrap justify="between" alignItems="start">
       <div>
-        <p className="title">{title}</p>
-        <p className="desc">{desc}</p>
+        <Typo tag="p" type="BODY_LG">
+          {title}
+        </Typo>
+        <Typo tag="p" type="BODY_SM">
+          {desc}
+        </Typo>
       </div>
       <XMarkIcon className="closeIcon" width={24} fill={AppSemanticColor.ICON_PRIMARY.hex} onClick={closeToast} />
     </ToastMsgWrap>
