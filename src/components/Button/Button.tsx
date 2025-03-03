@@ -25,7 +25,7 @@ const size: CssObjectType = {
   medium: css`
     padding: ${AppSpcing.XS} ${AppSpcing.L};
     gap: ${AppSpcing.XS};
-    border-radius: ${AppRadii.S};
+    border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_MD}
   `,
@@ -33,7 +33,7 @@ const size: CssObjectType = {
   small: css`
     padding: ${AppSpcing.XS} ${AppSpcing.M};
     gap: ${AppSpcing.XXS};
-    border-radius: ${AppRadii.S};
+    border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_SM}
   `,
