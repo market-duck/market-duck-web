@@ -5,8 +5,6 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 
 const ListItemWrap = styled(Row)`
-  justify-content: space-between;
-  align-items: center;
   padding: ${AppSpcing.XS};
   border-bottom: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   cursor: pointer;
@@ -16,9 +14,19 @@ const ListItemWrap = styled(Row)`
   }
 `;
 
-export const ListItem = ({ left, right, onClick }: { left: ReactNode; right?: ReactNode; onClick?: () => void }) => {
+export const ListItem = ({
+  left,
+  right,
+  onClick,
+  align,
+}: {
+  left: ReactNode;
+  right?: ReactNode;
+  onClick?: () => void;
+  align?: 'center' | 'start' | 'end';
+}) => {
   return (
-    <ListItemWrap onClick={onClick}>
+    <ListItemWrap className="listItemWrap" onClick={onClick} justify="between" alignItems={align || 'center'}>
       <div className="left">{left}</div>
       <div className="right">{right}</div>
     </ListItemWrap>
