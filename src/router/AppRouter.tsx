@@ -1,6 +1,7 @@
 import { NotFound } from '@market-duck/pages/NotFound.page';
 import { Oauth } from '@market-duck/pages/Oauth.page';
 import { Alert } from '@market-duck/pages/alert/Alert.page';
+import { ChatList } from '@market-duck/pages/chat/List.page';
 import { ContactList } from '@market-duck/pages/contact/ContactList.page';
 import { ContactRead } from '@market-duck/pages/contact/ContactRead.page';
 import { ContactCreate } from '@market-duck/pages/contact/ContectCreate.page';
@@ -92,6 +93,16 @@ export const appRouter = createBrowserRouter([
         children: [
           { path: 'list', Component: NoticeList },
           { path: 'detail', Component: NoticeDetail },
+        ],
+      },
+      {
+        path: 'chat',
+        Component: Outlet,
+        children: [
+          {
+            path: '',
+            Component: ChatList,
+          },
         ],
       },
       { path: '*', element: <NotFound /> },
