@@ -2,6 +2,7 @@ import { Badge } from '@market-duck/components/Badge/Badge';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ListItem } from '@market-duck/components/List/ListItem';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
 
@@ -52,6 +53,7 @@ const Right = ({ noReadCount, lastViewDate }: Pick<ChatListItemProps, 'noReadCou
 };
 
 export const ChatListItem = ({ imgUrl, id, name, lastMessage, noReadCount, lastViewDate }: ChatListItemProps) => {
+  const navigate = useNavigate();
   return (
     <ListItem
       key={id}
@@ -59,7 +61,7 @@ export const ChatListItem = ({ imgUrl, id, name, lastMessage, noReadCount, lastV
       left={<Left imgUrl={imgUrl} name={name} lastMessage={lastMessage} />}
       right={<Right noReadCount={noReadCount} lastViewDate={lastViewDate} />}
       onClick={() => {
-        console.log('채팅방 안으루 이동~ ');
+        navigate('/chat/room', { state: { roomId: id } });
       }}
     />
   );

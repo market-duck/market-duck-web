@@ -6,7 +6,7 @@ import { SendMessage } from '@market-duck/components/Chat/SendMessage';
 import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -16,9 +16,12 @@ const Container = styled.div`
 
 export const ChatRoom = () => {
   const userData = useRecoilValue(userDataAtom);
-  const navigate = useNavigate();
+  const {
+    state: { roomId },
+  } = useLocation();
 
   useEffect(() => {
+    console.log(roomId);
     if (!userData) {
       // return navigate('/login');
     }

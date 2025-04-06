@@ -80,20 +80,6 @@ export const appRouter = createBrowserRouter([
         ],
       },
       {
-        path: 'chat',
-        Component: Outlet,
-        children: [
-          {
-            path: 'list',
-            element: <></>,
-          },
-          {
-            path: 'room/:roomId',
-            Component: ChatRoom,
-          },
-        ],
-      },
-      {
         path: 'contact',
         Component: Outlet,
         children: [
@@ -117,6 +103,10 @@ export const appRouter = createBrowserRouter([
           {
             path: '',
             Component: ChatList,
+          },
+          {
+            path: 'room',
+            Component: ChatRoom,
           },
         ],
       },
