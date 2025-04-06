@@ -58,7 +58,6 @@ export const SendMessage = () => {
         id="image"
         type="file"
         accept={'.gif, .jpg, .jpeg, .png'}
-        maxLength={5}
         onChange={imageHandler}
         multiple={true}
       />
