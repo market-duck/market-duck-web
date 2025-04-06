@@ -59,7 +59,7 @@ export const NavigationTop = ({
   const BellIcon = alarmButtonIconType === 'fill' ? FillBellIcon : OutlineBellIcon;
   // const LeftComponent = SymbolIcon || leftButton || createElement(LeftIcon);
   const LeftComponent = leftButtonIconType === 'basic' ? <SymbolIcon /> : <ChevronLeftIcon />;
-  const RightComponent = rightButton || <BellIcon />;
+  const RightComponent = rightButton || <BellIcon width={24} />;
   const navigate = useNavigate();
 
   const leftClickAction = () => {
@@ -96,7 +96,7 @@ export const NavigationTop = ({
           <NavigationTopButton onClick={rightClickAction}>{RightComponent}</NavigationTopButton>
         )
       ) : (
-        <div></div>
+        RightComponent
       )}
     </NavigationTopWrap>
   );

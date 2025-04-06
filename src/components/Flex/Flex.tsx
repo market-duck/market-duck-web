@@ -6,7 +6,7 @@ type FlexJustify = keyof typeof justifyMap;
 
 type FlexAlignItems = keyof typeof alignItemsMap;
 
-type FlexWrapItems = 'wrap' | 'no-wrap';
+type FlexWrapItems = 'wrap' | 'nowrap';
 
 const justifyMap = {
   start: 'flex-start',
@@ -29,7 +29,7 @@ const getCSSProperty = ({
   $alignItems = 'stretch',
   $gap = 'NONE',
   $flex = 'auto',
-  $flexWrap = 'no-wrap',
+  $flexWrap = 'nowrap',
 }: {
   $justify?: FlexJustify;
   $alignItems?: FlexAlignItems;
@@ -52,17 +52,18 @@ interface StyledFlexProps {
   $gap?: AppSpcingKey;
   $flex?: number | 'auto' | 'none' | 'initial';
   $flexWrap?: FlexWrapItems;
+  $reverse?: boolean;
 }
 
 const StyledRow = styled.div<StyledFlexProps>`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')};
   ${(props) => getCSSProperty(props)}
 `;
 
 const StyledColumn = styled.div<StyledFlexProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ $reverse }) => ($reverse ? 'column-reverse' : 'column')};
   ${(props) => getCSSProperty(props)}
 `;
 
@@ -72,16 +73,33 @@ interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   gap?: AppSpcingKey;
   flex?: number | 'auto' | 'none' | 'initial';
   flexWrap?: FlexWrapItems;
+  reverse?: boolean;
 }
 
-export const Row = ({ children, justify, alignItems, gap, flex, flexWrap, ...props }: FlexProps) => (
-  <StyledRow $justify={justify} $alignItems={alignItems} $flex={flex} $flexWrap={flexWrap} $gap={gap} {...props}>
+export const Row = ({ children, justify, alignItems, gap, flex, flexWrap, reverse, ...props }: FlexProps) => (
+  <StyledRow
+    $justify={justify}
+    $alignItems={alignItems}
+    $flex={flex}
+    $flexWrap={flexWrap}
+    $gap={gap}
+    $reverse={reverse}
+    {...props}
+  >
     {children}
   </StyledRow>
 );
 
-export const Column = ({ children, justify, alignItems, gap, flex, flexWrap, ...props }: FlexProps) => (
-  <StyledColumn $justify={justify} $alignItems={alignItems} $flex={flex} $flexWrap={flexWrap} $gap={gap} {...props}>
+export const Column = ({ children, justify, alignItems, gap, flex, flexWrap, reverse, ...props }: FlexProps) => (
+  <StyledColumn
+    $justify={justify}
+    $alignItems={alignItems}
+    $flex={flex}
+    $flexWrap={flexWrap}
+    $gap={gap}
+    $reverse={reverse}
+    {...props}
+  >
     {children}
   </StyledColumn>
 );

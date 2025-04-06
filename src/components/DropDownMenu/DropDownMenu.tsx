@@ -8,7 +8,7 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 
-const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined }>`
+const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined; $isTransparent: boolean | undefined }>`
   display: inline-flex;
   position: relative;
   ${AppTypo.BODY_SM}
@@ -35,7 +35,8 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined }
     justify-content: space-between;
     gap: ${AppSpcing.XXS};
     padding: ${({ $isDotMenu }) => ($isDotMenu ? `${AppSpcing.XXS}` : `${AppSpcing.XS} ${AppSpcing.XXS}`)};
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
+    background-color: ${({ $isTransparent }) =>
+      $isTransparent ? `transparent` : AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
     border-radius: ${AppRadii.M};
     font-weight: 500;
     color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
@@ -82,9 +83,17 @@ interface DropDownMenuProps extends HTMLAttributes<HTMLUListElement> {
   selectedIndex?: number;
   setSelectedIndex?: Dispatch<SetStateAction<number>>;
   disabled?: boolean;
+  isTransparent?: boolean;
 }
 
-export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu, disabled }: DropDownMenuProps) => {
+export const DropDownMenu = ({
+  items,
+  selectedIndex,
+  setSelectedIndex,
+  isDotMenu,
+  disabled,
+  isTransparent,
+}: DropDownMenuProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -120,7 +129,7 @@ export const DropDownMenu = ({ items, selectedIndex, setSelectedIndex, isDotMenu
   };
 
   return (
-    <Wrap ref={dropDownRef} $isDotMenu={isDotMenu} $disabled={disabled}>
+    <Wrap ref={dropDownRef} $isDotMenu={isDotMenu} $disabled={disabled} $isTransparent={isTransparent}>
       <button className="selectedItem" onClick={openHandler} disabled={disabled}>
         {isDotMenu ? (
           <EllipsisHorizontalIcon width={16} />

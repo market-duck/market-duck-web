@@ -1,4 +1,6 @@
-import { InputHTMLAttributes, ReactNode, useState } from 'react';
+import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
+import { ImageItem } from '@market-duck/types/image';
+import { ChangeEventHandler, InputHTMLAttributes, ReactNode, useRef, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -149,6 +151,104 @@ export const Input = ({
           {caption}
         </Caption>
       )}
+    </InputWrap>
+  );
+};
+
+const InputWithImageContent = styled(InputContent)`
+  flex-direction: column;
+  > textarea {
+    width: 100%;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    flex: auto;
+    min-width: 0;
+    background-color: transparent;
+    resize: none;
+  }
+  > .imagesContainer {
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    gap: ${AppSpcing.XXS};
+  }
+`;
+
+type InputWithImageProps = Omit<
+  InputHTMLAttributes<HTMLTextAreaElement>,
+  'prefix' | 'suffix' | 'value' | 'type' | 'style' | 'maxLength'
+> & {
+  value: string;
+  placeholder?: string;
+  changeHandler: ChangeEventHandler<HTMLTextAreaElement>;
+  images: ImageItem[];
+  deleteHandler: (idx: number) => void;
+  isDisabled?: boolean;
+};
+
+export const InputWithImage = ({
+  value,
+  changeHandler,
+  placeholder,
+  images,
+  deleteHandler,
+  isDisabled,
+  ...props
+}: InputWithImageProps) => {
+  const [isFocus, setIsFocus] = useState<boolean>(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  const onFocus = () => {
+    setIsFocus(true);
+  };
+  const onBlur = () => {
+    setIsFocus(false);
+  };
+
+  const autoHeight = () => {
+    const textarea = ref?.current;
+    if (!textarea) return;
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  };
+
+  const containerClickHandler = () => {
+    const textarea = ref?.current;
+    if (!textarea) return;
+    textarea.focus();
+  };
+
+  return (
+    <InputWrap>
+      <InputWithImageContent $focus={isFocus} $error={false} $disabled={isDisabled} onClick={containerClickHandler}>
+        {!!images.length && (
+          <ul className="imagesContainer">
+            {images.map((image, idx) => (
+              <li
+                key={idx}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <Thumbnail imgSrc={image.src} size="lg" deleteHandler={() => deleteHandler(idx)} />
+              </li>
+            ))}
+          </ul>
+        )}
+        <textarea
+          ref={ref}
+          placeholder={placeholder}
+          disabled={isDisabled}
+          rows={1}
+          value={value}
+          onInput={autoHeight}
+          onChange={changeHandler}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          {...props}
+        />
+      </InputWithImageContent>
     </InputWrap>
   );
 };
