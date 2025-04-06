@@ -1,7 +1,8 @@
-import { BgImage } from './BgImage';
-import styled from 'styled-components';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import Placeholder from '@market-duck/assets/images/placeholder.svg';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import styled from 'styled-components';
+import { BgImage } from './BgImage';
 
 const AvatarImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
   return {
@@ -9,6 +10,7 @@ const AvatarImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size 
   };
 })`
   background-size: cover;
+  background-position: center;
   border-radius: ${AppRadii.M};
 
   &.size-sm {
@@ -28,8 +30,6 @@ const AvatarImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size 
 `;
 
 export const Avatar = ({ imgSrc, size = 'md' }: { imgSrc?: string; size?: 'sm' | 'md' | 'lg' }) => {
-  const url =
-    imgSrc ||
-    'https://pixabay.com/ko/photos/%EA%B3%A0%EC%96%91%EC%9D%B4-%EB%A3%A8-%EB%8A%99%EC%9D%80-%EB%B0%94%EB%9D%BC%EB%B3%B4%EB%8B%A4-5183427/';
+  const url = imgSrc || Placeholder;
   return <AvatarImg $src={url} $size={size} />;
 };
