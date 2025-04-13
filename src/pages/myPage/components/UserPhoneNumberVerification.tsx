@@ -27,6 +27,9 @@ const InputButtonBox = styled(Row)`
 
   > .inputArea {
     flex: 1;
+
+    .inputCaption {
+    }
   }
 
   > .inputButton {
@@ -64,7 +67,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
 
   //인증번호 인풋 캡션
   const verifyInputCaption = isTimerActive
-    ? `${Math.floor(timer / 60)}: ${timer % 60}`
+    ? `남은 시간 ${Math.floor(timer / 60)}: ${timer % 60}`
     : isVerifySuccess
       ? '인증이 완료되었습니다.'
       : verifyCodeError;
@@ -151,7 +154,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
     <Container>
       <Column gap="XL">
         <Column flex={0}>
-          <PageHeading title="본인 인증" />
+          <PageHeading title="휴대폰번호를 입력해주세요." />
           <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
             {page === 'signUp'
               ? '보다 안전한 거래를 위해 본인 인증이 필요해요.'
@@ -191,6 +194,7 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
               isDisabled={!isCodeSent}
               isError={isCodeSent && isVerifySuccess !== null && !isVerifySuccess}
               caption={isCodeSent ? verifyInputCaption : ''}
+              isInfo={isTimerActive}
             />
             <Button
               disabled={!isTimerActive || !isCodeSent}
@@ -214,9 +218,6 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
             <Button onClick={onNext} variant="text">
               건너뛰기
             </Button>
-            <TypoAlignCenter tag="p" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
-              본인 인증을 생략하면 서비스 이용에 제한이 있어요.
-            </TypoAlignCenter>
           </Column>
         )}
       </Column>

@@ -10,9 +10,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { Welcome } from '../myPage/components/Welcome';
 
 export const SignUp = () => {
-  const [step, setStep] = useState<'phoneVerification' | 'userInfo' | 'onBoard'>('phoneVerification');
+  const [step, setStep] = useState<'phoneVerification' | 'userInfo' | 'onBoard' | 'welcome'>('phoneVerification');
   const navigate = useNavigate();
   const [currentUserInfo, setCurrentUserInfo] = useRecoilState(userDataAtom);
   const { alert } = useDialog();
@@ -77,9 +78,16 @@ export const SignUp = () => {
         <SelectInterestTag
           page="signUp"
           onNext={() => {
-            navigate('/');
+            setStep('welcome');
           }}
           mutate={mutateAsync}
+        />
+      )}
+      {step === 'welcome' && (
+        <Welcome
+          onNext={() => {
+            navigate('/');
+          }}
         />
       )}
     </>

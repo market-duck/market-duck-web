@@ -9,6 +9,7 @@ import { Button } from '@market-duck/components/Button/Button';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
+import { PageHeading } from '@market-duck/components/PageHeading/PageHeading';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { EditUserType, UserLoginProviderType } from '@market-duck/types/user';
@@ -70,8 +71,7 @@ export const UserInfoForm = ({ page, onNext, mutate }: UserInfoFormProps) => {
 
   const validation = (type: 'nickname', value: string) => {
     if (type === 'nickname') {
-      const length = value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, '$&$1').length;
-      return length >= 13 ? '닉네임은 한글 6자, 영어 12자 이하여야 합니다.' : '';
+      return value.length <= 0 ? '최대 35자 입력 가능' : '';
     }
   };
 
@@ -125,6 +125,12 @@ export const UserInfoForm = ({ page, onNext, mutate }: UserInfoFormProps) => {
   return (
     <Container>
       <Column gap="XL" flex={0}>
+        <Column flex={0}>
+          <PageHeading title="회원 정보를 입력해주세요." />
+          <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_TERTIARY.color}>
+            거래를 진행할 때 필요해요.
+          </Typo>
+        </Column>
         {currentUserInfo && page === 'editUser' && (
           <Column gap="XXS">
             <span className="emailLabel">계정</span>

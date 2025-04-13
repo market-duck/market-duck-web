@@ -55,21 +55,16 @@ interface SelectInterestTagProps {
 
 export const SelectInterestTag = ({ page, onNext, mutate }: SelectInterestTagProps) => {
   const [selectedGenreTag, setSelectedGenreTag] = useState<CategoryModel[]>([]);
-  const [selectedGoodsTag, setSelectedGoodsTag] = useState<CategoryModel[]>([]);
 
   const showByTagGenreList = dummyGenre.slice(0, 8);
-  const showByTagCategoryList = dummyCategoty.slice(0, 8);
 
-  const isSelectedTags = selectedGoodsTag.length || selectedGenreTag.length;
+  const isSelectedTags = selectedGenreTag.length;
 
   const submitHandler = async () => {
     const genreCategory = selectedGenreTag.map((category) => category.categoryId);
-    const goodsCategory = selectedGoodsTag.map((category) => category.categoryId);
 
-    console.log(genreCategory, goodsCategory);
     await mutate({
       genreCategory,
-      goodsCategory,
     });
     onNext();
   };
@@ -81,52 +76,33 @@ export const SelectInterestTag = ({ page, onNext, mutate }: SelectInterestTagPro
       <Column gap="M">
         <Column gap="XL">
           <Column gap="M" flex={0}>
-            <PageHeading title="홈 화면 구성하기" />
+            <PageHeading title="관심있는 장르를 알려주세요." />
             <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
-              태그를 선택해 관심사 기반으로 홈 화면을 구성해요.
+              선택한 장르를 기반으로 홈 화면을 구성해요.
             </Typo>
           </Column>
-          <Column gap="M">
-            <Column gap="M" flex={0}>
-              <PageHeading title="관심 장르" />
-              <Row flexWrap="wrap" gap="XS">
-                {showByTagGenreList.map((item) => (
-                  <Tag
-                    key={item}
-                    text={item}
-                    onClick={() => {}}
-                    // color={selectedGenreTag.includes(item) ? 'primary' : 'secondary'}
-                  />
-                ))}
-              </Row>
-              <SearchCategory
-                selecteds={selectedGenreTag}
-                changeSelectedsHandler={(value) => setSelectedGenreTag(value)}
-                categoryType="GENRE"
-                isError={false}
-                placeholder="관심 장르 검색"
-              />
-            </Column>
-            <Column gap="M" flex={0}>
-              <PageHeading title="관심 품목" />
-              <Row flexWrap="wrap" gap="XS">
-                {showByTagCategoryList.map((item) => (
-                  <Tag
-                    key={item}
-                    text={item}
-                    onClick={() => {}}
-                    // color={selectedCategoryTag.includes(item) ? 'primary' : 'secondary'}
-                  />
-                ))}
-              </Row>
-              <SearchCategory
-                selecteds={selectedGoodsTag}
-                changeSelectedsHandler={(value) => setSelectedGoodsTag(value)}
-                categoryType="GOODS"
-                isError={false}
-                placeholder="관심 품목 검색"
-              />
-            </Column>
+
+          <Column gap="M" flex={0}>
+            <SearchCategory
+              selecteds={selectedGenreTag}
+              changeSelectedsHandler={(value) => setSelectedGenreTag(value)}
+              categoryType="GENRE"
+              isError={false}
+              placeholder="관심 장르 검색"
+            />
+            <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
+              많은 사람들이 선택한 장르
+            </Typo>
+            <Row flexWrap="wrap" gap="XS">
+              {showByTagGenreList.map((item) => (
+                <Tag
+                  key={item}
+                  text={item}
+                  onClick={() => {}}
+                  // color={selectedGenreTag.includes(item) ? 'primary' : 'secondary'}
+                />
+              ))}
+            </Row>
           </Column>
         </Column>
         <Column gap="XS" flex={0}>
