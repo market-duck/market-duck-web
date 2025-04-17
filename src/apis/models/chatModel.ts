@@ -1,4 +1,5 @@
 import { BaseUserModel, IBaseUserModelData } from '@market-duck/apis/models/userModel';
+import { ChatRoomStatusType } from '@market-duck/types/chat';
 
 export interface IBaseChatMessageModel {
   messageId: number;
@@ -21,7 +22,7 @@ export interface IBaseChatRoomModel {
   feedImageUrl: string;
   sender: IBaseUserModelData;
   receiver: IBaseUserModelData;
-  status: string;
+  status: ChatRoomStatusType;
   createdAt: string;
   recentMessages: IBaseChatMessageModel[];
   unreadCount: number;
@@ -63,7 +64,7 @@ export class ChatRoomModel {
   feedImageUrl: string;
   sender: BaseUserModel;
   receiver: BaseUserModel;
-  status: string;
+  status: ChatRoomStatusType;
   createdAt: Date;
   recentMessages: ChatMessageModel[];
   unreadCount: number;
