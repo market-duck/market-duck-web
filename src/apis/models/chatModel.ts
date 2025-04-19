@@ -10,7 +10,7 @@ export interface IBaseChatMessageModel {
   chatRoomId: number;
   sessionId: string;
   messageType: string;
-  createAt: string;
+  createdAt: string;
   read: boolean;
 }
 
@@ -37,7 +37,7 @@ export class ChatMessageModel {
   chatRoomId: number;
   sessionId: string;
   messageType: string;
-  createAt: Date;
+  createdAt: Date;
   read: boolean;
   constructor(data: IBaseChatMessageModel) {
     this.messageId = data.messageId;
@@ -48,7 +48,7 @@ export class ChatMessageModel {
     this.chatRoomId = data.chatRoomId;
     this.sessionId = data.sessionId;
     this.messageType = data.messageType;
-    this.createAt = new Date(data.createAt);
+    this.createdAt = new Date(data.createdAt);
     this.read = data.read;
   }
   static fromJson(data: IBaseChatMessageModel) {
