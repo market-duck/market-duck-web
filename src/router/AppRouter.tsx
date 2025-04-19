@@ -73,10 +73,6 @@ export const appRouter = createBrowserRouter([
             path: 'edit',
             Component: Edit,
           },
-          // {
-          //   path: '/show',
-          //   Component: <></>,
-          // },
         ],
       },
       {

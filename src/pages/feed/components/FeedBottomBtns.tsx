@@ -1,6 +1,8 @@
 import { ChatBubbleLeftRightIcon, HeartIcon as LineHeart } from '@heroicons/react/24/outline';
+import { chatAPI } from '@market-duck/apis/chatAPI';
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { FeedDetailModel } from '@market-duck/apis/models/feedModel';
+import { UserModel } from '@market-duck/apis/models/userModel';
 import { Button } from '@market-duck/components/Button/Button';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
@@ -32,15 +34,29 @@ const BtnContents = styled(Row)`
   }
 `;
 
-export const FeedBottomBtns = ({ isMyFeed, feedDetail }: { isMyFeed: boolean; feedDetail: FeedDetailModel }) => {
+export const FeedBottomBtns = ({ user, feedDetail }: { user: UserModel | null; feedDetail: FeedDetailModel }) => {
+  const isMyFeed = user?.userId === feedDetail.userInfo.userId;
   const navigate = useNavigate();
-  const { confirm } = useDialog();
-  const { mutateAsync } = useMutation({
+  const { confirm, alert } = useDialog();
+  const { mutateAsync: deleteFeed } = useMutation({
     mutationKey: ['feed', 'read', feedDetail.feedId],
     mutationFn: async () => {
       await feedAPI.deleteFeed({ feedId: feedDetail.feedId });
     },
   });
+  const { mutateAsync: createChatRoom } = useMutation({
+    mutationKey: ['chat', 'create', feedDetail.feedId],
+    mutationFn: async () =>
+      await chatAPI.createChatRoom({ feedId: feedDetail.feedId, receiverId: feedDetail.userInfo.userId }),
+    onSuccess: (data) => {
+      navigate('/chat/room', { state: { roomId: data.chatRoomId } });
+    },
+    onError: (error) => {
+      console.error(error);
+      alert({ title: '채팅방 생성 실패', desc: '채팅방 생성에 실패했습니다.\n다시 시도해주세요.' });
+    },
+  });
+
   const btnHandler: ButtonClickHandler = async ({ currentTarget }) => {
     const { id } = currentTarget;
     if (isMyFeed) {
@@ -54,18 +70,31 @@ export const FeedBottomBtns = ({ isMyFeed, feedDetail }: { isMyFeed: boolean; fe
           positiveBtnVariant: 'danger',
         });
         if (result) {
-          await mutateAsync();
+          await deleteFeed();
           navigate(-1);
         }
       }
     } else {
+      if (!user) {
+        const result = await confirm({
+          title: '로그인 후 이용해주세요.',
+          desc: '로그인이 필요한 서비스입니다.',
+          positiveBtnText: '로그인',
+        });
+
+        if (result) navigate('/login');
+        return;
+      }
+
       if (id === 'primary') {
-        console.log('채팅');
+        await createChatRoom();
       } else if (id === 'secondary') {
+        // TODO: 찜 기능 API 연결 필요 (낙관적 업데이트)
         console.log('찜');
       }
     }
   };
+
   return (
     <BtnContainer gap="XS">
       <Button id="secondary" size="medium" variant={isMyFeed ? 'danger' : 'secondary'} row onClick={btnHandler}>

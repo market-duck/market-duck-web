@@ -1,6 +1,8 @@
+import { chatAPI } from '@market-duck/apis/chatAPI';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
-import { ListItem } from '@market-duck/components/List/ListItem';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
+import { getTimeDiff } from '@market-duck/utils/date';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ChatListItem } from './components/ChatListItem';
@@ -43,20 +45,24 @@ const dummy = [
 
 export const ChatList = () => {
   const navigate = useNavigate();
+  const { data: chatRooms } = useQuery({
+    queryKey: ['chat', 'rooms'],
+    queryFn: () => chatAPI.getChatRooms(),
+  });
   return (
     <>
       <NavigationTop leftButtonIconType="back" title="채팅 목록" onLeftClick={() => navigate('/')} />
       <Wrap>
-        {dummy.map(({ imgUrl, id, name, lastMessage, noReadCount, lastViewDate }) => {
+        {chatRooms?.map((room) => {
           return (
             <ChatListItem
-              key={id}
-              imgUrl={imgUrl}
-              id={id}
-              name={name}
-              lastMessage={lastMessage}
-              noReadCount={noReadCount}
-              lastViewDate={lastViewDate}
+              key={room.chatRoomId}
+              imgUrl={room.receiver.profileImageUrl}
+              id={room.chatRoomId}
+              name={room.receiver.nickname}
+              lastMessage={room.recentMessages[room.recentMessages.length - 1].content}
+              noReadCount={room.unreadCount}
+              lastViewDate={getTimeDiff(room.recentMessages[room.recentMessages.length - 1].createdAt)}
             />
           );
         })}
