@@ -1,10 +1,10 @@
+import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
-import axios from 'axios';
+import { ChatMessageType } from '@market-duck/types/chat';
+import { SocketClient } from '@market-duck/utils/socketClient';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { Client as StompClient } from '@stomp/stompjs';
-import { envManager } from '@market-duck/utils/env';
-import { useInfiniteQuery } from '@tanstack/react-query';
 
 enum ChatAction {
   SEND_ADDRESS = 'SEND_ADDRESS',
@@ -13,12 +13,10 @@ enum ChatAction {
 
 export const useChat = (currentRoomId: number) => {
   const [text, setText] = useState('');
-  const [messageRoom, setMessageRoom] = useState<{ messages: any[] }>({
+  const [messageRoom, setMessageRoom] = useState<{ messages: ChatMessageModel[] }>({
     messages: [],
   });
   const userData = useRecoilValue(userDataAtom);
-  const [receiverId, setReceiverId] = useState(0);
-  const WEB_SOCKET_URL = envManager.getApiUrl()?.replace('https', 'ws') + '/ws-chat';
 
   const { data, fetchNextPage, isLoading, isFetchingNextPage, error } = useInfiniteQuery({
     queryKey: ['chat', currentRoomId],
@@ -31,112 +29,74 @@ export const useChat = (currentRoomId: number) => {
     initialPageParam: 0,
   });
 
-  if (!userData) return;
-
-  const sessionId = data?.pages[0].data.sessionId;
-  const senderId = data?.pages[0].data.senderId;
-
-  const client = useRef<StompClient>(
-    new StompClient({
-      brokerURL: WEB_SOCKET_URL,
-      connectHeaders: {
-        Authorization: localStorage.getItem('accessToken') || '',
-      },
-      debug: () => {},
-      reconnectDelay: 3000,
-      heartbeatIncoming: 2000,
-      heartbeatOutgoing: 2000,
-      // 핸드셰이크 과정을 통해 연결이 완료되면 정해진 토픽을 구독
-      onStompError: (frame) => {
-        console.error(frame);
-      },
-    }),
-  );
+  const client = useRef<SocketClient>(SocketClient.getInstance());
 
   // StompJS 인스턴스 생성 및 연결
   const connect = () => {
-    client.current.activate();
+    client.current.connect();
   };
 
   const disconnect = () => {
-    client.current.deactivate();
+    client.current.disconnect();
   };
 
   useEffect(() => {
-    // CurrentRoomId는 특정 채팅방을 클릭할 때 마다 해당 방의 ID를 담는 전역 상태
-    // 바뀔 때마다 useEffect가 작동
-    const setRoom = async () => {
-      // 기존 대화내역을 서버에서 받아오고 (initialChatSetting)
-      await initialChatSetting();
-      // StompJs 인스턴스를 생성하여 연결한다
-      connect();
-    };
-    setRoom();
+    connect();
+
     // 컴포넌트 언마운트 시 연결 종료
     return () => disconnect();
   }, [currentRoomId]);
 
-  // 기존 대화내역을 서버에서 받아오는 함수
-  const initialChatSetting = async () => {
-    // if (currentRoomId !== 0 && currentRoomId !== undefined)
-    //   await axios
-    //     .get(`/messages/rooms/${profileId}/${currentRoomId}`)
-    //     .then(({ data: { data } }) => {
-    //       if (profileId === data.tuteeId) {
-    //         setReceiverId(data.tutorId);
-    //       } else setReceiverId(data.tuteeId);
-    //       setMessageRoom(data);
-    //     })
-    //     .catch((err) => console.log(err));
-  };
+  const sessionId = data?.pages[0].data.sessionId;
+  const senderId = data?.pages[0].data.senderId;
+
+  if (!userData || !sessionId || !senderId) return;
 
   // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
-    client.current.subscribe(`/sub/chat/room/${sessionId}`, (res) => {
+    client.current.subscribeToChat(sessionId, (msg) => {
       setMessageRoom((prev) => ({
         ...prev,
-        messages: [...prev.messages, JSON.parse(res.body)],
+        messages: [...prev.messages, msg],
       }));
     });
   };
 
   // 메세지 발행을 위한 함수
-  const publish = (text: string) => {
-    if (!client.current.connected) {
+  const sendMessage = (text: string, type: ChatMessageType) => {
+    if (!client.current.isConnected()) {
       return;
     }
 
-    client.current.publish({
-      destination: `/pub/chat/message`,
-      body: JSON.stringify({
-        chatRoomId: currentRoomId,
-        senderId: 2,
-        content: text,
-        sessionId: sessionId,
-        messageType: 'TEXT',
-      }),
+    client.current.sendMessage({
+      chatRoomId: currentRoomId,
+      senderId: userData.userId,
+      content: text,
+      sessionId: sessionId,
+      messageType: type,
     });
     setText('');
   };
 
   const sendText = () => {
-    publish(text);
+    sendMessage(text, 'TEXT');
     setText('');
   };
 
   const sendAction = (action: ChatAction) => {
-    if (!client.current.connected) {
-      return;
-    }
+    sendMessage(action, 'ACTION');
+  };
 
-    publish(action);
+  const sendImage = (url: string) => {
+    // TODO: 이미지 업로드 API 호출하여 우선 처리 후 메세지 전송 필요
+    sendMessage(url, 'IMAGE');
   };
 
   return {
     sendText,
     sendAction,
     disconnect,
-    publish,
+    publish: sendMessage,
     messageRoom,
     setMessageRoom,
     text,
