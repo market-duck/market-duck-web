@@ -38,6 +38,7 @@ class FeedAPI {
     const { status } = await fetchClient.patch('/feed/image', { feedId, indexIdList });
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
+
   async createFeed(feedData: ReqFeedDataType) {
     const { status, data } = await fetchClient.post('feed', feedData);
     const isSuccess = status <= 299;
@@ -47,6 +48,7 @@ class FeedAPI {
       feedId: isSuccess ? data.data.feedId : null,
     };
   }
+
   async editFeed({ feedId, feedData }: { feedId: number; feedData: ReqFeedDataType }) {
     const { status, data } = await fetchClient.patch(`feed/${feedId}`, feedData);
     const isSuccess = status <= 299;
@@ -65,6 +67,8 @@ class FeedAPI {
     const { status } = await fetchClient.delete(`feed/${feedId}`);
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
+
+  // TODO: 찜 기능 API 작성 필요
 }
 
 export const feedAPI = new FeedAPI();
