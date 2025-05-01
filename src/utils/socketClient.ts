@@ -2,6 +2,7 @@ import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { ReqChatMessageType } from '@market-duck/types/chat';
 import { envManager } from '@market-duck/utils/env';
 import { Client as StompClient } from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
 
 export class SocketClient {
   private static instance: SocketClient;
@@ -12,7 +13,7 @@ export class SocketClient {
     const WEB_SOCKET_URL = envManager.getApiUrl()?.replace('https', 'ws') + '/ws-chat';
 
     this.client = new StompClient({
-      brokerURL: WEB_SOCKET_URL,
+      webSocketFactory: () => new SockJS(WEB_SOCKET_URL),
       connectHeaders: {
         Authorization: localStorage.getItem('accessToken') || '',
       },

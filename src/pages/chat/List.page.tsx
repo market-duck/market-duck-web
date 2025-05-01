@@ -24,42 +24,13 @@ const Wrap = styled(AppGutter)`
   }
 `;
 
-const dummy = [
-  {
-    id: 1,
-    imgUrl:
-      'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    name: '닉네임',
-    lastMessage: '마지막 보낸 메시지 미리보기',
-    lastViewDate: '2025-02-28',
-    noReadCount: 3,
-  },
-  {
-    id: 2,
-    imgUrl:
-      'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    name: '닉네임',
-    lastMessage: '마지막 보낸 메시지 미리보기',
-    lastViewDate: '2025-02-28',
-    noReadCount: 0,
-  },
-  {
-    id: 3,
-    imgUrl:
-      'https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611722.jpg?t=st=1717847776~exp=1717851376~hmac=bf7567ff138802e017c76b9b0ccc2ec14d3ab51ce802bc96e93b4a494ee4e6af&w=1060',
-    name: '닉네임',
-    lastMessage: '마지막 보낸 메시지 미리보기',
-    lastViewDate: '2025-02-28',
-    noReadCount: 0,
-  },
-];
-
 export const ChatList = () => {
   const navigate = useNavigate();
   const { data: chatRooms } = useQuery({
     queryKey: ['chat', 'rooms'],
     queryFn: () => chatAPI.getChatRooms(),
   });
+
   return (
     <>
       <NavigationTop leftButtonIconType="back" title="채팅 목록" onLeftClick={() => navigate('/')} />
