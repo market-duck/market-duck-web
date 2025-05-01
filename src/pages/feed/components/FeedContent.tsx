@@ -65,11 +65,9 @@ export const FeedContent = ({ feedDetail, isMyFeed }: { feedDetail: FeedDetailMo
   const relativeTime = getTimeDiff(createdAt);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { confirm, alert } = useDialog();
-  const { mutateAsync } = useMutation({
+  const { mutateAsync: editFeedStatus } = useMutation({
     mutationKey: ['feed', 'update', feedId],
-    mutationFn: async (progress: FeedStatusType) => {
-      await feedAPI.editFeedStatus({ feedId, feedStatus: progress });
-    },
+    mutationFn: async (progress: FeedStatusType) => await feedAPI.editFeedStatus({ feedId, feedStatus: progress }),
   });
 
   useEffect(() => {
@@ -85,7 +83,7 @@ export const FeedContent = ({ feedDetail, isMyFeed }: { feedDetail: FeedDetailMo
           return 2;
       }
     });
-  }, []);
+  }, [status]);
 
   const progressHandler = async (e: MouseEvent<HTMLButtonElement>, idx: number) => {
     const currentStatus = status;
@@ -94,7 +92,7 @@ export const FeedContent = ({ feedDetail, isMyFeed }: { feedDetail: FeedDetailMo
 
     try {
       const result = await confirm({ title: '상태 변경', desc: `${statusName}으로 변경하시겠어요?` });
-      if (result) await mutateAsync(selectStatusKey);
+      if (result) await editFeedStatus(selectStatusKey);
     } catch (error) {
       console.error(error);
       alert({ title: '거래 상태 변경 실패', desc: '거래 상태 변경에 실패했습니다.' });
