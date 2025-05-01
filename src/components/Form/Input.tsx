@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const InputWrap = styled.div`
   width: 100%;
 
-  > .input-label {
+  > .inputLabel {
     margin-bottom: ${AppSpcing.XXS};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     font-weight: 600;
@@ -71,14 +71,20 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   }
 `;
 
-const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean }>(({ $error, $disabled }) => {
-  return {
-    className: `${$error ? 'is-error' : ''} ${$disabled ? 'is-disabled' : ''}`,
-  };
-})`
+const Caption = styled.p.attrs<{ $error?: boolean; $disabled?: boolean; $info?: boolean }>(
+  ({ $error, $disabled, $info }) => {
+    return {
+      className: `${$error ? 'is-error' : ''} ${$disabled ? 'is-disabled' : ''} ${$info ? 'is-info' : ''}`,
+    };
+  },
+)`
   color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   font-weight: 500;
   ${AppTypo.CAPTION_MD};
+
+  &.is-info {
+    color: ${AppSemanticColor.TEXT_INFO.hex};
+  }
 `;
 
 type InputProps = Omit<
@@ -91,6 +97,7 @@ type InputProps = Omit<
   changeHandler: React.ChangeEventHandler<HTMLInputElement>;
   isDisabled?: boolean;
   isError?: boolean;
+  isInfo?: boolean;
   label?: string;
   prefix?: ReactNode;
   suffix?: ReactNode;
@@ -112,6 +119,7 @@ export const Input = ({
 
   isDisabled,
   isError,
+  isInfo,
 
   label,
   prefix = null,
@@ -130,7 +138,7 @@ export const Input = ({
 
   return (
     <InputWrap>
-      {label && <p className="input-label">{label}</p>}
+      {label && <p className="inputLabel">{label}</p>}
       <InputContent $focus={isFocus} $error={isError} $disabled={isDisabled}>
         {prefix}
         <input
@@ -147,7 +155,7 @@ export const Input = ({
         {suffix}
       </InputContent>
       {caption && (
-        <Caption $disabled={isDisabled} $error={isError}>
+        <Caption className="inputCaption" $disabled={isDisabled} $error={isError} $info={isInfo}>
           {caption}
         </Caption>
       )}

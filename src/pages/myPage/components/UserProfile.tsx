@@ -11,9 +11,8 @@ const ProfileWrap = styled(Row)`
   justify-content: flex-start;
   align-items: center;
   gap: ${AppSpcing.S};
-  background-color: ${AppSemanticColor.BG_SECONDARY.hex};
   border-radius: ${AppRadii.M};
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   margin-top: ${AppSpcing.M};
   padding: ${AppSpcing.S};
 `;
@@ -29,9 +28,6 @@ export const UserProfile = ({ userInfo }: { userInfo: UserModel }) => {
         <div>
           <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
             {userInfo.username}
-          </Typo>
-          <Typo tag="p" type="CAPTION_MD" className={AppSemanticColor.TEXT_SECONDARY.color}>
-            {userInfo.phoneNumber}
           </Typo>
         </div>
       </div>

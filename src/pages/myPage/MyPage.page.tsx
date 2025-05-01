@@ -6,6 +6,7 @@ import { UserProfile } from '@market-duck/pages/myPage/components/UserProfile';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { SummaryMenus } from './components/SummaryMenus';
 
 export const Mypage = () => {
   const userData = useRecoilValue(userDataAtom);
@@ -24,6 +25,7 @@ export const Mypage = () => {
       <NavigationTop title="내 정보" />
       <AppGutter>
         <UserProfile userInfo={userData} />
+        <SummaryMenus />
         <MenuList />
       </AppGutter>
     </>
