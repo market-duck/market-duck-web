@@ -5,6 +5,7 @@ import { ChatHeader } from '@market-duck/components/Chat/ChatHeader';
 import { SendMessage } from '@market-duck/components/Chat/SendMessage';
 import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
+import { useChat } from '@market-duck/hooks/useChat';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
@@ -19,6 +20,17 @@ export const ChatRoom = () => {
   const {
     state: { roomId },
   } = useLocation();
+  // const {
+  //   sendText,
+  //   sendAction,
+  //   disconnect,
+  //   publish: sendMessage,
+  //   messageRoom,
+  //   setMessageRoom,
+  //   text,
+  //   setText,
+  //   subscribe,
+  // } = useChat(roomId);
 
   useEffect(() => {
     console.log(roomId);
@@ -45,11 +57,12 @@ export const ChatRoom = () => {
         title={'nickname'}
         rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
       />
+      sendText
       <ChatHeader />
       <AppGutter>
         <Chat />
       </AppGutter>
-      <SendMessage />
+      {/* <SendMessage sendText={sendText} /> */}
     </Container>
   );
 };

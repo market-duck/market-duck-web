@@ -3,6 +3,7 @@ import { IconButton } from '@market-duck/components/Button/IconButton';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { ChatMessageType } from '@market-duck/types/chat';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -36,9 +37,13 @@ const Container = styled(Row)`
   }
 `;
 
-export const SendMessage = () => {
+export const SendMessage = ({ sendText }: { sendText: (test: string, type: ChatMessageType) => void }) => {
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler } = useImageInput();
+
+  const sendMessageHandler = () => {
+    sendText(message, 'TEXT');
+  };
 
   return (
     <Container gap="XS">
@@ -52,7 +57,7 @@ export const SendMessage = () => {
         value={message}
         changeHandler={(e) => setMessage(e.target.value)}
       />
-      <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill />
+      <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
       <input
         style={{ display: 'none' }}
         id="image"

@@ -2,7 +2,7 @@ import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { ReqChatMessageType } from '@market-duck/types/chat';
 import { envManager } from '@market-duck/utils/env';
 import { Client as StompClient } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 
 export class SocketClient {
   private static instance: SocketClient;
