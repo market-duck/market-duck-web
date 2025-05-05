@@ -20,26 +20,27 @@ export const ChatRoom = () => {
   const {
     state: { roomId },
   } = useLocation();
-  // const {
-  //   sendText,
-  //   sendAction,
-  //   disconnect,
-  //   publish: sendMessage,
-  //   messageRoom,
-  //   setMessageRoom,
-  //   text,
-  //   setText,
-  //   subscribe,
-  // } = useChat(roomId);
+
+  const {
+    sendText,
+    sendAction,
+    disconnect,
+    publish: sendMessage,
+    chatRoomData,
+    messageRoom,
+    setMessageRoom,
+    text,
+    setText,
+    subscribe,
+  } = useChat(roomId);
 
   useEffect(() => {
-    console.log(roomId);
     if (!userData) {
       // return navigate('/login');
     }
   }, []);
 
-  // if (!userData) return null;
+  if (!userData || !chatRoomData) return null;
 
   const dropdownItems = [
     {
@@ -50,6 +51,7 @@ export const ChatRoom = () => {
     { id: 'report', name: '신고하기', handler: () => {} },
     { id: 'block', name: '차단하기', handler: () => {} },
   ];
+
   return (
     <Container>
       <NavigationTop
@@ -57,12 +59,11 @@ export const ChatRoom = () => {
         title={'nickname'}
         rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
       />
-      sendText
-      <ChatHeader />
-      <AppGutter>
+      <ChatHeader thumbnailUrl={chatRoomData.feedImageUrl} feedTitle={chatRoomData.feedTitle} price={0} />
+      <AppGutter $padding="0 1rem">
         <Chat />
       </AppGutter>
-      {/* <SendMessage sendText={sendText} /> */}
+      <SendMessage sendText={sendText} />
     </Container>
   );
 };

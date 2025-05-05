@@ -10,7 +10,7 @@ export class SocketClient {
   private isConnectedWebSocket: boolean = false;
 
   private constructor() {
-    const WEB_SOCKET_URL = envManager.getApiUrl()?.replace('https', 'ws') + '/ws-chat';
+    const WEB_SOCKET_URL = envManager.getApiUrl() + '/ws-chat';
 
     this.client = new StompClient({
       webSocketFactory: () => new SockJS(WEB_SOCKET_URL),

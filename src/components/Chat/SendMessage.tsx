@@ -13,7 +13,7 @@ const Container = styled(Row)`
   position: sticky;
   width: 100%;
   left: 0;
-  bottom: 60px;
+  bottom: 0;
   padding: ${AppSpcing.S} ${AppSpcing.M};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
 

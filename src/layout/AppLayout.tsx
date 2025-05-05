@@ -3,11 +3,12 @@ import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { GlobalDialog } from '@market-duck/components/Dialog/GlobalDialog';
 import { NavigationBottom } from '@market-duck/components/Navigation/NavigationBottom';
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 export const AppLayout = () => {
   const [userInfo, setUserInfo] = useRecoilState(userDataAtom);
+  const location = useLocation();
 
   useEffect(() => {
     if (userInfo) return;
@@ -24,10 +25,13 @@ export const AppLayout = () => {
     getUser(Number(savedUserId));
   }, []);
 
+  // chat 경로에서는 NavigationBottom 숨기기
+  const hideBottomNav = location.pathname.startsWith('/chat/room');
+
   return (
     <div>
       <Outlet />
-      <NavigationBottom />
+      {!hideBottomNav && <NavigationBottom />}
       <GlobalDialog />
     </div>
   );

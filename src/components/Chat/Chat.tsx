@@ -10,7 +10,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: ${AppSpcing.L};
   justify-content: flex-end;
-  min-height: calc(100dvh - 174px);
+  min-height: 100dvh;
   padding-top: ${AppSpcing.M};
 `;
 
