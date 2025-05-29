@@ -7,34 +7,41 @@ import SockJS from 'sockjs-client';
 export class SocketClient {
   private static instance: SocketClient;
   private client: StompClient;
-  private isConnectedWebSocket: boolean = false;
+  // private isConnectedWebSocket: boolean = false;
 
   private constructor() {
+    const baseUrl = 'https://marketduck.server-su.site/ws-chat';
     const WEB_SOCKET_URL = envManager.getApiUrl() + '/ws-chat';
+    const accessToken = localStorage.getItem('accessToken') || '';
+
+    const url = `${baseUrl}?token=${accessToken.replace(/^Bearer\s+/i, '')}`;
+    console.log({ accessToken, url });
 
     this.client = new StompClient({
-      webSocketFactory: () => new SockJS(WEB_SOCKET_URL),
+      webSocketFactory: () => new SockJS(url),
       connectHeaders: {
-        Authorization: localStorage.getItem('accessToken') || '',
+        Authorization: accessToken,
       },
-      debug: () => {},
-      reconnectDelay: 3000,
+      debug: (str) => console.log(str), // 디버깅 메시지 출력
+      reconnectDelay: 10000,
       heartbeatIncoming: 2000,
       heartbeatOutgoing: 2000,
       onStompError: (frame) => {
-        console.error('WebSocket 에러:', frame);
+        console.error('❌ STOMP error:', frame);
+      },
+      onWebSocketError: (event) => {
+        console.error('❌ WebSocket error:', event);
+      },
+      onConnect: (frame) => {
+        console.log('onConnect:', frame);
+      },
+      onDisconnect: () => {
+        console.log('WebSocket 연결 종료');
+      },
+      onWebSocketClose: () => {
+        console.warn('WebSocket 연결이 닫혔습니다.');
       },
     });
-
-    this.client.onConnect = () => {
-      this.isConnectedWebSocket = true;
-      console.log('WebSocket 연결 성공');
-    };
-
-    this.client.onDisconnect = () => {
-      this.isConnectedWebSocket = false;
-      console.log('WebSocket 연결 종료');
-    };
   }
 
   public static getInstance(): SocketClient {
@@ -45,19 +52,24 @@ export class SocketClient {
   }
 
   public connect(): void {
-    if (!this.isConnectedWebSocket) {
+    console.log('connect', this.client.active);
+    if (!this.client.active) {
+      console.log('activate');
       this.client.activate();
     }
   }
 
   public disconnect(): void {
-    if (this.isConnectedWebSocket) {
+    console.log('disconnect');
+    if (this.client.active) {
+      console.log('deactivate');
       this.client.deactivate();
     }
   }
 
   public subscribeToChat(sessionId: string, callback: (message: ChatMessageModel) => void): void {
-    if (this.isConnectedWebSocket) {
+    console.log('subscribeToChat');
+    if (this.client.connected) {
       this.client.subscribe(`/sub/chat/room/${sessionId}`, (message) => {
         callback(ChatMessageModel.fromJson(JSON.parse(message.body)));
       });
@@ -65,7 +77,7 @@ export class SocketClient {
   }
 
   public sendMessage(message: ReqChatMessageType): void {
-    if (this.isConnectedWebSocket) {
+    if (this.client.connected) {
       this.client.publish({
         destination: '/pub/chat/message',
         body: JSON.stringify(message),
@@ -74,6 +86,7 @@ export class SocketClient {
   }
 
   public isConnected(): boolean {
-    return this.isConnectedWebSocket;
+    console.log('isConnected method:', this.client.connected);
+    return this.client.connected;
   }
 }

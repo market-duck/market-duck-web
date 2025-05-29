@@ -1,3 +1,4 @@
+import { chatSocketClient } from './../utils/chatTest';
 import { chatAPI } from './../apis/chatAPI';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
@@ -18,6 +19,7 @@ export const useChat = (currentRoomId: number) => {
     messages: [],
   });
   const userData = useRecoilValue(userDataAtom);
+  console.log({ currentRoomId });
 
   //채팅방에 대한 데이터 가져오는 쿼리
   const { data: chatRoomData } = useQuery({
@@ -25,6 +27,9 @@ export const useChat = (currentRoomId: number) => {
     queryFn: async () => await chatAPI.getChatRoom({ roomId: currentRoomId }),
     enabled: !!currentRoomId,
   });
+
+  const sessionId = chatRoomData?.sessionId;
+  const senderId = chatRoomData?.sender.userId;
 
   //TODO:: 메시지 리스트에 대한 관리로 수정해야 됨
   // const { data, fetchNextPage, isLoading, isFetchingNextPage, error } = useInfiniteQuery({
@@ -38,52 +43,48 @@ export const useChat = (currentRoomId: number) => {
   //   initialPageParam: 0,
   // });
 
-  const client = useRef<SocketClient>(SocketClient.getInstance());
+  // const client = useRef<SocketClient>(SocketClient.getInstance());
   const isSubscribed = useRef(false); // subscribe 호출 여부 체크
 
   // StompJS 인스턴스 생성 및 연결
   const connect = () => {
-    client.current.connect();
+    console.log('in connect', sessionId);
+    chatSocketClient.connect(() => {
+      console.log('callback', sessionId);
+      if (sessionId) {
+        subscribe(sessionId);
+      }
+    });
   };
 
   const disconnect = () => {
-    client.current.disconnect();
+    chatSocketClient.disconnect();
   };
 
-  useEffect(() => {
-    connect();
+  // useEffect(() => {
+  //   if (!chatSocketClient.isConnected() && sessionId) {
+  //     console.log({ sessionId });
+  //     connect();
+  //   }
 
-    // 컴포넌트 언마운트 시 연결 종료
-    return () => disconnect();
-  }, [currentRoomId]);
-
-  const sessionId = chatRoomData?.sessionId;
-  const senderId = chatRoomData?.sender.userId;
-
-  if (!userData || !sessionId || !senderId) {
-    return {
-      sendText: () => {}, // no-op
-      sendAction: () => {},
-      disconnect: () => {},
-      publish: () => {},
-      chatRoomData: undefined,
-      messageRoom: { messages: [] },
-      setMessageRoom: () => {},
-      text: '',
-      setText: () => {},
-      subscribe: () => {},
-    };
-  }
+  //   // 컴포넌트 언마운트 시 연결 종료
+  //   return () => {
+  //     disconnect();
+  //   };
+  // }, [sessionId]);
 
   // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
     if (isSubscribed.current) return; // 이미 subscribe가 되어 있으면 아무 동작 안 함
 
-    client.current.subscribeToChat(sessionId, (msg) => {
-      setMessageRoom((prev) => ({
-        ...prev,
-        messages: [...prev.messages, msg],
-      }));
+    console.log('in subscribe');
+
+    chatSocketClient.subscribeToChatRoom(sessionId, (msg) => {
+      console.log({ msg });
+      // setMessageRoom((prev) => ({
+      //   ...prev,
+      //   messages: [...prev.messages, msg],
+      // }));
     });
 
     isSubscribed.current = true; // subscribe가 되면 상태를 true로 설정
@@ -91,18 +92,16 @@ export const useChat = (currentRoomId: number) => {
 
   // 메세지 발행을 위한 함수
   const sendMessage = (text: string, type: ChatMessageType) => {
-    if (!client.current.isConnected()) {
-      return;
-    }
+    if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
 
-    client.current.sendMessage({
-      chatRoomId: currentRoomId,
-      senderId: userData.userId,
-      content: text,
-      sessionId: sessionId,
-      messageType: type,
-    });
-    setText('');
+    // chatSocketClient.sendMessage({
+    //   chatRoomId: currentRoomId,
+    //   senderId: userData.userId,
+    //   content: text,
+    //   sessionId,
+    //   messageType: type,
+    // });
+    // setText('');
   };
 
   const sendText = () => {
@@ -119,17 +118,18 @@ export const useChat = (currentRoomId: number) => {
     sendMessage(url, 'IMAGE');
   };
 
-  useEffect(() => {
-    console.log({ sessionId, isConnected: client.current.isConnected() });
-    if (sessionId && client.current.isConnected()) {
-      subscribe(sessionId);
-      setMessageRoom({ messages: chatRoomData.recentMessages || [] });
-    }
-  }, [sessionId]); // sessionId가 변경될 때마다 subscribe 호출
+  // useEffect(() => {
+  //   console.log({ sessionId, isConnected: chatSocketClient.isConnected() });
+  //   if (sessionId && chatSocketClient.isConnected()) {
+  //     subscribe(sessionId);
+  //     setMessageRoom({ messages: chatRoomData.recentMessages || [] });
+  //   }
+  // }, [sessionId]); // sessionId가 변경될 때마다 subscribe 호출
 
   return {
     sendText,
     sendAction,
+    connect,
     disconnect,
     publish: sendMessage,
     chatRoomData,

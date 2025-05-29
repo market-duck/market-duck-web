@@ -40,9 +40,9 @@ export const ChatList = () => {
             return (
               <ChatListItem
                 key={room.chatRoomId}
-                imgUrl={room.receiver.profileImageUrl}
+                imgUrl={room.sender.profileImageUrl}
                 id={room.chatRoomId}
-                name={room.receiver.nickname}
+                name={room.sender.nickname}
                 lastMessage={room.recentMessages[room.recentMessages.length - 1].content}
                 noReadCount={room.unreadCount}
                 lastViewDate={getTimeDiff(room.recentMessages[room.recentMessages.length - 1].createdAt)}

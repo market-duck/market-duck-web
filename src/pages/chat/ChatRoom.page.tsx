@@ -7,7 +7,7 @@ import { DropDownMenu } from '@market-duck/components/DropDownMenu/DropDownMenu'
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { useChat } from '@market-duck/hooks/useChat';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
@@ -20,10 +20,12 @@ export const ChatRoom = () => {
   const {
     state: { roomId },
   } = useLocation();
+  const navigate = useNavigate();
 
   const {
     sendText,
     sendAction,
+    connect,
     disconnect,
     publish: sendMessage,
     chatRoomData,
@@ -40,13 +42,18 @@ export const ChatRoom = () => {
     }
   }, []);
 
-  if (!userData || !chatRoomData) return null;
+  // userData 또는 chatRoomData가 없으면 로딩 상태로 간주
+  if (!userData || !chatRoomData) {
+    return <div>Loading...</div>; // 혹은 Skeleton 컴포넌트 등으로 대체
+  }
 
   const dropdownItems = [
     {
       id: 'leave',
       name: '나가기',
-      handler: () => {},
+      handler: () => {
+        disconnect();
+      },
     },
     { id: 'report', name: '신고하기', handler: () => {} },
     { id: 'block', name: '차단하기', handler: () => {} },
@@ -58,6 +65,10 @@ export const ChatRoom = () => {
         leftButtonIconType="back"
         title={'nickname'}
         rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
+        onLeftClick={() => {
+          disconnect();
+          navigate(-1);
+        }}
       />
       <ChatHeader thumbnailUrl={chatRoomData.feedImageUrl} feedTitle={chatRoomData.feedTitle} price={0} />
       <AppGutter $padding="0 1rem">
