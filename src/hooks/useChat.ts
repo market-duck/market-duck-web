@@ -61,17 +61,17 @@ export const useChat = (currentRoomId: number) => {
     chatSocketClient.disconnect();
   };
 
-  // useEffect(() => {
-  //   if (!chatSocketClient.isConnected() && sessionId) {
-  //     console.log({ sessionId });
-  //     connect();
-  //   }
+  useEffect(() => {
+    if (!chatSocketClient.isConnected() && sessionId) {
+      console.log({ sessionId });
+      connect();
+    }
 
-  //   // 컴포넌트 언마운트 시 연결 종료
-  //   return () => {
-  //     disconnect();
-  //   };
-  // }, [sessionId]);
+    // 컴포넌트 언마운트 시 연결 종료
+    return () => {
+      disconnect();
+    };
+  }, [sessionId]);
 
   // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
