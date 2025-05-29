@@ -41,7 +41,9 @@ const ToastMsgWrap = styled(Row)`
   }
 `;
 
-export const ToastMsg = ({ closeToast, title, desc }: Omit<ToastProps, 'type'> & { closeToast: () => void }) => {
+export const ToastMsg = ({ closeToast, title, desc, type }: ToastProps & { closeToast: () => void }) => {
+  //TODO:: 추후 toast type에 따른 변경 있을 시 type에 따른 디자인 변경 등 가능
+
   return (
     <ToastMsgWrap justify="between" alignItems="start">
       <div>
