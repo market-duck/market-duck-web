@@ -1,9 +1,8 @@
-import { chatSocketClient } from './../utils/chatTest';
+import { chatSocketClient } from '../utils/socketClient';
 import { chatAPI } from './../apis/chatAPI';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { ChatMessageType } from '@market-duck/types/chat';
-import { SocketClient } from '@market-duck/utils/socketClient';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
