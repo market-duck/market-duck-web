@@ -26,8 +26,9 @@ export const useNavigationMenu = () => {
 
   const changeMenu = useCallback(
     (menu: NavigationMenuEnum) => {
+      const isHome = menu === NavigationMenuEnum.home;
       setCurrentMenu(menu);
-      navigate(`/${menu}`);
+      navigate(isHome ? '/' : `/${menu}`);
     },
     [setCurrentMenu, navigate],
   );
