@@ -35,7 +35,8 @@ class ChatSocketClient {
     this.stompClient = new Client({
       webSocketFactory: () => {
         const origin = envManager.getChatSocketOrigin();
-        const url = `${origin}?token=${token.replace(/^Bearer\s+/i, '')}`;
+        // const url = `${origin}?token=${token.replace(/^Bearer\s+/i, '')}`;
+        const url = `${origin}?token=${token}`;
         console.log('[WS] Connecting', url);
         return new SockJS(url);
       },
@@ -101,6 +102,7 @@ class ChatSocketClient {
 
     // 새로운 구독 추가
     const subscription = this.stompClient.subscribe(destination, (message) => {
+      console.log('subscription message', message);
       const receivedMessage = ChatMessageModel.fromJson(JSON.parse(message.body));
       console.log('메시지 수신:', receivedMessage);
 

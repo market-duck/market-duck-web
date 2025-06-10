@@ -15,7 +15,7 @@ const Container = styled(Row)<{ $isMine: boolean }>`
   }
 `;
 
-export const ChatMessage = ({ isMine = false }: { isMine?: boolean }) => {
+export const ChatMessage = ({ isMine = false, content }: { isMine?: boolean; content: string }) => {
   // ! mock으로 prop 사용 중, 실제 사용 시 prop 삭제하고 이 변수 사용+ 로직 작성
   // const isMine = false;
 
@@ -28,7 +28,7 @@ export const ChatMessage = ({ isMine = false }: { isMine?: boolean }) => {
       <Row gap="XXS" alignItems="end" reverse={isMine}>
         <div className={`bubble ${bubbleColor}`}>
           <Typo tag="span" type="BODY_MD" weight={500} className={textColor}>
-            {'message'}
+            {content}
           </Typo>
         </div>
         <Typo tag="span" type="CAPTION_SM" weight={500} className={AppSemanticColor.TEXT_TERTIARY.color}>

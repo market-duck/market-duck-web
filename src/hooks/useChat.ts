@@ -12,6 +12,8 @@ enum ChatAction {
   SEND_ACCOUNT = 'SEND_ACCOUNT',
 }
 
+//TODO:: 메시지 수신, 메시지 발송 시에 제대로 db에 저장이 안 되는 거 같은데 API 요청하는 거 체크해야 할듯
+
 export const useChat = (currentRoomId: number) => {
   const [text, setText] = useState('');
   const [messageRoom, setMessageRoom] = useState<{ messages: ChatMessageModel[] }>({
@@ -30,19 +32,6 @@ export const useChat = (currentRoomId: number) => {
   const sessionId = chatRoomData?.sessionId;
   const senderId = chatRoomData?.sender.userId;
 
-  //TODO:: 메시지 리스트에 대한 관리로 수정해야 됨
-  // const { data, fetchNextPage, isLoading, isFetchingNextPage, error } = useInfiniteQuery({
-  //   queryKey: ['chat', currentRoomId],
-  //   queryFn: () => {
-  //     return {
-  //       data: { sessionId: '', senderId: 0 },
-  //     };
-  //   },
-  //   getNextPageParam: () => 0,
-  //   initialPageParam: 0,
-  // });
-
-  // const client = useRef<SocketClient>(SocketClient.getInstance());
   const isSubscribed = useRef(false); // subscribe 호출 여부 체크
 
   // StompJS 인스턴스 생성 및 연결
@@ -52,6 +41,7 @@ export const useChat = (currentRoomId: number) => {
       console.log('callback', sessionId);
       if (sessionId) {
         subscribe(sessionId);
+        setMessageRoom({ messages: chatRoomData.recentMessages });
       }
     });
   };
@@ -74,16 +64,17 @@ export const useChat = (currentRoomId: number) => {
 
   // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
+    console.log('in subscribe, sessionId', sessionId);
     if (isSubscribed.current) return; // 이미 subscribe가 되어 있으면 아무 동작 안 함
 
     console.log('in subscribe');
 
     chatSocketClient.subscribeToChatRoom(sessionId, (msg) => {
       console.log({ msg });
-      // setMessageRoom((prev) => ({
-      //   ...prev,
-      //   messages: [...prev.messages, msg],
-      // }));
+      setMessageRoom((prev) => ({
+        ...prev,
+        messages: [...prev.messages, msg],
+      }));
     });
 
     isSubscribed.current = true; // subscribe가 되면 상태를 true로 설정
@@ -93,44 +84,37 @@ export const useChat = (currentRoomId: number) => {
   const sendMessage = (text: string, type: ChatMessageType) => {
     if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
 
-    // chatSocketClient.sendMessage({
-    //   chatRoomId: currentRoomId,
-    //   senderId: userData.userId,
-    //   content: text,
-    //   sessionId,
-    //   messageType: type,
-    // });
-    // setText('');
-  };
+    switch (type) {
+      case 'TEXT':
+        chatSocketClient.sendMessage({
+          chatRoomId: currentRoomId,
+          senderId: userData.userId,
+          content: text,
+          sessionId,
+          messageType: type,
+        });
+        break;
+      case 'ACTION':
+        //TODO:: 근데 액션을 프론트에서 직접 보낼 일이 있을런지..?
+        chatSocketClient.sendMessage({
+          chatRoomId: currentRoomId,
+          senderId: userData.userId,
+          content: text,
+          sessionId,
+          messageType: type,
+        });
+        break;
+      case 'IMAGE':
+      // TODO: 이미지 업로드 API 호출하여 우선 처리 후 메세지 전송 필요
+    }
 
-  const sendText = () => {
-    sendMessage(text, 'TEXT');
     setText('');
   };
 
-  const sendAction = (action: ChatAction) => {
-    sendMessage(action, 'ACTION');
-  };
-
-  const sendImage = (url: string) => {
-    // TODO: 이미지 업로드 API 호출하여 우선 처리 후 메세지 전송 필요
-    sendMessage(url, 'IMAGE');
-  };
-
-  // useEffect(() => {
-  //   console.log({ sessionId, isConnected: chatSocketClient.isConnected() });
-  //   if (sessionId && chatSocketClient.isConnected()) {
-  //     subscribe(sessionId);
-  //     setMessageRoom({ messages: chatRoomData.recentMessages || [] });
-  //   }
-  // }, [sessionId]); // sessionId가 변경될 때마다 subscribe 호출
-
   return {
-    sendText,
-    sendAction,
     connect,
     disconnect,
-    publish: sendMessage,
+    sendMessage,
     chatRoomData,
     messageRoom,
     setMessageRoom,

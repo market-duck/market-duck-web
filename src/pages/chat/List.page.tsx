@@ -10,6 +10,9 @@ import NotFoundImage from '@market-duck/assets/images/notFound.svg?react';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { useRecoilValue } from 'recoil';
+import { userDataAtom } from '@market-duck/atoms/user.atom';
+import { useEffect } from 'react';
 
 const Wrap = styled(AppGutter)`
   position: relative;
@@ -25,11 +28,20 @@ const Wrap = styled(AppGutter)`
 `;
 
 export const ChatList = () => {
+  const userData = useRecoilValue(userDataAtom);
   const navigate = useNavigate();
   const { data: chatRooms } = useQuery({
     queryKey: ['chat', 'rooms'],
     queryFn: () => chatAPI.getChatRooms(),
   });
+
+  useEffect(() => {
+    if (!userData) {
+      return navigate('/login');
+    }
+  }, []);
+
+  if (!userData) return null;
 
   return (
     <>
@@ -40,9 +52,9 @@ export const ChatList = () => {
             return (
               <ChatListItem
                 key={room.chatRoomId}
-                imgUrl={room.sender.profileImageUrl}
+                imgUrl={room.receiver.profileImageUrl}
                 id={room.chatRoomId}
-                name={room.sender.nickname}
+                name={room.receiver.nickname}
                 lastMessage={room.recentMessages[room.recentMessages.length - 1].content}
                 noReadCount={room.unreadCount}
                 lastViewDate={getTimeDiff(room.recentMessages[room.recentMessages.length - 1].createdAt)}

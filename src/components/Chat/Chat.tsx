@@ -1,3 +1,4 @@
+import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { ChatMessage } from '@market-duck/components/Chat/ChatMessage';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { getFormattedDate } from '@market-duck/utils/date';
@@ -9,45 +10,21 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${AppSpcing.L};
-  justify-content: flex-end;
+  justify-content: flex-start;
   min-height: 100dvh;
   padding-top: ${AppSpcing.M};
 `;
 
-export const Chat = () => {
+export const Chat = ({ messageList, userId }: { messageList: ChatMessageModel[]; userId: Number }) => {
+  console.log({ messageList, userId });
   return (
     <Container ref={(node) => node?.scrollTo(0, node.offsetHeight)}>
       <Typo tag="p" type="CAPTION_MD" weight={500} className={AppSemanticColor.TEXT_SECONDARY.color} align="center">
         {getFormattedDate(new Date(), 'YYYY년 M월 D일')}
       </Typo>
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
-      <ChatMessage />
-      <ChatMessage isMine />
+      {messageList.map((item) => {
+        return <ChatMessage key={item.messageId} isMine={item.senderId === userId} content={item.content} />;
+      })}
     </Container>
   );
 };

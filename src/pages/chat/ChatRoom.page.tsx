@@ -22,19 +22,8 @@ export const ChatRoom = () => {
   } = useLocation();
   const navigate = useNavigate();
 
-  const {
-    sendText,
-    sendAction,
-    connect,
-    disconnect,
-    publish: sendMessage,
-    chatRoomData,
-    messageRoom,
-    setMessageRoom,
-    text,
-    setText,
-    subscribe,
-  } = useChat(roomId);
+  const { connect, disconnect, sendMessage, chatRoomData, messageRoom, setMessageRoom, text, setText, subscribe } =
+    useChat(roomId);
 
   useEffect(() => {
     if (!userData) {
@@ -72,9 +61,9 @@ export const ChatRoom = () => {
       />
       <ChatHeader thumbnailUrl={chatRoomData.feedImageUrl} feedTitle={chatRoomData.feedTitle} price={0} />
       <AppGutter $padding="0 1rem">
-        <Chat />
+        <Chat messageList={messageRoom.messages} userId={userData.userId} />
       </AppGutter>
-      <SendMessage sendText={sendText} />
+      <SendMessage sendMessage={sendMessage} />
     </Container>
   );
 };

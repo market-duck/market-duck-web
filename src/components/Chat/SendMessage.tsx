@@ -37,12 +37,18 @@ const Container = styled(Row)`
   }
 `;
 
-export const SendMessage = ({ sendText }: { sendText: (test: string, type: ChatMessageType) => void }) => {
+export const SendMessage = ({ sendMessage }: { sendMessage: (test: string, type: ChatMessageType) => void }) => {
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler } = useImageInput();
 
   const sendMessageHandler = () => {
-    sendText(message, 'TEXT');
+    if (images.length) {
+      //TODO::이미지 전송 (전송 시 어떤 포맷으로 받을지)
+      sendMessage('', 'IMAGE');
+    }
+    if (message) {
+      sendMessage(message, 'TEXT');
+    }
   };
 
   return (
