@@ -2,7 +2,7 @@ import { chatSocketClient } from '../utils/socketClient';
 import { chatAPI } from './../apis/chatAPI';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
-import { ChatMessageType } from '@market-duck/types/chat';
+import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -20,7 +20,6 @@ export const useChat = (currentRoomId: number) => {
     messages: [],
   });
   const userData = useRecoilValue(userDataAtom);
-  console.log({ currentRoomId });
 
   //채팅방에 대한 데이터 가져오는 쿼리
   const { data: chatRoomData } = useQuery({
@@ -64,10 +63,7 @@ export const useChat = (currentRoomId: number) => {
 
   // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
-    console.log('in subscribe, sessionId', sessionId);
-    if (isSubscribed.current) return; // 이미 subscribe가 되어 있으면 아무 동작 안 함
-
-    console.log('in subscribe');
+    if (isSubscribed.current) return;
 
     chatSocketClient.subscribeToChatRoom(sessionId, (msg) => {
       console.log({ msg });
@@ -77,15 +73,17 @@ export const useChat = (currentRoomId: number) => {
       }));
     });
 
-    isSubscribed.current = true; // subscribe가 되면 상태를 true로 설정
+    isSubscribed.current = true;
   };
 
   // 메세지 발행을 위한 함수
-  const sendMessage = (text: string, type: ChatMessageType) => {
+  const sendMessage = ({ text, type, imageFiles }: { text: string; type: ChatMessageType; imageFiles?: File[] }) => {
     if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
 
+    console.log('here?', type, text, imageFiles);
+
     switch (type) {
-      case 'TEXT':
+      case ChatMessageTypeEnum.TEXT:
         chatSocketClient.sendMessage({
           chatRoomId: currentRoomId,
           senderId: userData.userId,
@@ -93,22 +91,38 @@ export const useChat = (currentRoomId: number) => {
           sessionId,
           messageType: type,
         });
+        chatAPI.sendMessage({ chatRoomId: currentRoomId, content: text });
         break;
-      case 'ACTION':
+      case ChatMessageTypeEnum.SYSTEM:
         //TODO:: 근데 액션을 프론트에서 직접 보낼 일이 있을런지..?
-        chatSocketClient.sendMessage({
-          chatRoomId: currentRoomId,
-          senderId: userData.userId,
-          content: text,
-          sessionId,
-          messageType: type,
-        });
+        // chatSocketClient.sendMessage({
+        //   chatRoomId: currentRoomId,
+        //   senderId: userData.userId,
+        //   content: text,
+        //   sessionId,
+        //   messageType: type,
+        // });
         break;
-      case 'IMAGE':
-      // TODO: 이미지 업로드 API 호출하여 우선 처리 후 메세지 전송 필요
+      case ChatMessageTypeEnum.IMAGE:
+        if (imageFiles) {
+          imageSend({ imageFiles });
+        }
+        break;
     }
 
     setText('');
+  };
+
+  const imageSend = async ({ imageFiles }: { imageFiles: File[] }) => {
+    try {
+      const imageUrlList = await chatAPI.uploadMessageImage({ image: imageFiles });
+
+      if (imageUrlList) {
+        await chatAPI.sendImageMessage({ chatRoomId: currentRoomId, imageUrlList });
+      }
+    } catch (error) {
+      //TODO:: 이미지 업로드 혹은 이미지 전송 실패 시 핸들링
+    }
   };
 
   return {

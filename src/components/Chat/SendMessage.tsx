@@ -3,7 +3,7 @@ import { IconButton } from '@market-duck/components/Button/IconButton';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
-import { ChatMessageType } from '@market-duck/types/chat';
+import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpcing } from 'src/styles/tokens/AppSpacing';
@@ -37,17 +37,25 @@ const Container = styled(Row)`
   }
 `;
 
-export const SendMessage = ({ sendMessage }: { sendMessage: (test: string, type: ChatMessageType) => void }) => {
+export const SendMessage = ({
+  sendAction,
+}: {
+  sendAction: (type: ChatMessageType, text: string, imageFiles?: File[]) => void;
+}) => {
   const [message, setMessage] = useState('');
-  const { images, imageHandler, deleteHandler } = useImageInput();
+  const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
 
   const sendMessageHandler = () => {
     if (images.length) {
-      //TODO::이미지 전송 (전송 시 어떤 포맷으로 받을지)
-      sendMessage('', 'IMAGE');
+      const imageFileList = images.map((item) => item.file).filter((file) => file !== null) as File[];
+
+      sendAction(ChatMessageTypeEnum.IMAGE, '', imageFileList);
+      allDeleteHandler();
     }
+
     if (message) {
-      sendMessage(message, 'TEXT');
+      sendAction(ChatMessageTypeEnum.TEXT, message);
+      setMessage('');
     }
   };
 

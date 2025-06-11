@@ -1,5 +1,5 @@
 import { BaseUserModel, IBaseUserModelData } from '@market-duck/apis/models/userModel';
-import { ChatRoomStatusType } from '@market-duck/types/chat';
+import { ChatMessageType, ChatRoomStatusType } from '@market-duck/types/chat';
 
 export interface IBaseChatMessageModel {
   messageId: number;
@@ -36,7 +36,7 @@ export class ChatMessageModel {
   senderProfileImage: string;
   chatRoomId: number;
   sessionId: string;
-  messageType: string;
+  messageType: ChatMessageType;
   createdAt: Date;
   read: boolean;
   constructor(data: IBaseChatMessageModel) {

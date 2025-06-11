@@ -63,7 +63,12 @@ export const ChatRoom = () => {
       <AppGutter $padding="0 1rem">
         <Chat messageList={messageRoom.messages} userId={userData.userId} />
       </AppGutter>
-      <SendMessage sendMessage={sendMessage} />
+      <SendMessage
+        sendAction={(type, text, imageFiles) => {
+          console.log({ text, type, imageFiles });
+          sendMessage({ type, text, imageFiles });
+        }}
+      />
     </Container>
   );
 };

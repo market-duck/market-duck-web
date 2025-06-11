@@ -1,6 +1,7 @@
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Avatar } from '@market-duck/components/Image/Avatar';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { getFormattedDate } from '@market-duck/utils/date';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
@@ -15,21 +16,47 @@ const Container = styled(Row)<{ $isMine: boolean }>`
   }
 `;
 
-export const ChatMessage = ({ isMine = false, content }: { isMine?: boolean; content: string }) => {
+const ImageMsg = styled.div<{ $src: string }>`
+  background-image: url(${({ $src }) => $src});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 10.5rem;
+  height: 10.5rem;
+`;
+
+export const ChatMessage = ({
+  isMine = false,
+  content,
+  type,
+}: {
+  isMine?: boolean;
+  content: string;
+  type: ChatMessageType;
+}) => {
   // ! mock으로 prop 사용 중, 실제 사용 시 prop 삭제하고 이 변수 사용+ 로직 작성
   // const isMine = false;
 
   const time = getFormattedDate(new Date(), 'A hh:mm');
+  const isSystemMsg = type === ChatMessageTypeEnum.SYSTEM;
   const bubbleColor = isMine ? AppSemanticColor.BG_INTERACTIVE_PRIMARY.bg : AppSemanticColor.BG_SECONDARY.bg;
   const textColor = isMine ? AppSemanticColor.TEXT_INVERSE.color : AppSemanticColor.TEXT_SECONDARY.color;
   return (
     <Container alignItems="center" $isMine={isMine} gap="XS" flex={0}>
       {!isMine && <Avatar size="sm" />}
       <Row gap="XXS" alignItems="end" reverse={isMine}>
-        <div className={`bubble ${bubbleColor}`}>
-          <Typo tag="span" type="BODY_MD" weight={500} className={textColor}>
-            {content}
-          </Typo>
+        <div className={`bubble ${isSystemMsg ? AppSemanticColor.BG_INFO : bubbleColor}`}>
+          {type === ChatMessageTypeEnum.TEXT && (
+            <Typo tag="span" type="BODY_MD" weight={500} className={textColor}>
+              {content}
+            </Typo>
+          )}
+          {type === ChatMessageTypeEnum.IMAGE && <ImageMsg $src={content} />}
+          {type === ChatMessageTypeEnum.SYSTEM && (
+            <Typo tag="span" type="BODY_MD" weight={500} className={textColor}>
+              {content}
+            </Typo>
+          )}
         </div>
         <Typo tag="span" type="CAPTION_SM" weight={500} className={AppSemanticColor.TEXT_TERTIARY.color}>
           {time}

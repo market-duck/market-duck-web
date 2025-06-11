@@ -23,7 +23,14 @@ export const Chat = ({ messageList, userId }: { messageList: ChatMessageModel[];
         {getFormattedDate(new Date(), 'YYYY년 M월 D일')}
       </Typo>
       {messageList.map((item) => {
-        return <ChatMessage key={item.messageId} isMine={item.senderId === userId} content={item.content} />;
+        return (
+          <ChatMessage
+            key={item.messageId}
+            isMine={item.senderId === userId}
+            type={item.messageType}
+            content={item.content}
+          />
+        );
       })}
     </Container>
   );

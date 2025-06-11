@@ -2,7 +2,7 @@ import { envManager } from '@market-duck/utils/env';
 import SockJS from 'sockjs-client';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
-import { ReqChatMessageType } from '@market-duck/types/chat';
+import { SendMessageInfoType } from '@market-duck/types/chat';
 
 type MessageHandler = (message: ChatMessageModel) => void;
 type Callback = () => void;
@@ -129,7 +129,7 @@ class ChatSocketClient {
   }
 
   // 메시지 전송 (WebSocket)
-  sendMessage(message: ReqChatMessageType): void {
+  sendMessage(sendMessageInfo: SendMessageInfoType): void {
     if (!this.connected || !this.stompClient) {
       console.error('웹소켓이 연결되어 있지 않습니다.');
       return;
@@ -137,9 +137,9 @@ class ChatSocketClient {
 
     this.stompClient.publish({
       destination: '/pub/chat/message',
-      body: JSON.stringify(message),
+      body: JSON.stringify(sendMessageInfo),
     });
-    console.log('메시지 전송:', message);
+    console.log('메시지 전송:', sendMessageInfo);
   }
 
   // 전역 메시지 핸들러 추가

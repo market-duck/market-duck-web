@@ -41,22 +41,32 @@ class ChatAPI {
   }
 
   // 채팅 메시지 전송, HTTP
-  async sendMessage({ roomId, message }: { roomId: number; message: ReqChatRoomType }) {
+  async sendMessage({ chatRoomId, content }: { chatRoomId: number; content: string }) {
     const {
       status,
       data: { data },
-    } = await fetchClient.post<IAPIResponse<IBaseChatMessageModel>>(`/chat/rooms/${roomId}/message`, { message });
+    } = await fetchClient.post<IAPIResponse<IBaseChatMessageModel>>(`/chat/rooms/${chatRoomId}/message`, { content });
     return {
       status: status <= 299 ? NetworkResultType.success : NetworkResultType.fail,
       message: ChatMessageModel.fromJson(data),
     };
   }
 
-  async uploadMessageImage({ image }: { roomId: number; image: File[] }) {
+  async uploadMessageImage({ image }: { image: File[] }) {
     const file = new FormData();
     image.forEach((item) => file.append('file', item));
     const { data } = await fetchClient.post<IAPIResponse<{ imageUrl: string }[]>>(`/chat/image`, file);
     return data.data.map((item) => item.imageUrl);
+  }
+
+  async sendImageMessage({ chatRoomId, imageUrlList }: { chatRoomId: number; imageUrlList: string[] }) {
+    const promises = imageUrlList.map(async (imageUrl) => {
+      await fetchClient.post<IAPIResponse<IBaseChatMessageModel>>(
+        `/chat/rooms/${chatRoomId}/images?imageUrl=${imageUrl}`,
+      );
+    });
+
+    await Promise.all(promises);
   }
 }
 
