@@ -2,7 +2,7 @@ import { envManager } from '@market-duck/utils/env';
 import SockJS from 'sockjs-client';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
-import { SendMessageInfoType } from '@market-duck/types/chat';
+import { ChatMessageTypeEnum, SendMessageInfoType } from '@market-duck/types/chat';
 
 type MessageHandler = (message: ChatMessageModel) => void;
 type Callback = () => void;

@@ -91,7 +91,6 @@ export const useChat = (currentRoomId: number) => {
           sessionId,
           messageType: type,
         });
-        chatAPI.sendMessage({ chatRoomId: currentRoomId, content: text });
         break;
       case ChatMessageTypeEnum.SYSTEM:
         //TODO:: 근데 액션을 프론트에서 직접 보낼 일이 있을런지..?
@@ -105,7 +104,7 @@ export const useChat = (currentRoomId: number) => {
         break;
       case ChatMessageTypeEnum.IMAGE:
         if (imageFiles) {
-          imageSend({ imageFiles });
+          imageSend({ imageFiles, sessionId });
         }
         break;
     }
@@ -113,12 +112,22 @@ export const useChat = (currentRoomId: number) => {
     setText('');
   };
 
-  const imageSend = async ({ imageFiles }: { imageFiles: File[] }) => {
+  const imageSend = async ({ imageFiles, sessionId }: { imageFiles: File[]; sessionId: string }) => {
+    if (!userData) return;
+
     try {
       const imageUrlList = await chatAPI.uploadMessageImage({ image: imageFiles });
 
       if (imageUrlList) {
-        await chatAPI.sendImageMessage({ chatRoomId: currentRoomId, imageUrlList });
+        imageUrlList.map((url) => {
+          chatSocketClient.sendMessage({
+            chatRoomId: currentRoomId,
+            senderId: userData.userId,
+            content: url,
+            sessionId,
+            messageType: ChatMessageTypeEnum.IMAGE,
+          });
+        });
       }
     } catch (error) {
       //TODO:: 이미지 업로드 혹은 이미지 전송 실패 시 핸들링
