@@ -1,5 +1,6 @@
-import { Input } from '@market-duck/components/Form/Input';
 import * as FillIcon from '@heroicons/react/24/solid';
+import { Input } from '@market-duck/components/Form/Input';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import styled from 'styled-components';
 
 const XCircleIcon = styled(FillIcon.XCircleIcon)`
@@ -34,6 +35,7 @@ export const Search = ({
       isError={isError}
       prefix={<MagnifyIcon />}
       suffix={<XCircleIcon onClick={deleteHandler} />}
+      className={AppSemanticColor.BG_SECONDARY.bg}
     />
   );
 };

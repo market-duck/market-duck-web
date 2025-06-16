@@ -20,6 +20,10 @@ const size: CssObjectType = {
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_LG}
+    & > svg {
+      width: 24px;
+      height: 24px;
+    }
   `,
 
   medium: css`
@@ -28,14 +32,22 @@ const size: CssObjectType = {
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_MD}
+    & > svg {
+      width: 18px;
+      height: 18px;
+    }
   `,
 
   small: css`
-    padding: ${AppSpcing.XS} ${AppSpcing.M};
+    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
     gap: ${AppSpcing.XXS};
     border-radius: ${AppRadii.M};
     font-weight: 500;
-    ${AppTypo.BODY_SM}
+    ${AppTypo.CAPTION_MD}
+    & > svg {
+      width: 16px;
+      height: 16px;
+    }
   `,
 };
 
@@ -133,12 +145,6 @@ const StyledButton = styled.button<StyledButtonProps>`
   outline: none;
   cursor: pointer;
   ${(props) => getCSSProperty(props)}
-  .contentContainer {
-  }
-  & > svg {
-    width: 24px;
-    height: 24px;
-  }
 `;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
