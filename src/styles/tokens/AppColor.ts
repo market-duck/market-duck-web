@@ -82,73 +82,73 @@ export const AppColorStyle = createGlobalStyle`
 
   /* Green colors */
   .bg-green-50 {
-    background-color: #ECF7E7;
+    background-color: #EBF7F2;
   }
   .fc-green-50 {
-    color: #ECF7E7;
+    color: #EBF7F2;
   }
 
   .bg-green-100 {
-    background-color: #C7E6B9;
+    background-color: #CFEBE0;
   }
   .fc-green-100 {
-    color: #C7E6B9;
+    color: #CFEBE0;
   }
 
   .bg-green-200 {
-    background-color: #A2D48E;
+    background-color: #A9DBC7;
   }
   .fc-green-200 {
-    color: #A2D48E;
+    color: #A9DBC7;
   }
 
   .bg-green-300 {
-    background-color: #7FC167;
+    background-color: #80CAAC;
   }
   .fc-green-300 {
-    color: #7FC167;
+    color: #80CAAC;
   }
 
   .bg-green-400 {
-    background-color: #5DAD45;
+    background-color: #5ABA94;
   }
   .fc-green-400 {
-    color: #5DAD45;
+    color: #5ABA94;
   }
 
   .bg-green-500 {
-    background-color: #3E9926;
+    background-color: #36AB7C;
   }
   .fc-green-500 {
-    color: #3E9926;
+    color: #36AB7C;
   }
 
   .bg-green-600 {
-    background-color: #208408;
+    background-color: #2E9169;
   }
   .fc-green-600 {
-    color: #208408;
+    color: #2E9169;
   }
 
   .bg-green-700 {
-    background-color: #036E00;
+    background-color: #267958;
   }
   .fc-green-700 {
-    color: #036E00;
+    color: #267958;
   }
 
   .bg-green-800 {
-    background-color: #22770D;
+    background-color: #1F6147;
   }
   .fc-green-800 {
-    color: #22770D;
+    color: #1F6147;
   }
 
   .bg-green-900 {
-    background-color: #114A03;
+    background-color: #184D38;
   }
   .fc-green-900 {
-    color: #114A03;
+    color: #184D38;
   }
 
   /* Red colors */
@@ -326,52 +326,52 @@ export const AppColor = {
     color: 'fc-gray-900',
   },
   GREEN50: {
-    hex: '#ECF7E7',
+    hex: '#EBF7F2',
     bg: 'bg-green-50',
     color: 'fc-green-50',
   },
   GREEN100: {
-    hex: '#C7E6B9',
+    hex: '#CFEBE0',
     bg: 'bg-green-100',
     color: 'fc-green-100',
   },
   GREEN200: {
-    hex: '#A2D48E',
+    hex: '#A9DBC7',
     bg: 'bg-green-200',
     color: 'fc-green-200',
   },
   GREEN300: {
-    hex: '#7FC167',
+    hex: '#80CAAC',
     bg: 'bg-green-300',
     color: 'fc-green-300',
   },
   GREEN400: {
-    hex: '#5DAD45',
+    hex: '#5ABA94',
     bg: 'bg-green-400',
     color: 'fc-green-400',
   },
   GREEN500: {
-    hex: '#3E9926',
+    hex: '#36AB7C',
     bg: 'bg-green-500',
     color: 'fc-green-500',
   },
   GREEN600: {
-    hex: '#208408',
+    hex: '#2E9169',
     bg: 'bg-green-600',
     color: 'fc-green-600',
   },
   GREEN700: {
-    hex: '#036E00',
+    hex: '#267958',
     bg: 'bg-green-700',
     color: 'fc-green-700',
   },
   GREEN800: {
-    hex: '#22770D',
+    hex: '#1F6147',
     bg: 'bg-green-800',
     color: 'fc-green-800',
   },
   GREEN900: {
-    hex: '#114A03',
+    hex: '#184D38',
     bg: 'bg-green-900',
     color: 'fc-green-900',
   },
@@ -459,390 +459,83 @@ export const AppColor = {
 
 export const AppSemanticColor = {
   // Text colors
-  TEXT_PRIMARY: {
-    hex: '#4F4F4F',
-    bg: 'bg-gray-800',
-    color: 'fc-gray-800',
-  },
-  TEXT_SECONDARY: {
-    hex: '#777777',
-    bg: 'bg-gray-700',
-    color: 'fc-gray-700',
-  },
-  TEXT_TERTIARY: {
-    hex: '#868686',
-    bg: 'bg-gray-600',
-    color: 'fc-gray-600',
-  },
-  TEXT_INFO: {
-    hex: '#519CFD',
-    bg: 'bg-blue-500',
-    color: 'fc-blue-500',
-  },
-  TEXT_WARNING: {
-    hex: '#917C12',
-    bg: 'bg-yellow-900',
-    color: 'fc-yellow-900',
-  },
-  TEXT_SUCCESS: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  TEXT_DANGER: {
-    hex: '#F14141',
-    bg: 'bg-red-500',
-    color: 'fc-red-500',
-  },
-  TEXT_DISABLED: {
-    hex: '#989898',
-    bg: 'bg-gray-500',
-    color: 'fc-gray-500',
-  },
-  TEXT_INVERSE: {
-    hex: '#FFFFFF',
-    bg: 'bg-gray-00',
-    color: 'fc-gray-00',
-  },
-  TEXT_INTERACTIVE_PRIMARY: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  TEXT_INTERACTIVE_PRIMARY_HOVER: {
-    hex: '#208408',
-    bg: 'bg-green-600',
-    color: 'fc-green-600',
-  },
-  TEXT_INTERACTIVE_PRIMARY_PRESS: {
-    hex: '#036E00',
-    bg: 'bg-green-700',
-    color: 'fc-green-700',
-  },
-  TEXT_INTERACTIVE_SECONDARY: {
-    hex: '#868686',
-    bg: 'bg-gray-600',
-    color: 'fc-gray-600',
-  },
-  TEXT_INTERACTIVE_SECONDARY_HOVER: {
-    hex: '#777777',
-    bg: 'bg-gray-700',
-    color: 'fc-gray-700',
-  },
-  TEXT_INTERACTIVE_SECONDARY_PRESS: {
-    hex: '#4F4F4F',
-    bg: 'bg-gray-800',
-    color: 'fc-gray-800',
-  },
-
+  TEXT_PRIMARY: AppColor.GRAY800,
+  TEXT_SECONDARY: AppColor.GRAY600,
+  TEXT_TERTIARY: AppColor.GRAY400,
+  TEXT_INFO: AppColor.BLUE500,
+  TEXT_WARNING: AppColor.YELLOW900,
+  TEXT_SUCCESS: AppColor.GREEN500,
+  TEXT_DANGER: AppColor.RED500,
+  TEXT_DISABLED: AppColor.GRAY500,
+  TEXT_INVERSE: AppColor.GRAY00,
+  TEXT_INTERACTIVE_PRIMARY: AppColor.GREEN500,
+  TEXT_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600,
+  TEXT_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700,
+  TEXT_INTERACTIVE_SECONDARY: AppColor.GRAY600,
+  TEXT_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY700,
+  TEXT_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY800,
   // Background colors
-  BG_PRIMARY: {
-    hex: '#FFFFFF',
-    bg: 'bg-gray-00',
-    color: 'fc-gray-00',
-  },
-  BG_SECONDARY: {
-    hex: '#F5F5F5',
-    bg: 'bg-gray-50',
-    color: 'fc-gray-50',
-  },
-  BG_TERTIARY: {
-    hex: '#E3E3E3',
-    bg: 'bg-gray-100',
-    color: 'fc-gray-100',
-  },
-  BG_INFO_SUBTLE: {
-    hex: '#EAF3FF',
-    bg: 'bg-blue-100',
-    color: 'fc-blue-100',
-  },
-  BG_INFO: {
-    hex: '#519CFD',
-    bg: 'bg-blue-500',
-    color: 'fc-blue-500',
-  },
-  BG_WARNING_SUBTLE: {
-    hex: '#FFFBE9',
-    bg: 'bg-yellow-100',
-    color: 'fc-yellow-100',
-  },
-  BG_WARNING: {
-    hex: '#FFE147',
-    bg: 'bg-yellow-500',
-    color: 'fc-yellow-500',
-  },
-  BG_SUCCESS_SUBTLE: {
-    hex: '#ECF7E7',
-    bg: 'bg-green-50',
-    color: 'fc-green-50',
-  },
-  BG_SUCCESS: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  BG_DANGER_SUBTLE: {
-    hex: '#FDE8E8',
-    bg: 'bg-red-100',
-    color: 'fc-red-100',
-  },
-  BG_DANGER: {
-    hex: '#F14141',
-    bg: 'bg-red-500',
-    color: 'fc-red-500',
-  },
-  BG_DISABLED: {
-    hex: '#E3E3E3',
-    bg: 'bg-gray-100',
-    color: 'fc-gray-100',
-  },
-  BG_INTERACTIVE_PRIMARY: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  BG_INTERACTIVE_PRIMARY_HOVER: {
-    hex: '#208408',
-    bg: 'bg-green-600',
-    color: 'fc-green-600',
-  },
-  BG_INTERACTIVE_PRIMARY_PRESS: {
-    hex: '#036E00',
-    bg: 'bg-green-700',
-    color: 'fc-green-700',
-  },
-  BG_INTERACTIVE_SECONDARY: {
-    hex: '#F5F5F5',
-    bg: 'bg-gray-50',
-    color: 'fc-gray-50',
-  },
-  BG_INTERACTIVE_SECONDARY_HOVER: {
-    hex: '#E3E3E3',
-    bg: 'bg-gray-100',
-    color: 'fc-gray-100',
-  },
-  BG_INTERACTIVE_SECONDARY_PRESS: {
-    hex: '#D1D1D1',
-    bg: 'bg-gray-200',
-    color: 'fc-gray-200',
-  },
-  BG_INTERACTIVE_INFO: {
-    hex: '#EAF3FF',
-    bg: 'bg-blue-100',
-    color: 'fc-blue-100',
-  },
-  BG_INTERACTIVE_INFO_HOVER: {
-    hex: '#A4CBFE',
-    bg: 'bg-blue-300',
-    color: 'fc-blue-300',
-  },
-  BG_INTERACTIVE_INFO_PRESS: {
-    hex: '#A4CBFE',
-    bg: 'bg-blue-300',
-    color: 'fc-blue-300',
-  },
-  BG_INTERACTIVE_WARNING: {
-    hex: '#FFFBE9',
-    bg: 'bg-yellow-100',
-    color: 'fc-yellow-100',
-  },
-  BG_INTERACTIVE_WARNING_HOVER: {
-    hex: '#FFEF9F',
-    bg: 'bg-yellow-300',
-    color: 'fc-yellow-300',
-  },
-  BG_INTERACTIVE_WARNING_PRESS: {
-    hex: '#FFEF9F',
-    bg: 'bg-yellow-300',
-    color: 'fc-yellow-300',
-  },
-  BG_INTERACTIVE_SUCCESS: {
-    hex: '#C7E6B9',
-    bg: 'bg-green-100',
-    color: 'fc-green-100',
-  },
-  BG_INTERACTIVE_SUCCESS_HOVER: {
-    hex: '#7FC167',
-    bg: 'bg-green-300',
-    color: 'fc-green-300',
-  },
-  BG_INTERACTIVE_SUCCESS_PRESS: {
-    hex: '#7FC167',
-    bg: 'bg-green-300',
-    color: 'fc-green-300',
-  },
-  BG_INTERACTIVE_DANGER: {
-    hex: '#FDE8E8',
-    bg: 'bg-red-100',
-    color: 'fc-red-100',
-  },
-  BG_INTERACTIVE_DANGER_HOVER: {
-    hex: '#F89B9B',
-    bg: 'bg-red-300',
-    color: 'fc-red-300',
-  },
-  BG_INTERACTIVE_DANGER_PRESS: {
-    hex: '#F89B9B',
-    bg: 'bg-red-300',
-    color: 'fc-red-300',
-  },
-
+  BG_PRIMARY: AppColor.GRAY00,
+  BG_SECONDARY: AppColor.GRAY50,
+  BG_TERTIARY: AppColor.GRAY100,
+  BG_INFO_SUBTLE: AppColor.BLUE100,
+  BG_INFO: AppColor.BLUE500,
+  BG_WARNING_SUBTLE: AppColor.YELLOW100,
+  BG_WARNING: AppColor.YELLOW500,
+  BG_SUCCESS_SUBTLE: AppColor.GREEN50,
+  BG_SUCCESS: AppColor.GREEN500,
+  BG_DANGER_SUBTLE: AppColor.RED100,
+  BG_DANGER: AppColor.RED500,
+  BG_DISABLED: AppColor.GRAY50,
+  BG_INTERACTIVE_PRIMARY: AppColor.GREEN500,
+  BG_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600,
+  BG_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700,
+  BG_INTERACTIVE_SECONDARY: AppColor.GRAY50,
+  BG_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY100,
+  BG_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY200,
+  BG_INTERACTIVE_INFO: AppColor.BLUE100,
+  BG_INTERACTIVE_INFO_HOVER: AppColor.BLUE300,
+  BG_INTERACTIVE_INFO_PRESS: AppColor.BLUE300,
+  BG_INTERACTIVE_WARNING: AppColor.YELLOW100,
+  BG_INTERACTIVE_WARNING_HOVER: AppColor.YELLOW300,
+  BG_INTERACTIVE_WARNING_PRESS: AppColor.YELLOW300,
+  BG_INTERACTIVE_SUCCESS: AppColor.GREEN100,
+  BG_INTERACTIVE_SUCCESS_HOVER: AppColor.GREEN300,
+  BG_INTERACTIVE_SUCCESS_PRESS: AppColor.GREEN300,
+  BG_INTERACTIVE_DANGER: AppColor.RED100,
+  BG_INTERACTIVE_DANGER_HOVER: AppColor.RED300,
+  BG_INTERACTIVE_DANGER_PRESS: AppColor.RED300,
   // Border colors
-  BORDER_PRIMARY: {
-    hex: '#989898',
-    bg: 'bg-gray-500',
-    color: 'fc-gray-500',
-  },
-  BORDER_SECONDARY: {
-    hex: '#CACACA',
-    bg: 'bg-gray-300',
-    color: 'fc-gray-300',
-  },
-  BORDER_TERTIARY: {
-    hex: '#E3E3E3',
-    bg: 'bg-gray-100',
-    color: 'fc-gray-100',
-  },
-  BORDER_FOCUS_RING: {
-    hex: '#C7E6B9',
-    bg: 'bg-green-100',
-    color: 'fc-green-100',
-  },
-  BORDER_INFO: {
-    hex: '#A4CBFE',
-    bg: 'bg-blue-300',
-    color: 'fc-blue-300',
-  },
-  BORDER_WARNING: {
-    hex: '#FFEF9F',
-    bg: 'bg-yellow-300',
-    color: 'fc-yellow-300',
-  },
-  BORDER_SUCCESS: {
-    hex: '#7FC167',
-    bg: 'bg-green-300',
-    color: 'fc-green-300',
-  },
-  BORDER_DANGER: {
-    hex: '#F89B9B',
-    bg: 'bg-red-300',
-    color: 'fc-red-300',
-  },
-  BORDER_DISABLED: {
-    hex: '#B6B6B6',
-    bg: 'bg-gray-400',
-    color: 'fc-gray-400',
-  },
-  BORDER_INTERACTIVE_PRIMARY: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  BORDER_INTERACTIVE_PRIMARY_HOVER: {
-    hex: '#208408',
-    bg: 'bg-green-600',
-    color: 'fc-green-600',
-  },
-  BORDER_INTERACTIVE_PRIMARY_PRESS: {
-    hex: '#036E00',
-    bg: 'bg-green-700',
-    color: 'fc-green-700',
-  },
-  BORDER_INTERACTIVE_SECONDARY: {
-    hex: '#D1D1D1',
-    bg: 'bg-gray-200',
-    color: 'fc-gray-200',
-  },
-  BORDER_INTERACTIVE_SECONDARY_HOVER: {
-    hex: '#CACACA',
-    bg: 'bg-gray-300',
-    color: 'fc-gray-300',
-  },
-  BORDER_INTERACTIVE_SECONDARY_PRESS: {
-    hex: '#B6B6B6',
-    bg: 'bg-gray-400',
-    color: 'fc-gray-400',
-  },
-
+  BORDER_PRIMARY: AppColor.GRAY500,
+  BORDER_SECONDARY: AppColor.GRAY300,
+  BORDER_TERTIARY: AppColor.GRAY100,
+  BORDER_FOCUS_RING: AppColor.GREEN100,
+  BORDER_INFO: AppColor.BLUE300,
+  BORDER_WARNING: AppColor.YELLOW300,
+  BORDER_SUCCESS: AppColor.GREEN300,
+  BORDER_DANGER: AppColor.RED300,
+  BORDER_DISABLED: AppColor.GRAY400,
+  BORDER_INTERACTIVE_PRIMARY: AppColor.GREEN500,
+  BORDER_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600,
+  BORDER_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700,
+  BORDER_INTERACTIVE_SECONDARY: AppColor.GRAY200,
+  BORDER_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY300,
+  BORDER_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY400,
   // Icon colors
-  ICON_PRIMARY: {
-    hex: '#4F4F4F',
-    bg: 'bg-gray-800',
-    color: 'fc-gray-800',
-  },
-  ICON_SECONDARY: {
-    hex: '#777777',
-    bg: 'bg-gray-700',
-    color: 'fc-gray-700',
-  },
-  ICON_TERTIARY: {
-    hex: '#868686',
-    bg: 'bg-gray-600',
-    color: 'fc-gray-600',
-  },
-  ICON_BRAND: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  ICON_INFO: {
-    hex: '#519CFD',
-    bg: 'bg-blue-500',
-    color: 'fc-blue-500',
-  },
-  ICON_WARNING: {
-    hex: '#917C12',
-    bg: 'bg-yellow-900',
-    color: 'fc-yellow-900',
-  },
-  ICON_SUCCESS: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  ICON_DANGER: {
-    hex: '#F14141',
-    bg: 'bg-red-500',
-    color: 'fc-red-500',
-  },
-  ICON_DISABLED: {
-    hex: '#989898',
-    bg: 'bg-gray-500',
-    color: 'fc-gray-500',
-  },
-  ICON_INVERSE: {
-    hex: '#FFFFFF',
-    bg: 'bg-gray-00',
-    color: 'fc-gray-00',
-  },
-  ICON_INTERACTIVE_PRIMARY: {
-    hex: '#3E9926',
-    bg: 'bg-green-500',
-    color: 'fc-green-500',
-  },
-  ICON_INTERACTIVE_PRIMARY_HOVER: {
-    hex: '#208408',
-    bg: 'bg-green-600',
-    color: 'fc-green-600',
-  },
-  ICON_INTERACTIVE_PRIMARY_PRESS: {
-    hex: '#036E00',
-    bg: 'bg-green-700',
-    color: 'fc-green-700',
-  },
-  ICON_INTERACTIVE_SECONDARY: {
-    hex: '#868686',
-    bg: 'bg-gray-600',
-    color: 'fc-gray-600',
-  },
-  ICON_INTERACTIVE_SECONDARY_HOVER: {
-    hex: '#777777',
-    bg: 'bg-gray-700',
-    color: 'fc-gray-700',
-  },
-  ICON_INTERACTIVE_SECONDARY_PRESS: {
-    hex: '#4F4F4F',
-    bg: 'bg-gray-800',
-    color: 'fc-gray-800',
-  },
+  ICON_PRIMARY: AppColor.GRAY800,
+  ICON_SECONDARY: AppColor.GRAY600,
+  ICON_TERTIARY: AppColor.GRAY400,
+  ICON_BRAND: AppColor.GREEN500,
+  ICON_INFO: AppColor.BLUE500,
+  ICON_WARNING: AppColor.YELLOW900,
+  ICON_SUCCESS: AppColor.GREEN500,
+  ICON_DANGER: AppColor.RED500,
+  ICON_DISABLED: AppColor.GRAY500,
+  ICON_INVERSE: AppColor.GRAY00,
+  ICON_INTERACTIVE_PRIMARY: AppColor.GREEN500,
+  ICON_INTERACTIVE_PRIMARY_HOVER: AppColor.GREEN600,
+  ICON_INTERACTIVE_PRIMARY_PRESS: AppColor.GREEN700,
+  ICON_INTERACTIVE_SECONDARY: AppColor.GRAY600,
+  ICON_INTERACTIVE_SECONDARY_HOVER: AppColor.GRAY700,
+  ICON_INTERACTIVE_SECONDARY_PRESS: AppColor.GRAY800,
 };

@@ -122,20 +122,32 @@ export const SearchCategory = ({
 }: SearchCategoryProps) => {
   const [inputValue, setInputValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
-  const { isOpen: isFocus, setIsOpen: setIsFocus, dropdownRef: focusRef } = useHandleClickOutside();
+  const { isOpen, setIsOpen, dropdownRef: focusRef } = useHandleClickOutside();
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isFocus, setIsFocus] = useState(false);
   const { data: searchResults } = useQuery({
     queryKey: ['category', 'get', searchValue],
     queryFn: async () => {
       const data = await categoryAPI.getCategoryList({ categoryName: searchValue, categoryType, page: 0, size: 12 });
       return data;
     },
-    enabled: !!searchValue,
+    enabled: isOpen || isFocus,
   });
 
   useEffect(() => {
-    if (isFocus) inputRef.current?.focus();
-  }, [isFocus]);
+    const inputElement = inputRef.current;
+    const focusoutHandler = () => {
+      console.log('focusout');
+      setIsFocus(false);
+    };
+
+    if (isFocus) inputElement?.focus();
+    inputElement?.addEventListener('focusout', focusoutHandler);
+
+    return () => {
+      inputElement?.removeEventListener('focusout', focusoutHandler);
+    };
+  }, [isFocus, setIsFocus]);
 
   const getDebounce = useCallback(
     debounce((value: string) => {
@@ -151,7 +163,7 @@ export const SearchCategory = ({
     changeSelectedsHandler([...selecteds, selected]);
     setInputValue('');
     setSearchValue('');
-    setIsFocus(false);
+    setIsOpen(false);
   };
 
   const deleteHandler = (deleteItem: CategoryModel) => {
@@ -171,16 +183,16 @@ export const SearchCategory = ({
   return (
     <Container
       ref={focusRef}
-      onClick={(e) => {
-        e.stopPropagation();
+      onClick={() => {
+        setIsOpen(true);
         setIsFocus(true);
       }}
-      $isFocus={isFocus}
+      $isFocus={isOpen || isFocus}
       $isError={isError}
     >
       <Column gap="XS" justify="center">
         {!!selecteds.length && (
-          <Row flexWrap="wrap" className="tags">
+          <Row flexWrap="wrap" gap="XXS" className="tags">
             {selecteds.map((item) => {
               return (
                 <Tag
@@ -194,7 +206,7 @@ export const SearchCategory = ({
             })}
           </Row>
         )}
-        {isFocus && (
+        {(isOpen || isFocus) && (
           <input
             className="inputArea"
             value={inputValue}
@@ -205,12 +217,12 @@ export const SearchCategory = ({
             }}
           />
         )}
-        {!isFocus && !selecteds.length && <span className={AppSemanticColor.TEXT_SECONDARY.color}>{placeholder}</span>}
+        {!isOpen && !selecteds.length && <span className={AppSemanticColor.TEXT_SECONDARY.color}>{placeholder}</span>}
       </Column>
       <Column justify="center" alignItems="center">
         {selecteds.length || inputValue.length ? <DeleteIcon onClick={deleteAllHandler} /> : <ArrowDownIcon />}
       </Column>
-      {searchResults && (
+      {searchResults && isOpen && (
         <DropdownWrap>
           {searchResults.map((item: CategoryModel) => (
             <li key={item.categoryId} onClick={() => selectHandler(item)}>

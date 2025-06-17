@@ -1,11 +1,11 @@
-import styled from 'styled-components';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import * as OutlineIcon from '@heroicons/react/24/outline';
 import { NavigationMenuEnum, useNavigationMenu } from '@market-duck/atoms/NavigationMenu.atom';
 import { createElement } from 'react';
-import { AppTypo } from 'src/styles/tokens/AppTypo';
 import { useNavigate } from 'react-router-dom';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppTypo } from 'src/styles/tokens/AppTypo';
+import styled from 'styled-components';
 
 const navigationMenuList = [
   {

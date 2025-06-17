@@ -31,7 +31,7 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   outline: none;
 
   &:hover {
-    background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_SECONDARY.hex} inset;
   }
@@ -43,7 +43,7 @@ const TextAreaContent = styled.textarea.attrs<{ $focus: boolean; $error?: boolea
   }
 
   &.is-error {
-    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_FOCUS_RING.hex} inset;
   }

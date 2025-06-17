@@ -26,7 +26,7 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   },
 )`
   display: flex;
-  gap: ${AppSpcing.XXS};
+  gap: ${AppSpcing.XS};
   width: 100%;
   border-radius: ${AppRadii.M};
   padding: ${AppSpcing.XS} ${AppSpcing.S};
@@ -47,7 +47,7 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   }
 
   &:hover {
-    background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_SECONDARY.hex} inset;
   }
@@ -59,7 +59,7 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   }
 
   &.is-error {
-    background-color: ${AppSemanticColor.BG_DANGER_SUBTLE.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     box-shadow: 0 0 0 2px ${AppSemanticColor.BORDER_FOCUS_RING.hex} inset;
   }
@@ -125,6 +125,8 @@ export const Input = ({
   prefix = null,
   suffix = null,
   caption,
+
+  className,
   ...props
 }: InputProps) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
@@ -139,7 +141,7 @@ export const Input = ({
   return (
     <InputWrap>
       {label && <p className="inputLabel">{label}</p>}
-      <InputContent $focus={isFocus} $error={isError} $disabled={isDisabled}>
+      <InputContent $focus={isFocus} $error={isError} $disabled={isDisabled} className={className}>
         {prefix}
         <input
           maxLength={maxLength}
