@@ -5,6 +5,13 @@ import { NavigationBottom } from '@market-duck/components/Navigation/NavigationB
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
+
+const LayoutContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 
 export const AppLayout = () => {
   const [userInfo, setUserInfo] = useRecoilState(userDataAtom);
@@ -29,10 +36,10 @@ export const AppLayout = () => {
   const hideBottomNav = location.pathname.startsWith('/chat/room');
 
   return (
-    <div>
+    <LayoutContainer>
       <Outlet />
       {!hideBottomNav && <NavigationBottom />}
       <GlobalDialog />
-    </div>
+    </LayoutContainer>
   );
 };

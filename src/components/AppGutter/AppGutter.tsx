@@ -17,7 +17,8 @@ export const AppGutter = styled.div.attrs<{
   background-color: #fff;
   min-width: var(${LayoutVariables.viewMinWidth});
   max-width: var(${LayoutVariables.viewMaxWidth});
-  margin: 0 auto;
+  margin: 0;
+  height: 100%;
   padding: 0 var(${LayoutVariables.gutterSize}) ${AppSpcing.XXXXL};
 `;
 

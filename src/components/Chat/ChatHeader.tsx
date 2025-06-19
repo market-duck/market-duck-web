@@ -10,6 +10,7 @@ const Container = styled(Row)`
   position: sticky;
   top: 48px;
   width: 100%;
+  flex-grow: 0;
   padding: ${AppSpcing.XS} ${AppSpcing.M};
   border-top: 1px solid #f1f1f1;
   border-bottom: 1px solid #f1f1f1;

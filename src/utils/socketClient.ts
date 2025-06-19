@@ -2,7 +2,7 @@ import { envManager } from '@market-duck/utils/env';
 import SockJS from 'sockjs-client';
 import { Client, StompSubscription } from '@stomp/stompjs';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
-import { ChatMessageTypeEnum, SendMessageInfoType } from '@market-duck/types/chat';
+import { SendMessageInfoType } from '@market-duck/types/chat';
 
 type MessageHandler = (message: ChatMessageModel) => void;
 type Callback = () => void;
@@ -35,7 +35,6 @@ class ChatSocketClient {
     this.stompClient = new Client({
       webSocketFactory: () => {
         const origin = envManager.getChatSocketOrigin();
-        // const url = `${origin}?token=${token.replace(/^Bearer\s+/i, '')}`;
         const url = `${origin}?token=${token}`;
         console.log('[WS] Connecting', url);
         return new SockJS(url);

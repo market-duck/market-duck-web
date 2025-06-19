@@ -13,6 +13,8 @@ import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { useRecoilValue } from 'recoil';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { useEffect } from 'react';
+import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
+import { ChatMessageTypeEnum } from '@market-duck/types/chat';
 
 const Wrap = styled(AppGutter)`
   position: relative;
@@ -34,6 +36,18 @@ export const ChatList = () => {
     queryKey: ['chat', 'rooms'],
     queryFn: () => chatAPI.getChatRooms(),
   });
+  const getLastMessageText = (lastMessage: ChatMessageModel) => {
+    switch (lastMessage.messageType) {
+      case ChatMessageTypeEnum.IMAGE:
+        return '[이미지]';
+      case ChatMessageTypeEnum.SYSTEM:
+        return lastMessage.content;
+      case ChatMessageTypeEnum.TEXT:
+        return lastMessage.content;
+    }
+
+    return '';
+  };
 
   useEffect(() => {
     if (!userData) {
@@ -55,7 +69,7 @@ export const ChatList = () => {
                 imgUrl={room.receiver.profileImageUrl}
                 id={room.chatRoomId}
                 name={room.receiver.nickname}
-                lastMessage={room.recentMessages[room.recentMessages.length - 1].content}
+                lastMessage={getLastMessageText(room.recentMessages[room.recentMessages.length - 1])}
                 noReadCount={room.unreadCount}
                 lastViewDate={getTimeDiff(room.recentMessages[room.recentMessages.length - 1].createdAt)}
               />

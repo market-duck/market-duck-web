@@ -12,8 +12,6 @@ enum ChatAction {
   SEND_ACCOUNT = 'SEND_ACCOUNT',
 }
 
-//TODO:: 메시지 수신, 메시지 발송 시에 제대로 db에 저장이 안 되는 거 같은데 API 요청하는 거 체크해야 할듯
-
 export const useChat = (currentRoomId: number) => {
   const [text, setText] = useState('');
   const [messageRoom, setMessageRoom] = useState<{ messages: ChatMessageModel[] }>({
@@ -31,16 +29,14 @@ export const useChat = (currentRoomId: number) => {
   const sessionId = chatRoomData?.sessionId;
   const senderId = chatRoomData?.sender.userId;
 
-  const isSubscribed = useRef(false); // subscribe 호출 여부 체크
+  const isSubscribed = useRef(false);
 
-  // StompJS 인스턴스 생성 및 연결
   const connect = () => {
-    console.log('in connect', sessionId);
     chatSocketClient.connect(() => {
-      console.log('callback', sessionId);
       if (sessionId) {
         subscribe(sessionId);
-        setMessageRoom({ messages: chatRoomData.recentMessages });
+        //TODO::일단 reverse 먹여놨는데 추후 서버에서 리스트 반대로 주면 제거하기
+        setMessageRoom({ messages: chatRoomData.recentMessages.reverse() });
       }
     });
   };
@@ -51,17 +47,14 @@ export const useChat = (currentRoomId: number) => {
 
   useEffect(() => {
     if (!chatSocketClient.isConnected() && sessionId) {
-      console.log({ sessionId });
       connect();
     }
 
-    // 컴포넌트 언마운트 시 연결 종료
     return () => {
       disconnect();
     };
   }, [sessionId]);
 
-  // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
     if (isSubscribed.current) return;
 
@@ -76,7 +69,6 @@ export const useChat = (currentRoomId: number) => {
     isSubscribed.current = true;
   };
 
-  // 메세지 발행을 위한 함수
   const sendMessage = ({ text, type, imageFiles }: { text: string; type: ChatMessageType; imageFiles?: File[] }) => {
     if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
 

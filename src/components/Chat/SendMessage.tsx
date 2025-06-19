@@ -16,6 +16,7 @@ const Container = styled(Row)`
   bottom: 0;
   padding: ${AppSpcing.S} ${AppSpcing.M};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+  flex-grow: 0;
 
   .imageBtn {
     display: flex;
