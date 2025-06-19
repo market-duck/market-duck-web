@@ -96,7 +96,7 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       const submitData = {
         title: values.title,
         content: values.content,
-        price: Number(values.price.replace(/,/g, '')),
+        price: Number(values.price.replace(/[₩, ]/g, '')),
         feedStatus: 'ON_SALE_OR_BUY' as FeedStatusType,
         feedType,
         goodsCategories: values.goods,
@@ -256,9 +256,9 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       />
       <Input
         placeholder="가격"
-        value={thousandComma(values.price)}
+        value={values.price}
         changeHandler={(e) => {
-          handleChange('price', thousandComma(e.target.value));
+          handleChange('price', thousandComma(e.target.value, true));
         }}
         isError={!!errors.price}
         caption={errors.price ?? ''}

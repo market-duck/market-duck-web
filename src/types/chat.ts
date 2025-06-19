@@ -1,8 +1,14 @@
 export type ChatRoomStatusType = 'ACTIVE' | 'INACTIVE';
 
-export type ChatMessageType = 'TEXT' | 'ACTION' | 'IMAGE';
+export const ChatMessageTypeEnum = {
+  TEXT: 'TEXT',
+  SYSTEM: 'SYSTEM',
+  IMAGE: 'IMAGE',
+};
 
-export interface ReqChatMessageType {
+export type ChatMessageType = (typeof ChatMessageTypeEnum)[keyof typeof ChatMessageTypeEnum];
+
+export interface SendMessageInfoType {
   chatRoomId: number;
   senderId: number;
   content: string;

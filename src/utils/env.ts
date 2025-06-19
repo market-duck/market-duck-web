@@ -15,7 +15,9 @@ class EnvManager {
     //TODO:: env 생성 및 변경
     return this.env.VITE_NEEDER_APP_ORIGIN;
   }
-
+  getChatSocketOrigin() {
+    return this.env.VITE_CHAT_SOCKET_URL;
+  }
   getBuildEnv() {
     return this.env.VITE_BUILD_ENV!;
   }

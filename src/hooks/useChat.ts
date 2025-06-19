@@ -1,8 +1,9 @@
+import { chatSocketClient } from '../utils/socketClient';
+import { chatAPI } from './../apis/chatAPI';
 import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
-import { ChatMessageType } from '@market-duck/types/chat';
-import { SocketClient } from '@market-duck/utils/socketClient';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
@@ -18,85 +19,118 @@ export const useChat = (currentRoomId: number) => {
   });
   const userData = useRecoilValue(userDataAtom);
 
-  const { data, fetchNextPage, isLoading, isFetchingNextPage, error } = useInfiniteQuery({
-    queryKey: ['chat', currentRoomId],
-    queryFn: () => {
-      return {
-        data: { sessionId: '', senderId: 0 },
-      };
-    },
-    getNextPageParam: () => 0,
-    initialPageParam: 0,
+  //채팅방에 대한 데이터 가져오는 쿼리
+  const { data: chatRoomData } = useQuery({
+    queryKey: ['chatRoom', currentRoomId],
+    queryFn: async () => await chatAPI.getChatRoom({ roomId: currentRoomId }),
+    enabled: !!currentRoomId,
   });
 
-  const client = useRef<SocketClient>(SocketClient.getInstance());
+  const sessionId = chatRoomData?.sessionId;
+  const senderId = chatRoomData?.sender.userId;
 
-  // StompJS 인스턴스 생성 및 연결
+  const isSubscribed = useRef(false);
+
   const connect = () => {
-    client.current.connect();
+    chatSocketClient.connect(() => {
+      if (sessionId) {
+        subscribe(sessionId);
+        //TODO::일단 reverse 먹여놨는데 추후 서버에서 리스트 반대로 주면 제거하기
+        setMessageRoom({ messages: chatRoomData.recentMessages.reverse() });
+      }
+    });
   };
 
   const disconnect = () => {
-    client.current.disconnect();
+    chatSocketClient.disconnect();
   };
 
   useEffect(() => {
-    connect();
+    if (!chatSocketClient.isConnected() && sessionId) {
+      connect();
+    }
 
-    // 컴포넌트 언마운트 시 연결 종료
-    return () => disconnect();
-  }, [currentRoomId]);
+    return () => {
+      disconnect();
+    };
+  }, [sessionId]);
 
-  const sessionId = data?.pages[0].data.sessionId;
-  const senderId = data?.pages[0].data.senderId;
-
-  if (!userData || !sessionId || !senderId) return;
-
-  // 토픽 구독을 위한 함수
   const subscribe = (sessionId: string) => {
-    client.current.subscribeToChat(sessionId, (msg) => {
+    if (isSubscribed.current) return;
+
+    chatSocketClient.subscribeToChatRoom(sessionId, (msg) => {
+      console.log({ msg });
       setMessageRoom((prev) => ({
         ...prev,
         messages: [...prev.messages, msg],
       }));
     });
+
+    isSubscribed.current = true;
   };
 
-  // 메세지 발행을 위한 함수
-  const sendMessage = (text: string, type: ChatMessageType) => {
-    if (!client.current.isConnected()) {
-      return;
+  const sendMessage = ({ text, type, imageFiles }: { text: string; type: ChatMessageType; imageFiles?: File[] }) => {
+    if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
+
+    console.log('here?', type, text, imageFiles);
+
+    switch (type) {
+      case ChatMessageTypeEnum.TEXT:
+        chatSocketClient.sendMessage({
+          chatRoomId: currentRoomId,
+          senderId: userData.userId,
+          content: text,
+          sessionId,
+          messageType: type,
+        });
+        break;
+      case ChatMessageTypeEnum.SYSTEM:
+        //TODO:: 근데 액션을 프론트에서 직접 보낼 일이 있을런지..?
+        // chatSocketClient.sendMessage({
+        //   chatRoomId: currentRoomId,
+        //   senderId: userData.userId,
+        //   content: text,
+        //   sessionId,
+        //   messageType: type,
+        // });
+        break;
+      case ChatMessageTypeEnum.IMAGE:
+        if (imageFiles) {
+          imageSend({ imageFiles, sessionId });
+        }
+        break;
     }
 
-    client.current.sendMessage({
-      chatRoomId: currentRoomId,
-      senderId: userData.userId,
-      content: text,
-      sessionId: sessionId,
-      messageType: type,
-    });
     setText('');
   };
 
-  const sendText = () => {
-    sendMessage(text, 'TEXT');
-    setText('');
-  };
+  const imageSend = async ({ imageFiles, sessionId }: { imageFiles: File[]; sessionId: string }) => {
+    if (!userData) return;
 
-  const sendAction = (action: ChatAction) => {
-    sendMessage(action, 'ACTION');
-  };
+    try {
+      const imageUrlList = await chatAPI.uploadMessageImage({ image: imageFiles });
 
-  const sendImage = (url: string) => {
-    // TODO: 이미지 업로드 API 호출하여 우선 처리 후 메세지 전송 필요
-    sendMessage(url, 'IMAGE');
+      if (imageUrlList) {
+        imageUrlList.map((url) => {
+          chatSocketClient.sendMessage({
+            chatRoomId: currentRoomId,
+            senderId: userData.userId,
+            content: url,
+            sessionId,
+            messageType: ChatMessageTypeEnum.IMAGE,
+          });
+        });
+      }
+    } catch (error) {
+      //TODO:: 이미지 업로드 혹은 이미지 전송 실패 시 핸들링
+    }
   };
 
   return {
-    sendText,
-    sendAction,
+    connect,
     disconnect,
-    publish: sendMessage,
+    sendMessage,
+    chatRoomData,
     messageRoom,
     setMessageRoom,
     text,

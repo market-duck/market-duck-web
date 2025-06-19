@@ -44,7 +44,7 @@ export const SummaryMenus = () => {
     <SummaryMenusWrap gap="M">
       {menuList.map((item) => {
         return (
-          <Column className="menuItem" justify="center" alignItems="center">
+          <Column key={item.title} className="menuItem" justify="center" alignItems="center">
             {item.icon}
             <Typo tag="span" type="BODY_SM" weight={500} className={AppSemanticColor.TEXT_PRIMARY.color}>
               {item.title}

@@ -52,7 +52,10 @@ export const MenuList = () => {
     },
     {
       name: '로그아웃',
-      action: () => {},
+      action: () => {
+        localStorage.clear();
+        location.replace('/login');
+      },
     },
   ];
 

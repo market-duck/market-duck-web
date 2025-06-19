@@ -52,5 +52,10 @@ export const useImageInput = () => {
     }
   };
 
-  return { images, deleteIdx, imageHandler, serverImageHandler, deleteHandler };
+  const allDeleteHandler = () => {
+    setImages([]);
+    setDeleteIdx([]);
+  };
+
+  return { images, deleteIdx, imageHandler, serverImageHandler, deleteHandler, allDeleteHandler };
 };
