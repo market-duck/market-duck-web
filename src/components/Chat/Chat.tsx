@@ -16,12 +16,22 @@ const Container = styled.div`
   padding-top: ${AppSpcing.M};
 `;
 
-export const Chat = ({ messageList, userId }: { messageList: ChatMessageModel[]; userId: Number }) => {
+export const Chat = ({
+  messageList,
+  userId,
+  shouldAutoScroll,
+}: {
+  messageList: ChatMessageModel[];
+  userId: Number;
+  shouldAutoScroll: boolean;
+}) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'auto' });
-  }, [messageList.length]);
+    if (shouldAutoScroll) {
+      bottomRef.current?.scrollIntoView({ behavior: 'auto' });
+    }
+  }, [messageList.length, shouldAutoScroll]);
 
   return (
     <Container ref={(node) => node?.scrollTo(0, node.offsetHeight)}>

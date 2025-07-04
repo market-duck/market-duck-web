@@ -7,27 +7,41 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
+/**
+ * 추후 추가할 기능
+ */
 enum ChatAction {
   SEND_ADDRESS = 'SEND_ADDRESS',
   SEND_ACCOUNT = 'SEND_ACCOUNT',
 }
 
-export const useChat = (currentRoomId: number) => {
+export const useChat = (currentRoomId: number, scrollRef?: React.RefObject<HTMLDivElement>) => {
   const [text, setText] = useState('');
-  const [messageRoom, setMessageRoom] = useState<{ messages: ChatMessageModel[] }>({
+  const [messages, setMessages] = useState<{ messages: ChatMessageModel[] }>({
     messages: [],
   });
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
+
   const userData = useRecoilValue(userDataAtom);
 
   //채팅방에 대한 데이터 가져오는 쿼리
-  const { data: chatRoomData } = useQuery({
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery({
     queryKey: ['chatRoom', currentRoomId],
-    queryFn: async () => await chatAPI.getChatRoom({ roomId: currentRoomId }),
+    queryFn: async ({ pageParam = 0 }) => await chatAPI.getChatRoom({ roomId: currentRoomId, page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      if (!lastPage.pageInfo) return undefined;
+
+      const { page, totalPages } = lastPage.pageInfo;
+      return page + 1 < totalPages ? page + 1 : undefined;
+    },
+    initialPageParam: 0,
     enabled: !!currentRoomId,
   });
 
-  const sessionId = chatRoomData?.sessionId;
-  const senderId = chatRoomData?.sender.userId;
+  const allMessages: ChatMessageModel[] = data?.pages.flatMap((page) => page.chatRoom.recentMessages) ?? [];
+
+  const sessionId = data?.pages[0].chatRoom.sessionId;
+  const senderId = data?.pages[0].chatRoom.sender.userId;
 
   const isSubscribed = useRef(false);
 
@@ -35,8 +49,7 @@ export const useChat = (currentRoomId: number) => {
     chatSocketClient.connect(() => {
       if (sessionId) {
         subscribe(sessionId);
-        //TODO::일단 reverse 먹여놨는데 추후 서버에서 리스트 반대로 주면 제거하기
-        setMessageRoom({ messages: chatRoomData.recentMessages.reverse() });
+        setMessages({ messages: allMessages.reverse() });
       }
     });
   };
@@ -60,7 +73,7 @@ export const useChat = (currentRoomId: number) => {
 
     chatSocketClient.subscribeToChatRoom(sessionId, (msg) => {
       console.log({ msg });
-      setMessageRoom((prev) => ({
+      setMessages((prev) => ({
         ...prev,
         messages: [...prev.messages, msg],
       }));
@@ -72,7 +85,7 @@ export const useChat = (currentRoomId: number) => {
   const sendMessage = ({ text, type, imageFiles }: { text: string; type: ChatMessageType; imageFiles?: File[] }) => {
     if (!chatSocketClient.isConnected() || !sessionId || !userData) return;
 
-    console.log('here?', type, text, imageFiles);
+    setShouldAutoScroll(true);
 
     switch (type) {
       case ChatMessageTypeEnum.TEXT:
@@ -126,15 +139,50 @@ export const useChat = (currentRoomId: number) => {
     }
   };
 
+  const handleLoadMore = async () => {
+    const scrollEl = scrollRef?.current;
+    const prevScrollHeight = scrollEl?.scrollHeight ?? 0;
+    const prevScrollTop = scrollEl?.scrollTop ?? 0;
+
+    setShouldAutoScroll(false);
+
+    const result = await fetchNextPage();
+    if (!result?.data?.pages) return;
+
+    const allMessages = result.data.pages.flatMap((page) => page.chatRoom.recentMessages).reverse();
+
+    setMessages({ messages: allMessages });
+
+    requestAnimationFrame(() => {
+      const newScrollHeight = scrollEl?.scrollHeight;
+      if (scrollEl && newScrollHeight) {
+        scrollEl.scrollTop = prevScrollTop + (newScrollHeight - prevScrollHeight);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (data?.pages) {
+      const allMessages = data.pages.flatMap((page) => page.chatRoom.recentMessages).reverse(); // 정렬 필요에 따라
+
+      setMessages({ messages: allMessages });
+    }
+  }, [data]);
+
   return {
     connect,
     disconnect,
     sendMessage,
-    chatRoomData,
-    messageRoom,
-    setMessageRoom,
+    chatRoomData: data?.pages[0],
+    messages,
+    setMessages,
     text,
     setText,
     subscribe,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    handleLoadMore,
+    shouldAutoScroll,
   };
 };

@@ -17,11 +17,11 @@ class ChatAPI {
     return data.map((chatroom) => ChatRoomModel.fromJson(chatroom));
   }
 
-  async getChatRoom({ roomId }: { roomId: number }) {
+  async getChatRoom({ roomId, page }: { roomId: number; page: number }) {
     const {
-      data: { data },
-    } = await fetchClient.get<IAPIResponse<IBaseChatRoomModel>>(`/chat/rooms/${roomId}`);
-    return ChatRoomModel.fromJson(data);
+      data: { data, pageInfo },
+    } = await fetchClient.get<IAPIResponse<IBaseChatRoomModel>>(`/chat/rooms/${roomId}?page=${page}`);
+    return { chatRoom: ChatRoomModel.fromJson(data), pageInfo };
   }
 
   // 채팅방 생성
