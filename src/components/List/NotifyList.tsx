@@ -4,7 +4,7 @@ import { getTimeDiff } from '@market-duck/utils/date';
 import { HTMLAttributes } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 //TODO:: List가 Notify 외에도 사용되는 것 같으므로 리스트 수정 작업 필요
@@ -45,8 +45,8 @@ const StyledNotifyListItem = styled.li`
     display: flex;
     justify-content: flex-start;
     align-items: stretch;
-    gap: ${AppSpcing.XS};
-    padding: ${AppSpcing.XS};
+    gap: ${AppSpacing.XS};
+    padding: ${AppSpacing.XS};
     background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
     &:hover {
       background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};

@@ -14,7 +14,7 @@ export const Create = () => {
     if (!userData) {
       return navigate('/login');
     }
-  }, []);
+  }, [navigate, userData]);
 
   if (!userData) return null;
   return (

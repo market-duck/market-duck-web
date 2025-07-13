@@ -1,9 +1,10 @@
-import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Tag } from '@market-duck/components/Tag/Tag';
+import { useMultipleImageValidation } from '@market-duck/hooks/useImageValidation';
 import { MouseEvent, UIEventHandler, useEffect, useRef, useState } from 'react';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Wrap = styled.div`
@@ -49,7 +50,7 @@ const Wrap = styled.div`
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    padding: 0 ${AppSpcing.XS};
+    padding: 0 ${AppSpacing.XS};
     z-index: 1;
     > button > svg {
       width: 24px;
@@ -72,7 +73,8 @@ export const FeedImageSlider = ({ imgSrcs }: FeedImageSliderProps) => {
   const [curIdx, setCurIdx] = useState<number>(0);
   const [indicator, setIndicator] = useState<number>(0);
   const slideRef = useRef<HTMLUListElement>(null);
-  const imgLen = imgSrcs?.length ?? 0;
+  const validImages = useMultipleImageValidation(imgSrcs);
+  const imgLen = validImages.length;
 
   const scrollHandler: UIEventHandler<HTMLUListElement> = (e) => {
     const scrollLeft = e.currentTarget.scrollLeft;
@@ -105,14 +107,11 @@ export const FeedImageSlider = ({ imgSrcs }: FeedImageSliderProps) => {
   return (
     <Wrap>
       <ul className="carousel" onScroll={scrollHandler} ref={slideRef}>
-        {imgSrcs &&
-          imgSrcs.map((url) => {
-            return (
-              <li className="item" key={url}>
-                <img src={url} />
-              </li>
-            );
-          })}
+        {validImages.map((url) => (
+          <li className="item" key={url}>
+            <img src={url} />
+          </li>
+        ))}
       </ul>
       <Row className="carauselBtnContainer" justify={'between'}>
         <button id="decrease" onClick={slideHandler}>

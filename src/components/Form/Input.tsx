@@ -3,7 +3,7 @@ import { ImageItem } from '@market-duck/types/image';
 import { ChangeEventHandler, InputHTMLAttributes, ReactNode, useRef, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -11,7 +11,7 @@ const InputWrap = styled.div`
   width: 100%;
 
   > .inputLabel {
-    margin-bottom: ${AppSpcing.XXS};
+    margin-bottom: ${AppSpacing.XXS};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     font-weight: 600;
     ${AppTypo.CAPTION_MD};
@@ -26,10 +26,10 @@ const InputContent = styled.div.attrs<{ $focus: boolean; $error?: boolean; $disa
   },
 )`
   display: flex;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
   width: 100%;
   border-radius: ${AppRadii.M};
-  padding: ${AppSpcing.XS} ${AppSpcing.S};
+  padding: ${AppSpacing.XS} ${AppSpacing.S};
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   color: ${AppSemanticColor.TEXT_TERTIARY.hex};
@@ -181,7 +181,7 @@ const InputWithImageContent = styled(InputContent)`
     width: 100%;
     flex-wrap: wrap;
     display: flex;
-    gap: ${AppSpcing.XXS};
+    gap: ${AppSpacing.XXS};
   }
 `;
 

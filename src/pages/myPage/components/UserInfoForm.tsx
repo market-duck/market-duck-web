@@ -17,7 +17,7 @@ import { UseMutateAsyncFunction } from '@tanstack/react-query';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -28,7 +28,7 @@ const Container = styled(AppGutter)`
   justify-content: space-between;
 
   .emailLabel {
-    margin-bottom: ${AppSpcing.XXS};
+    margin-bottom: ${AppSpacing.XXS};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     font-weight: 600;
     ${AppTypo.CAPTION_MD};

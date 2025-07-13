@@ -9,7 +9,7 @@ import { useInterval } from '@market-duck/hooks/useInterval';
 import { getPhoneNumberFormat } from '@market-duck/utils/format';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
@@ -23,7 +23,7 @@ const InputButtonBox = styled(Row)`
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
 
   > .inputArea {
     flex: 1;

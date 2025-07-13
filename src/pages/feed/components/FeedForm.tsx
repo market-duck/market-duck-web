@@ -1,4 +1,3 @@
-import { categoryAPI } from '@market-duck/apis/categoryAPI';
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { CategoryModel } from '@market-duck/apis/models/categoryModel';
 import { Button } from '@market-duck/components/Button/Button';
@@ -17,7 +16,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -26,7 +25,7 @@ const ImageUploadWrap = styled.div`
   flex-direction: column;
 
   > .label {
-    margin-bottom: ${AppSpcing.XXS};
+    margin-bottom: ${AppSpacing.XXS};
   }
 `;
 
@@ -36,7 +35,7 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
   padding-bottom: 4.3rem;
 `;
 
@@ -96,7 +95,7 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
       const submitData = {
         title: values.title,
         content: values.content,
-        price: Number(values.price.replace(/,/g, '')),
+        price: Number(values.price.replace(/[^0-9]/g, '')),
         feedStatus: 'ON_SALE_OR_BUY' as FeedStatusType,
         feedType,
         goodsCategories: values.goods,

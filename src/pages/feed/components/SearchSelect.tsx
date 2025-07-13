@@ -1,15 +1,15 @@
-import { useState } from 'react';
 import { Search } from '@market-duck/components/Form/Search';
-import styled from 'styled-components';
+import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
+import styled from 'styled-components';
 
 const ListWrap = styled.ul`
-  margin-top: ${AppSpcing.XS};
+  margin-top: ${AppSpacing.XS};
 `;
 
 const ListItem = styled.li`
-  padding: ${AppSpcing.XS};
+  padding: ${AppSpacing.XS};
   border-bottom: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
 `;
 

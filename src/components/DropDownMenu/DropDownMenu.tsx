@@ -4,7 +4,7 @@ import { Dispatch, HTMLAttributes, MouseEvent, SetStateAction, useEffect, useRef
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppElevation } from 'src/styles/tokens/AppElevation';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 
@@ -16,13 +16,13 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined; 
   .itemContainer {
     display: flex;
     flex-direction: column;
-    gap: ${AppSpcing.XS};
+    gap: ${AppSpacing.XS};
     position: absolute;
     z-index: 1;
     ${({ $isDotMenu }) => ($isDotMenu ? `right: 0` : `left: 0`)};
-    top: calc(32px + ${AppSpcing.XS});
+    top: calc(32px + ${AppSpacing.XS});
     min-width: 96px;
-    padding: ${AppSpcing.XS} ${AppSpcing.XXS};
+    padding: ${AppSpacing.XS} ${AppSpacing.XXS};
     ${AppElevation.SHADOW4}
     border-radius: ${AppRadii.M};
     background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
@@ -33,8 +33,8 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined; 
     min-width: ${({ $isDotMenu }) => ($isDotMenu ? 'auto' : '96px')};
     display: flex;
     justify-content: space-between;
-    gap: ${AppSpcing.XXS};
-    padding: ${({ $isDotMenu }) => ($isDotMenu ? `${AppSpcing.XXS}` : `${AppSpcing.XS} ${AppSpcing.XXS}`)};
+    gap: ${AppSpacing.XXS};
+    padding: ${({ $isDotMenu }) => ($isDotMenu ? `${AppSpacing.XXS}` : `${AppSpacing.XS} ${AppSpacing.XXS}`)};
     background-color: ${({ $isTransparent }) =>
       $isTransparent ? `transparent` : AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
     border-radius: ${AppRadii.M};
@@ -116,9 +116,7 @@ export const DropDownMenu = ({
   }, [dropDownRef, setIsOpen]);
 
   const itemHandler = (e: MouseEvent<HTMLButtonElement>, idx: number) => {
-    if (!isDotMenu && setSelectedIndex) {
-      setSelectedIndex(idx);
-    }
+    if (!isDotMenu && setSelectedIndex) setSelectedIndex(idx);
     items[idx].handler(e, idx);
     setIsOpen((prev) => !prev);
   };

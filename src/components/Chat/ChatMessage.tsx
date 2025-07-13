@@ -4,13 +4,13 @@ import { Typo } from '@market-duck/components/Typo/Typo';
 import { getFormattedDate } from '@market-duck/utils/date';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(Row)<{ $isMine: boolean }>`
   align-self: ${({ $isMine }) => ($isMine ? 'flex-end' : 'flex-start')};
   .bubble {
-    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
+    padding: ${AppSpacing.XXS} ${AppSpacing.XS};
     border-radius: ${AppRadii.M};
   }
 `;

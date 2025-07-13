@@ -3,7 +3,7 @@ import { NavigationMenuEnum, useNavigationMenu } from '@market-duck/atoms/Naviga
 import { createElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -44,9 +44,9 @@ const MenuWrap = styled.button.attrs<{ $isSelected: boolean }>(({ $isSelected })
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: ${AppSpcing.XXS};
+  gap: ${AppSpacing.XXS};
   flex: 1;
-  padding: ${AppSpcing.XS} 0 ${AppSpcing.XXS};
+  padding: ${AppSpacing.XS} 0 ${AppSpacing.XXS};
   cursor: pointer;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   color: ${AppSemanticColor.TEXT_PRIMARY.hex};

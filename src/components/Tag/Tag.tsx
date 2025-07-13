@@ -2,7 +2,7 @@ import * as FillIcon from '@heroicons/react/16/solid';
 import { MouseEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -21,7 +21,7 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; clas
   gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
-  padding: ${AppSpcing.XXS} ${AppSpcing.XS};
+  padding: ${AppSpacing.XXS} ${AppSpacing.XS};
   ${AppTypo.CAPTION_MD}
 
   &.color-primary {
@@ -66,11 +66,11 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; clas
 
   &.right-icon {
     ${AppTypo.CAPTION_MD}
-    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
+    padding: ${AppSpacing.XXS} ${AppSpacing.XS};
   }
 
   > span + span {
-    margin-left: ${AppSpcing.XXS};
+    margin-left: ${AppSpacing.XXS};
   }
 `;
 

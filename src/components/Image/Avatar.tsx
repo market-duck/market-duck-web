@@ -1,6 +1,6 @@
 import Placeholder from '@market-duck/assets/images/placeholder.svg';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { BgImage } from './BgImage';
 
@@ -14,18 +14,18 @@ const AvatarImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size 
   border-radius: ${AppRadii.M};
 
   &.size-sm {
-    width: ${AppSpcing.XXL};
-    height: ${AppSpcing.XXL};
+    width: ${AppSpacing.XXL};
+    height: ${AppSpacing.XXL};
   }
 
   &.size-md {
-    width: ${AppSpcing.XXXL};
-    height: ${AppSpcing.XXXL};
+    width: ${AppSpacing.XXXL};
+    height: ${AppSpacing.XXXL};
   }
 
   &.size-lg {
-    width: ${AppSpcing.XXXXL};
-    height: ${AppSpcing.XXXXL};
+    width: ${AppSpacing.XXXXL};
+    height: ${AppSpacing.XXXXL};
   }
 `;
 

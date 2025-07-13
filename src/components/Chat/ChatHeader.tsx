@@ -2,14 +2,14 @@ import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Thumbnail } from '@market-duck/components/Image/Thumbnail';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(Row)`
   position: sticky;
   top: 48px;
   width: 100%;
-  padding: ${AppSpcing.XS} ${AppSpcing.M};
+  padding: ${AppSpacing.XS} ${AppSpacing.M};
   border-top: 1px solid #f1f1f1;
   border-bottom: 1px solid #f1f1f1;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};

@@ -2,16 +2,16 @@ import { ChatMessage } from '@market-duck/components/Chat/ChatMessage';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { getFormattedDate } from '@market-duck/utils/date';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${AppSpcing.L};
+  gap: ${AppSpacing.L};
   justify-content: flex-end;
   min-height: calc(100dvh - 174px);
-  padding-top: ${AppSpcing.M};
+  padding-top: ${AppSpacing.M};
 `;
 
 export const Chat = () => {

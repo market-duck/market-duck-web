@@ -3,12 +3,13 @@ import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { BgImage } from '@market-duck/components/Image/BgImage';
 import { StatusTag, StatusTagColorType } from '@market-duck/components/Tag/StatusTag';
 import { Typo } from '@market-duck/components/Typo/Typo';
+import { useSingleImageValidation } from '@market-duck/hooks/useImageValidation';
 import { FeedStatusType } from '@market-duck/types/feed';
 import { getTimeDiff } from '@market-duck/utils/date';
 import { Link } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -52,14 +53,14 @@ const ItemImg = styled(BgImage)`
   background-size: cover;
   width: 100%;
   aspect-ratio: 1/1;
-  margin-bottom: ${AppSpcing.XXS};
+  margin-bottom: ${AppSpacing.XXS};
   border-radius: ${AppRadii.L};
 `;
 
 const InfoBox = styled(Column)`
   ${AppTypo.BODY_SM};
   color: ${AppSemanticColor.TEXT_PRIMARY.hex};
-  gap: ${AppSpcing.XXS};
+  gap: ${AppSpacing.XXS};
 `;
 
 export const Card = ({
@@ -72,6 +73,7 @@ export const Card = ({
   createdAt,
   viewCount,
   likedCount,
+  liked,
 }: {
   id: number;
   title: string;
@@ -82,21 +84,18 @@ export const Card = ({
   createdAt: Date;
   viewCount: number;
   likedCount: number;
+  liked: boolean;
 }) => {
-  //TODO:: 추후 시간으로 formatting 필요; (아마 시간, 분, 초 등 단위 다양화 할 수도 있음)
   const relativeTime = getTimeDiff(createdAt);
-
   const statusWord = getStatusWord(status);
+  const validImage = useSingleImageValidation(imgSrc);
 
   return (
     <CardWrap>
       <div className="image">
-        {/* TODO:: 추후 default img src 연결 */}
-        {imgSrc && (
-          <Link to={`/feed/read/${id}`}>
-            <ItemImg $src={imgSrc} />
-          </Link>
-        )}
+        <Link to={`/feed/read/${id}`} state={{ liked }}>
+          <ItemImg $src={validImage} />
+        </Link>
         <StatusTag className="status-tag" text={statusWord.text} color={statusWord.color as StatusTagColorType} />
       </div>
       <InfoBox>
@@ -112,7 +111,7 @@ export const Card = ({
           </Typo>
         </Link>
         <Typo tag="p" type="CAPTION_MD" weight={400} className={AppSemanticColor.TEXT_SECONDARY.color}>
-          {price}원
+          {price.toLocaleString()}원
         </Typo>
         <Row className="bottom-info" gap="XXS" justify="start" alignItems="center">
           <Row gap="XXXS" alignItems="center">

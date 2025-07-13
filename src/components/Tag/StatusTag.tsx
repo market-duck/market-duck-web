@@ -1,6 +1,6 @@
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -19,7 +19,7 @@ const Wrap = styled.div.attrs<{ $color?: StatusTagColorType; className?: string 
   gap: 0.4rem;
   border-radius: ${AppRadii.M};
   font-weight: 500;
-  padding: ${AppSpcing.XXXS} ${AppSpcing.XXS};
+  padding: ${AppSpacing.XXXS} ${AppSpacing.XXS};
   ${AppTypo.CAPTION_SM}
 
   &.color-neutral {

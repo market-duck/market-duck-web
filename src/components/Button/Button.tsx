@@ -3,7 +3,7 @@ import * as FillIcon from '@heroicons/react/24/solid';
 import { ButtonHTMLAttributes, createElement } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 import { RuleSet } from 'styled-components/dist/types';
@@ -15,8 +15,8 @@ interface CssObjectType {
 //* size
 const size: CssObjectType = {
   large: css`
-    padding: ${AppSpcing.S} ${AppSpcing.XL};
-    gap: ${AppSpcing.XS};
+    padding: ${AppSpacing.S} ${AppSpacing.XL};
+    gap: ${AppSpacing.XS};
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_LG}
@@ -27,8 +27,8 @@ const size: CssObjectType = {
   `,
 
   medium: css`
-    padding: ${AppSpcing.XS} ${AppSpcing.L};
-    gap: ${AppSpcing.XS};
+    padding: ${AppSpacing.XS} ${AppSpacing.L};
+    gap: ${AppSpacing.XS};
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.BODY_MD}
@@ -39,8 +39,8 @@ const size: CssObjectType = {
   `,
 
   small: css`
-    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
-    gap: ${AppSpcing.XXS};
+    padding: ${AppSpacing.XXS} ${AppSpacing.XS};
+    gap: ${AppSpacing.XXS};
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.CAPTION_MD}
@@ -54,7 +54,7 @@ const size: CssObjectType = {
 type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
-export type buttonVariantType = 'primary' | 'secondary' | 'danger' | 'text';
+export type ButtonVariantType = 'primary' | 'secondary' | 'danger' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
@@ -122,7 +122,7 @@ const rowCSSProperty = css`
 
 interface StyledButtonProps {
   $size?: sizeType;
-  $variant?: buttonVariantType;
+  $variant?: ButtonVariantType;
   $row?: boolean;
 }
 
@@ -152,8 +152,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: keyof typeof OutlineIcon;
   iconFill?: boolean;
   size?: sizeType;
-  variant?: buttonVariantType;
+  variant?: ButtonVariantType;
   row?: boolean;
+  outline?: boolean;
 }
 
 export const Button = ({ leftIcon, rightIcon, size, variant, iconFill, row, children, ...props }: ButtonProps) => {

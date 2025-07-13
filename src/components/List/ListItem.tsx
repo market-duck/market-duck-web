@@ -1,11 +1,11 @@
 import { Row } from '@market-duck/components/Flex/Flex';
-import styled from 'styled-components';
 import { ReactNode } from 'react';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
+import styled from 'styled-components';
 
 const ListItemWrap = styled(Row)`
-  padding: ${AppSpcing.XS};
+  padding: ${AppSpacing.XS};
   border-bottom: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   cursor: pointer;
 

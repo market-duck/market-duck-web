@@ -1,4 +1,4 @@
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { LayoutVariables } from 'src/styles/variables/LayoutVariables';
 import styled from 'styled-components';
 
@@ -18,7 +18,7 @@ export const AppGutter = styled.div.attrs<{
   min-width: var(${LayoutVariables.viewMinWidth});
   max-width: var(${LayoutVariables.viewMaxWidth});
   margin: 0 auto;
-  padding: 0 var(${LayoutVariables.gutterSize}) ${AppSpcing.XXXXL};
+  padding: 0 var(${LayoutVariables.gutterSize}) ${AppSpacing.XXXXL};
 `;
 
 export const AppGutterPadding = styled.div`

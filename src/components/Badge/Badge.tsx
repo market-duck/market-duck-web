@@ -1,8 +1,8 @@
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { HTMLAttributes } from 'react';
-import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypoKey } from 'src/styles/tokens/AppTypo';
 import styled, { css, RuleSet } from 'styled-components';
 
@@ -29,11 +29,11 @@ const variant: CssObjectType = {
 
 const size: CssObjectType = {
   lg: css`
-    min-width: ${AppSpcing.XL};
+    min-width: ${AppSpacing.XL};
   `,
 
   md: css`
-    min-width: ${AppSpcing.L};
+    min-width: ${AppSpacing.L};
   `,
 
   sm: css``,
@@ -55,7 +55,7 @@ const StyledBadge = styled.span<StyledBadgeProps>`
   display: flex;
   justify-content: center;
   align-content: center;
-  padding: ${AppSpcing.XXS};
+  padding: ${AppSpacing.XXS};
   border-radius: ${AppRadii.CIRCLE};
   color: ${AppSemanticColor.TEXT_INVERSE.hex};
 

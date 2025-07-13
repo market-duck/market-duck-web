@@ -7,12 +7,12 @@ import { ImageItem } from '@market-duck/types/image';
 import { ChangeEventHandler } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(Column)`
   .inputLabel {
-    margin-bottom: ${AppSpcing.XXS};
+    margin-bottom: ${AppSpacing.XXS};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
   }
 `;
@@ -34,8 +34,8 @@ const ImagesContainer = styled.ul`
   width: 100%;
   overflow-x: auto;
   display: flex;
-  gap: ${AppSpcing.XXS};
-  padding-bottom: ${AppSpcing.S};
+  gap: ${AppSpacing.XXS};
+  padding-bottom: ${AppSpacing.S};
 `;
 
 const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }) => {
@@ -48,24 +48,24 @@ const ImageButton = styled.label.attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $size }
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: ${AppSpcing.XXXS};
+  gap: ${AppSpacing.XXXS};
   cursor: pointer;
 
   &.size-sm {
-    width: ${AppSpcing.XL};
-    height: ${AppSpcing.XL};
+    width: ${AppSpacing.XL};
+    height: ${AppSpacing.XL};
     border-radius: ${AppRadii.S};
   }
 
   &.size-md {
-    width: ${AppSpcing.XXXL};
-    height: ${AppSpcing.XXXL};
+    width: ${AppSpacing.XXXL};
+    height: ${AppSpacing.XXXL};
     border-radius: ${AppRadii.M};
   }
 
   &.size-lg {
-    width: ${AppSpcing.XXXXL};
-    height: ${AppSpcing.XXXXL};
+    width: ${AppSpacing.XXXXL};
+    height: ${AppSpacing.XXXXL};
     border-radius: ${AppRadii.L};
   }
 `;
