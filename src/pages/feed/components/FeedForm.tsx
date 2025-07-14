@@ -1,12 +1,13 @@
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { CategoryModel } from '@market-duck/apis/models/categoryModel';
+import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Button } from '@market-duck/components/Button/Button';
-import { Column } from '@market-duck/components/Flex/Flex';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { ImagesInput } from '@market-duck/components/Form/ImageInput';
 import { Input } from '@market-duck/components/Form/Input';
 import { TextArea } from '@market-duck/components/Form/TextArea';
+import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
 import { SearchCategory } from '@market-duck/components/SearchCategory/SearchCategory';
-import { Tab } from '@market-duck/components/Tab/Tab';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { useForm } from '@market-duck/hooks/useForm';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
@@ -16,6 +17,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
@@ -29,7 +31,19 @@ const ImageUploadWrap = styled.div`
   }
 `;
 
-const SelectWrap = styled(Column)``;
+const CreateButton = styled(Button)`
+  padding: 0;
+  ${AppTypo.BODY_SM}
+`;
+
+const InputWrap = styled(Column)`
+  > .inputLabel {
+    margin-bottom: ${AppSpacing.XXS};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    font-weight: 600;
+    ${AppTypo.CAPTION_MD};
+  }
+`;
 
 const FormContainer = styled.form`
   display: flex;
@@ -45,6 +59,34 @@ const Caption = styled.p`
   ${AppTypo.CAPTION_MD};
 `;
 
+const TabWrap = styled(Row)`
+  display: flex;
+  gap: ${AppSpacing.XXS};
+  width: 100%;
+  border-radius: ${AppRadii.M};
+  padding: ${AppSpacing.XXS};
+  border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+  background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+  color: ${AppSemanticColor.TEXT_TERTIARY.hex};
+  font-weight: 500;
+  ${AppTypo.BODY_MD};
+  > .tab {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    padding: ${AppSpacing.XXS};
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    ${AppTypo.BODY_MD}
+    &.selected {
+      background-color: ${AppSemanticColor.BG_SECONDARY.hex};
+      border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+      color: ${AppSemanticColor.TEXT_PRIMARY.hex};
+    }
+  }
+`;
+
 interface FeedFormData {
   genre: Array<CategoryModel>;
   goods: Array<CategoryModel>;
@@ -55,7 +97,12 @@ interface FeedFormData {
 
 type EditData = FeedFormData & { feedId: number; images: string[] };
 
-export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edit'; editData?: EditData }) => {
+interface FeedFormProps {
+  type?: 'create' | 'edit';
+  editData?: EditData;
+}
+
+export const FeedForm = ({ type = 'create', editData }: FeedFormProps) => {
   const isEditFeed = type === 'edit' && !!editData;
   const [feedType, setFeedType] = useState<FeedType>('SALE');
   const [deleteImgIdxList, setDeleteImgIdxList] = useState<number[]>([]);
@@ -191,89 +238,103 @@ export const FeedForm = ({ type = 'create', editData }: { type?: 'create' | 'edi
   }, []);
 
   return (
-    <FormContainer>
-      <Tab
-        tabList={[
-          {
-            id: 'SALE',
-            name: '판매',
-          },
-          {
-            id: 'BUY',
-            name: '구매',
-          },
-        ]}
-        selectedTab={feedType}
-        setSelectedTab={(tabId) => {
-          setFeedType(tabId as FeedType);
-        }}
+    <>
+      <NavigationTop
+        leftButtonIconType="back"
+        title={type === 'create' ? '피드 작성' : '피드 수정'}
+        rightButton={<CreateButton variant="text">{type === 'create' ? '올리기' : '수정하기'}</CreateButton>}
+        onRightClick={() => handleSubmit()}
       />
-      <ImageUploadWrap>
-        <p className="label"></p>
-        <ImagesInput
-          size="lg"
-          length={10}
-          imageHandler={(e) => {
-            imageHandler(e);
-          }}
-          images={images}
-          deleteHandler={deleteImageHandler}
-        />
-      </ImageUploadWrap>
-      <SelectWrap>
-        <SearchCategory
-          placeholder="장르 태그 선택"
-          selecteds={values.genre}
-          changeSelectedsHandler={(selected) => {
-            handleChange('genre', selected);
-          }}
-          categoryType="GENRE"
-          isError={!!errors.genre}
-        />
-        {errors.genre && <Caption>{errors.genre}</Caption>}
-      </SelectWrap>
-      <SelectWrap>
-        <SearchCategory
-          placeholder="굿즈 태그 선택"
-          selecteds={values.goods}
-          changeSelectedsHandler={(selected) => {
-            handleChange('goods', selected);
-          }}
-          categoryType="GOODS"
-          isError={!!errors.goods}
-        />
-        {errors.goods && <Caption>{errors.goods}</Caption>}
-      </SelectWrap>
-      <Input
-        placeholder="제목"
-        value={values.title}
-        changeHandler={(e) => {
-          handleChange('title', e.target.value);
-        }}
-        isError={!!errors.title}
-        caption={errors.title ?? ''}
-      />
-      <Input
-        placeholder="가격"
-        value={thousandComma(values.price)}
-        changeHandler={(e) => {
-          handleChange('price', thousandComma(e.target.value));
-        }}
-        isError={!!errors.price}
-        caption={errors.price ?? ''}
-      />
-      <TextArea
-        value={values.content}
-        changeHandler={(e) => {
-          handleChange('content', e.target.value);
-        }}
-        placeholder="내용"
-        isError={!!errors.content}
-        caption={errors.content ?? ''}
-      />
-      <Button disabled={Object.keys(errors).length > 0} row size="large" onClick={handleSubmit}>
-        작성하기
-      </Button>
-    </FormContainer>
+      <AppGutter>
+        <FormContainer>
+          <ImageUploadWrap>
+            <p className="label"></p>
+            <ImagesInput
+              size="lg"
+              length={10}
+              imageHandler={(e) => {
+                imageHandler(e);
+              }}
+              images={images}
+              deleteHandler={deleteImageHandler}
+            />
+          </ImageUploadWrap>
+          <Input
+            placeholder="제목을 입력해주세요."
+            label="제목"
+            value={values.title}
+            changeHandler={(e) => {
+              handleChange('title', e.target.value);
+            }}
+            isError={!!errors.title}
+            caption={errors.title ?? ''}
+          />
+          <InputWrap>
+            <p className="inputLabel">장르 카테고리</p>
+            <SearchCategory
+              placeholder="ex. 귀멸의 칼날"
+              selecteds={values.genre}
+              changeSelectedsHandler={(selected) => {
+                handleChange('genre', selected);
+              }}
+              categoryType="GENRE"
+              isError={!!errors.genre}
+            />
+            {errors.genre && <Caption>{errors.genre}</Caption>}
+          </InputWrap>
+          <InputWrap>
+            <p className="inputLabel">굿즈 태그</p>
+            <SearchCategory
+              placeholder="ex. 아크릴"
+              selecteds={values.goods}
+              changeSelectedsHandler={(selected) => {
+                handleChange('goods', selected);
+              }}
+              categoryType="GOODS"
+              isError={!!errors.goods}
+            />
+            {errors.goods && <Caption>{errors.goods}</Caption>}
+          </InputWrap>
+          <InputWrap>
+            <p className="inputLabel">판매 타입</p>{' '}
+            <TabWrap>
+              <button
+                type="button"
+                className={`tab ${feedType === 'SALE' ? 'selected' : ''}`}
+                onClick={() => setFeedType('SALE')}
+              >
+                판매
+              </button>
+              <button
+                type="button"
+                className={`tab ${feedType === 'BUY' ? 'selected' : ''}`}
+                onClick={() => setFeedType('BUY')}
+              >
+                구매
+              </button>
+            </TabWrap>
+          </InputWrap>
+          <Input
+            label="가격"
+            value={thousandComma(values.price)}
+            changeHandler={(e) => {
+              handleChange('price', thousandComma(e.target.value));
+            }}
+            isError={!!errors.price}
+            caption={errors.price ?? ''}
+          />
+          <TextArea
+            label="내용"
+            value={values.content}
+            changeHandler={(e) => {
+              handleChange('content', e.target.value);
+            }}
+            placeholder="내용을 입력해주세요."
+            isError={!!errors.content}
+            caption={errors.content ?? ''}
+          />
+        </FormContainer>
+      </AppGutter>
+    </>
   );
 };
