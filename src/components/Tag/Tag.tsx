@@ -6,7 +6,7 @@ import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
-export type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution';
+export type TagColorType = 'primary' | 'secondary' | 'info' | 'error' | 'caution' | 'outline';
 
 const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; className?: string }>(
   ({ $color = 'primary', $rightIcon = true, className = '' }) => {
@@ -62,6 +62,11 @@ const Wrap = styled.div.attrs<{ $color?: TagColorType; $rightIcon: boolean; clas
     &:hover {
       background-color: ${AppSemanticColor.BG_INTERACTIVE_WARNING_HOVER.hex};
     }
+  }
+
+  &.color-outline {
+    color: ${AppSemanticColor.TEXT_PRIMARY.hex};
+    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
   }
 
   &.right-icon {

@@ -1,3 +1,4 @@
+import { ArrowUpTrayIcon } from '@heroicons/react/24/outline';
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
@@ -30,7 +31,7 @@ export const Read = () => {
 
   return (
     <>
-      <NavigationTop title="" leftButtonIconType="back" />
+      <NavigationTop title="" leftButtonIconType="back" rightButton={<ArrowUpTrayIcon width={24} />} />
       <Wrap>{feedDetail && <FeedContent feedDetail={feedDetail} isMyFeed={isMyFeed} />}</Wrap>
       {feedDetail &&
         (isMyFeed ? <MyFeedBottomBtns feedDetail={feedDetail} /> : <FeedBottomBtns feedDetail={feedDetail} />)}

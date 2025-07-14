@@ -183,10 +183,10 @@ export const FeedContent = ({ feedDetail, isMyFeed }: { feedDetail: FeedDetailMo
             </Typo>
             <Row className="tagContainer" gap="XS" flex={1} flexWrap="wrap">
               {genreCategory.map((category) => (
-                <Tag key={category.categoryId} color="secondary" text={category.categoryName} />
+                <Tag key={category.categoryId} color="outline" text={category.categoryName} />
               ))}
               {goodsCategory.map((category) => (
-                <Tag key={category.categoryId} color="secondary" text={category.categoryName} />
+                <Tag key={category.categoryId} color="outline" text={category.categoryName} />
               ))}
             </Row>
           </Column>
