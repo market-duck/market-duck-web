@@ -50,22 +50,8 @@ export const ChatRoom = () => {
     },
   });
 
-  const {
-    connect,
-    disconnect,
-    sendMessage,
-    chatRoomData,
-    messages,
-    setMessages,
-    text,
-    setText,
-    subscribe,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    handleLoadMore,
-    shouldAutoScroll,
-  } = useChat(roomId, scrollRef);
+  const { sendMessage, chatRoomData, messages, hasNextPage, isFetchingNextPage, handleLoadMore, shouldAutoScroll } =
+    useChat(roomId, scrollRef);
 
   useEffect(() => {
     if (!userData) {
@@ -86,7 +72,6 @@ export const ChatRoom = () => {
               positiveBtnVariant: 'danger',
             });
             if (result) {
-              disconnect();
               leaveChatRoom({ roomId: chatRoomData.chatRoom.chatRoomId });
             }
           },
@@ -105,7 +90,6 @@ export const ChatRoom = () => {
             if (result) {
               //TODO::신고 API 호출
               console.log('신고!!!!!');
-              disconnect();
               navigate(-1);
             }
           },
@@ -124,7 +108,6 @@ export const ChatRoom = () => {
             if (result) {
               //TODO::신고 API 호출
               console.log('차단!!!!!');
-              disconnect();
               navigate(-1);
             }
           },
@@ -156,7 +139,6 @@ export const ChatRoom = () => {
         title={chatRoomData.chatRoom.receiver.nickname}
         rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
         onLeftClick={() => {
-          disconnect();
           navigate(-1);
         }}
       />
@@ -174,7 +156,7 @@ export const ChatRoom = () => {
             enabled={hasNextPage}
           />
         )}
-        <Chat shouldAutoScroll={shouldAutoScroll} messageList={messages.messages} userId={userData.userId} />
+        <Chat shouldAutoScroll={shouldAutoScroll} messageList={messages} userId={userData.userId} />
       </ScrollArea>
       <SendMessage
         sendAction={(type, text, imageFiles) => {

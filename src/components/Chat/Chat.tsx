@@ -12,7 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: ${AppSpcing.L};
   justify-content: flex-start;
-  min-height: 100dvh;
+  min-height: 100%;
   padding-top: ${AppSpcing.M};
 `;
 
