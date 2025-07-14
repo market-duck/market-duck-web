@@ -134,11 +134,11 @@ export const MyFeedBottomBtns = ({ feedDetail }: { feedDetail: FeedDetailModel }
         iconFill={feedDetail.liked}
         onClick={btnHandler}
       />
-      <Button id="secondary" size="medium" variant="danger" row onClick={btnHandler}>
-        삭제
-      </Button>
       <Button id="primary" size="medium" variant="primary" row onClick={btnHandler}>
-        수정
+        수정하기
+      </Button>
+      <Button id="secondary" size="medium" variant="danger" row onClick={btnHandler}>
+        삭제하기
       </Button>
     </BtnContainer>
   );

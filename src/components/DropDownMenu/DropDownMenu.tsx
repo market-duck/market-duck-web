@@ -1,4 +1,5 @@
 import { ChevronDownIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/outline';
+import { CheckIcon } from '@heroicons/react/24/solid';
 import { ButtonClickHandler } from '@market-duck/types/handler';
 import { Dispatch, HTMLAttributes, MouseEvent, SetStateAction, useEffect, useRef, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
@@ -13,31 +14,16 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined; 
   position: relative;
   ${AppTypo.BODY_SM}
   font-weight: 500;
-  .itemContainer {
-    display: flex;
-    flex-direction: column;
-    gap: ${AppSpacing.XS};
-    position: absolute;
-    z-index: 1;
-    ${({ $isDotMenu }) => ($isDotMenu ? `right: 0` : `left: 0`)};
-    top: calc(32px + ${AppSpacing.XS});
-    min-width: 96px;
-    padding: ${AppSpacing.XS} ${AppSpacing.XXS};
-    ${AppElevation.SHADOW4}
-    border-radius: ${AppRadii.M};
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
-    color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_PRESS.hex};
-    animation: fadeWithSlideDown 0.2s ease-out forwards;
-  }
+
   .selectedItem {
-    min-width: ${({ $isDotMenu }) => ($isDotMenu ? 'auto' : '96px')};
     display: flex;
     justify-content: space-between;
     gap: ${AppSpacing.XXS};
-    padding: ${({ $isDotMenu }) => ($isDotMenu ? `${AppSpacing.XXS}` : `${AppSpacing.XS} ${AppSpacing.XXS}`)};
-    background-color: ${({ $isTransparent }) =>
-      $isTransparent ? `transparent` : AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
+    padding: ${({ $isDotMenu }) => ($isDotMenu ? `${AppSpacing.XXS}` : `${AppSpacing.XXS} ${AppSpacing.XS}`)};
+    background-color: ${({ $isTransparent }) => ($isTransparent ? `transparent` : AppSemanticColor.BG_PRIMARY.hex)};
+    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
     border-radius: ${AppRadii.M};
+    font-size: ${AppTypo.BODY_SM};
     font-weight: 500;
     color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
     ${({ $disabled }) =>
@@ -45,17 +31,31 @@ const Wrap = styled.div<{ $isDotMenu?: boolean; $disabled: boolean | undefined; 
       css`
         cursor: default;
       `};
-    &:hover {
-      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_HOVER.hex};
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_HOVER.hex};
-    }
-    &:active {
-      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_PRESS.hex};
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY_PRESS.hex};
-    }
-    &:disabled {
-      color: ${AppSemanticColor.TEXT_DISABLED.hex};
-      background-color: ${AppSemanticColor.BG_DISABLED.hex};
+  }
+
+  .itemContainer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 1;
+    /* ${({ $isDotMenu }) => ($isDotMenu ? `right: 0` : `left: 0`)}; */
+    top: calc(32px + ${AppSpacing.XS});
+    right: 0;
+    min-width: 96px;
+    padding: ${AppSpacing.XXS} 0;
+    ${AppElevation.SHADOW4}
+    border-radius: ${AppRadii.M};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
+    animation: fadeWithSlideDown 0.2s ease-out forwards;
+    .item {
+      width: 100%;
+      font-size: ${AppTypo.BODY_SM};
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: ${AppSpacing.XXS} ${AppSpacing.XS};
     }
   }
 
@@ -142,8 +142,8 @@ export const DropDownMenu = ({
         <ul className="itemContainer">
           {reorderedItems.map((item) => (
             <li key={item.id}>
-              <button id={item.id} onClick={(e) => itemHandler(e, items.indexOf(item))}>
-                {item.name}
+              <button className="item" id={item.id} onClick={(e) => itemHandler(e, items.indexOf(item))}>
+                {item.name} {selectedIndex === items.indexOf(item) && <CheckIcon width={16} />}
               </button>
             </li>
           ))}
