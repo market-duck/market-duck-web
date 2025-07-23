@@ -4,17 +4,17 @@ import { Avatar } from '@market-duck/components/Image/Avatar';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const ProfileWrap = styled(Row)`
   justify-content: flex-start;
   align-items: center;
-  gap: ${AppSpcing.S};
+  gap: ${AppSpacing.S};
   border-radius: ${AppRadii.M};
   margin-bottom: 1.25rem;
-  margin-top: ${AppSpcing.M};
-  padding: ${AppSpcing.S};
+  margin-top: ${AppSpacing.M};
+  padding: ${AppSpacing.S};
 `;
 
 export const UserProfile = ({ userInfo }: { userInfo: UserModel }) => {

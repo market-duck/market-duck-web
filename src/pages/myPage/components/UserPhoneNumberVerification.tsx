@@ -9,7 +9,7 @@ import { useInterval } from '@market-duck/hooks/useInterval';
 import { getPhoneNumberFormat } from '@market-duck/utils/format';
 import { ChangeEventHandler, MouseEventHandler, useEffect, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
@@ -23,7 +23,7 @@ const InputButtonBox = styled(Row)`
   display: flex;
   justify-content: center;
   white-space: nowrap;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
 
   > .inputArea {
     flex: 1;
@@ -92,6 +92,8 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
   const handleSendVerifyCode = async () => {
     try {
       if (!checkIsPhoneNumValid(data.phoneNum)) {
+        setPhoneError('올바른 휴대폰 번호를 입력해주세요.');
+        return;
       }
       const isSuccess = await userAPI.sendPhoneNumVerifyNum({ phoneNumber: data.phoneNum });
 
@@ -210,12 +212,12 @@ export const UserPhoneNumberVerification = ({ page, onNext }: UserPhoneNumberVer
         </Column>
       </Column>
       <Column gap="XS" flex={0}>
-        <Button disabled={!isVerifySuccess} onClick={submitHandler}>
+        <Button disabled={!isVerifySuccess} size="large" onClick={submitHandler}>
           {page === 'signUp' ? '다음으로' : '수정하기'}
         </Button>
         {page === 'signUp' && (
           <Column justify="center" flex={1}>
-            <Button onClick={onNext} variant="text">
+            <Button onClick={onNext} size="large" variant="text">
               건너뛰기
             </Button>
           </Column>

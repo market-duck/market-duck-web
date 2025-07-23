@@ -29,8 +29,10 @@ export const useForm = <T>({
     setErrors({});
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.SyntheticEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (validate) {
       const validationErrors = validate(values);
       setErrors(validationErrors);

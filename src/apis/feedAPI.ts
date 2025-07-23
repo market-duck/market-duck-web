@@ -18,11 +18,21 @@ class FeedAPI {
     };
   }
 
-  async getFeedDetail({ feedId }: { feedId: number }) {
+  async getFeedsByUserId({ userId, page }: { userId: number; page: number }) {
+    const {
+      data: { data, pageInfo },
+    } = await openFetchClient.get<IAPIResponse<IFeedModelData[]>>(`/feed/${userId}?page=${page}`);
+    return {
+      feeds: data.map((feed) => FeedModel.fromJson(feed)),
+      pageInfo,
+    };
+  }
+
+  async getFeedDetail({ feedId, liked }: { feedId: number; liked: boolean }) {
     const {
       data: { data },
     } = await openFetchClient.get<IAPIResponse<IFeedDetailModelData>>(`/feed/detail/${feedId}`);
-    return FeedDetailModel.fromJson(data);
+    return FeedDetailModel.fromJson(data, liked);
   }
 
   //새롭게 업로드시 & 피드 수정시에 추가 업로드도 가능
@@ -68,7 +78,13 @@ class FeedAPI {
     return status <= 299 ? NetworkResultType.success : NetworkResultType.fail;
   }
 
-  // TODO: 찜 기능 API 작성 필요
+  async likeFeed({ feedId }: { feedId: number }) {
+    const {
+      status,
+      data: { data },
+    } = await fetchClient.post(`feed/${feedId}/like`);
+    return status <= 299 ? !!data : NetworkResultType.fail;
+  }
 }
 
 export const feedAPI = new FeedAPI();

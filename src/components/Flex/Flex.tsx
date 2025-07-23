@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { AppSpcing, AppSpcingKey } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing, AppSpacingKey } from 'src/styles/tokens/AppSpacing';
 import styled, { css } from 'styled-components';
 
 type FlexJustify = keyof typeof justifyMap;
@@ -28,19 +28,19 @@ const getCSSProperty = ({
   $justify = 'start',
   $alignItems = 'stretch',
   $gap = 'NONE',
-  $flex = 'auto',
+  $flex = 'initial',
   $flexWrap = 'nowrap',
 }: {
   $justify?: FlexJustify;
   $alignItems?: FlexAlignItems;
-  $gap?: AppSpcingKey;
+  $gap?: AppSpacingKey;
   $flex?: number | 'auto' | 'none' | 'initial';
   $flexWrap?: FlexWrapItems;
 }) => {
   return css`
     justify-content: ${justifyMap[$justify]};
     align-items: ${alignItemsMap[$alignItems]};
-    gap: ${AppSpcing[$gap]};
+    gap: ${AppSpacing[$gap]};
     flex: ${$flex};
     flex-wrap: ${$flexWrap};
   `;
@@ -49,7 +49,7 @@ const getCSSProperty = ({
 interface StyledFlexProps {
   $justify?: FlexJustify;
   $alignItems?: FlexAlignItems;
-  $gap?: AppSpcingKey;
+  $gap?: AppSpacingKey;
   $flex?: number | 'auto' | 'none' | 'initial';
   $flexWrap?: FlexWrapItems;
   $reverse?: boolean;
@@ -70,7 +70,7 @@ const StyledColumn = styled.div<StyledFlexProps>`
 interface FlexProps extends HTMLAttributes<HTMLDivElement> {
   justify?: FlexJustify;
   alignItems?: FlexAlignItems;
-  gap?: AppSpcingKey;
+  gap?: AppSpacingKey;
   flex?: number | 'auto' | 'none' | 'initial';
   flexWrap?: FlexWrapItems;
   reverse?: boolean;

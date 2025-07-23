@@ -1,8 +1,8 @@
+import { ArchiveBoxIcon, DocumentTextIcon, GiftIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
-import styled from 'styled-components';
-import { ArchiveBoxIcon, GiftIcon, HeartIcon, DocumentTextIcon } from '@heroicons/react/24/outline';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import styled from 'styled-components';
 
 const SummaryMenusWrap = styled(Row)`
   padding-bottom: 1.5rem;
@@ -12,7 +12,7 @@ const SummaryMenusWrap = styled(Row)`
   > .menuItem {
     flex: 1;
 
-    > svg {
+    svg {
       width: 1.5rem;
       height: 1.5rem;
       color: ${AppSemanticColor.ICON_PRIMARY.hex};
@@ -25,18 +25,22 @@ export const SummaryMenus = () => {
     {
       title: '판매내역',
       icon: <ArchiveBoxIcon />,
+      to: '',
     },
     {
       title: '구매내역',
       icon: <GiftIcon />,
+      to: '',
     },
     {
-      title: '찜목록',
+      title: '찜 목록',
       icon: <HeartIcon />,
+      to: '',
     },
     {
       title: '내 상품',
       icon: <DocumentTextIcon />,
+      to: '',
     },
   ];
 
@@ -44,7 +48,7 @@ export const SummaryMenus = () => {
     <SummaryMenusWrap gap="M">
       {menuList.map((item) => {
         return (
-          <Column key={item.title} className="menuItem" justify="center" alignItems="center">
+          <Column className="menuItem" justify="center" alignItems="center">
             {item.icon}
             <Typo tag="span" type="BODY_SM" weight={500} className={AppSemanticColor.TEXT_PRIMARY.color}>
               {item.title}

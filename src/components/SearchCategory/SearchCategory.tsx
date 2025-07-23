@@ -10,7 +10,7 @@ import { debounce } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 
@@ -33,7 +33,7 @@ const Container = styled.div<{ $isError: boolean; $isFocus: boolean }>`
         border-color: ${AppSemanticColor.TEXT_DANGER.hex};
       `;
   }}
-  padding: ${AppSpcing.XS} ${AppSpcing.S};
+  padding: ${AppSpacing.XS} ${AppSpacing.S};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   white-space: nowrap;
@@ -93,7 +93,7 @@ const DropdownWrap = styled.ul`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding: ${AppSpcing.XS} ${AppSpcing.M};
+    padding: ${AppSpacing.XS} ${AppSpacing.M};
     background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     color: ${AppSemanticColor.TEXT_SECONDARY.hex};
     border-radius: ${AppRadii.M};

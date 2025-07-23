@@ -3,7 +3,7 @@ import * as FillIcon from '@heroicons/react/24/solid';
 import { ButtonHTMLAttributes, createElement } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled, { css } from 'styled-components';
 import { RuleSet } from 'styled-components/dist/types';
@@ -15,11 +15,11 @@ interface CssObjectType {
 //* size
 const size: CssObjectType = {
   large: css`
-    padding: ${AppSpcing.S} ${AppSpcing.XL};
-    gap: ${AppSpcing.XS};
-    border-radius: ${AppRadii.M};
-    font-weight: 500;
-    ${AppTypo.BODY_LG}
+    padding: ${AppSpacing.S} ${AppSpacing.XL};
+    gap: ${AppSpacing.XS};
+    border-radius: ${AppRadii.L};
+    font-weight: 600;
+    ${AppTypo.BODY_MD}
     & > svg {
       width: 24px;
       height: 24px;
@@ -27,11 +27,11 @@ const size: CssObjectType = {
   `,
 
   medium: css`
-    padding: ${AppSpcing.XS} ${AppSpcing.L};
-    gap: ${AppSpcing.XS};
+    padding: calc(${AppSpacing.XS} + 2px) ${AppSpacing.L};
+    gap: ${AppSpacing.XS};
     border-radius: ${AppRadii.M};
-    font-weight: 500;
-    ${AppTypo.BODY_MD}
+    font-weight: 600;
+    ${AppTypo.BODY_SM}
     & > svg {
       width: 18px;
       height: 18px;
@@ -39,8 +39,8 @@ const size: CssObjectType = {
   `,
 
   small: css`
-    padding: ${AppSpcing.XXS} ${AppSpcing.XS};
-    gap: ${AppSpcing.XXS};
+    padding: ${AppSpacing.XXS} ${AppSpacing.XS};
+    gap: ${AppSpacing.XXS};
     border-radius: ${AppRadii.M};
     font-weight: 500;
     ${AppTypo.CAPTION_MD}
@@ -54,7 +54,7 @@ const size: CssObjectType = {
 type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
-export type buttonVariantType = 'primary' | 'secondary' | 'danger' | 'text';
+export type ButtonVariantType = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
@@ -87,16 +87,34 @@ const variant: CssObjectType = {
     }
   `,
 
-  danger: css`
-    background-color: ${AppSemanticColor.BG_DANGER.hex};
-    color: ${AppSemanticColor.TEXT_INVERSE.hex};
+  tertiary: css`
+    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_HOVER.hex};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_HOVER.hex};
     }
     &:active {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_PRESS.hex};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_PRESS.hex};
     }
     &:disabled {
+      color: ${AppSemanticColor.TEXT_DISABLED.hex};
+      background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    }
+  `,
+
+  danger: css`
+    border: 1px solid ${AppSemanticColor.BORDER_DANGER.hex};
+    color: ${AppSemanticColor.TEXT_DANGER.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+    &:hover {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
+    }
+    &:active {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
+    }
+    &:disabled {
+      border: 1px solid ${AppSemanticColor.BORDER_DISABLED.hex};
       color: ${AppSemanticColor.TEXT_DISABLED.hex};
       background-color: ${AppSemanticColor.BG_DISABLED.hex};
     }
@@ -122,7 +140,7 @@ const rowCSSProperty = css`
 
 interface StyledButtonProps {
   $size?: sizeType;
-  $variant?: buttonVariantType;
+  $variant?: ButtonVariantType;
   $row?: boolean;
 }
 
@@ -152,8 +170,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   rightIcon?: keyof typeof OutlineIcon;
   iconFill?: boolean;
   size?: sizeType;
-  variant?: buttonVariantType;
+  variant?: ButtonVariantType;
   row?: boolean;
+  outline?: boolean;
 }
 
 export const Button = ({ leftIcon, rightIcon, size, variant, iconFill, row, children, ...props }: ButtonProps) => {

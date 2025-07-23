@@ -6,7 +6,6 @@ import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(Row)`

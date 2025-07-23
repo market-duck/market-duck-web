@@ -1,9 +1,9 @@
+import { InputHTMLAttributes } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import styled from 'styled-components';
-import { InputHTMLAttributes } from 'react';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
+import styled from 'styled-components';
 
 const StyledRadio = styled.input.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
   return {
@@ -51,7 +51,7 @@ const Label = styled.label.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
   };
 })`
   display: inline-flex;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
   color: ${AppSemanticColor};
 
   &.size-s {

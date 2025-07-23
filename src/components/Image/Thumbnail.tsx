@@ -1,7 +1,7 @@
 import { XCircleIcon } from '@heroicons/react/24/solid';
 import DefaultThumbnail from '@market-duck/assets/images/defaultThumbnail.svg';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { BgImage } from './BgImage';
 
@@ -24,23 +24,21 @@ const ThumbnailImg = styled(BgImage).attrs<{ $size: 'sm' | 'md' | 'lg' }>(({ $si
 })`
   background-size: cover;
   background-position: center;
+  border-radius: ${AppRadii.CIRCLE};
 
   &.size-sm {
-    width: ${AppSpcing.XL};
-    height: ${AppSpcing.XL};
-    border-radius: ${AppRadii.S};
+    width: ${AppSpacing.XL};
+    height: ${AppSpacing.XL};
   }
 
   &.size-md {
-    width: ${AppSpcing.XXXL};
-    height: ${AppSpcing.XXXL};
-    border-radius: ${AppRadii.M};
+    width: ${AppSpacing.XXXL};
+    height: ${AppSpacing.XXXL};
   }
 
   &.size-lg {
-    width: ${AppSpcing.XXXXL};
-    height: ${AppSpcing.XXXXL};
-    border-radius: ${AppRadii.L};
+    width: ${AppSpacing.XXXXL};
+    height: ${AppSpacing.XXXXL};
   }
 `;
 
