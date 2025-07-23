@@ -3,18 +3,19 @@ import { IconButton } from '@market-duck/components/Button/IconButton';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
+import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(Row)`
   position: sticky;
   width: 100%;
   left: 0;
-  bottom: 60px;
-  padding: ${AppSpacing.S} ${AppSpacing.M};
+  bottom: 0;
+  padding: ${AppSpcing.S} ${AppSpcing.M};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+  flex-grow: 0;
 
   .imageBtn {
     display: flex;
@@ -36,9 +37,27 @@ const Container = styled(Row)`
   }
 `;
 
-export const SendMessage = () => {
+export const SendMessage = ({
+  sendAction,
+}: {
+  sendAction: (type: ChatMessageType, text: string, imageFiles?: File[]) => void;
+}) => {
   const [message, setMessage] = useState('');
-  const { images, imageHandler, deleteHandler } = useImageInput();
+  const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
+
+  const sendMessageHandler = () => {
+    if (images.length) {
+      const imageFileList = images.map((item) => item.file).filter((file) => file !== null) as File[];
+
+      sendAction(ChatMessageTypeEnum.IMAGE, '', imageFileList);
+      allDeleteHandler();
+    }
+
+    if (message) {
+      sendAction(ChatMessageTypeEnum.TEXT, message);
+      setMessage('');
+    }
+  };
 
   return (
     <Container gap="XS">
@@ -52,7 +71,7 @@ export const SendMessage = () => {
         value={message}
         changeHandler={(e) => setMessage(e.target.value)}
       />
-      <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill />
+      <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
       <input
         style={{ display: 'none' }}
         id="image"

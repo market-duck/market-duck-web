@@ -102,7 +102,7 @@ const NavigationBottomWrap = styled.div`
 `;
 
 export const NavigationBottom = () => {
-  const { getCurrentMenu, changeMenu } = useNavigationMenu();
+  const { currentMenu, changeMenu } = useNavigationMenu();
   const navigate = useNavigate();
 
   return (
@@ -111,7 +111,7 @@ export const NavigationBottom = () => {
         return (
           <MenuItem
             key={item.id}
-            isSelected={item.id === getCurrentMenu()}
+            isSelected={item.id === currentMenu}
             onClick={() => {
               changeMenu(item.id);
               navigate(item.id);

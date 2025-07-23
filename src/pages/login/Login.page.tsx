@@ -28,9 +28,11 @@ const Container = styled(AppGutter)`
 
 export const Login = () => {
   const resetUserData = useResetRecoilState(userDataAtom);
+
   useEffect(() => {
     resetUserData();
   }, [resetUserData]);
+
   return (
     <>
       <NavigationTop leftButtonIconType="basic" title="홈" />
