@@ -1,20 +1,20 @@
 import { chatAPI } from '@market-duck/apis/chatAPI';
+import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
+import NotFoundImage from '@market-duck/assets/images/notFound.svg?react';
+import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop';
+import { Typo } from '@market-duck/components/Typo/Typo';
+import { ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { getTimeDiff } from '@market-duck/utils/date';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { ChatListItem } from './components/ChatListItem';
-import NotFoundImage from '@market-duck/assets/images/notFound.svg?react';
-import { Typo } from '@market-duck/components/Typo/Typo';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
-import { useRecoilValue } from 'recoil';
-import { userDataAtom } from '@market-duck/atoms/user.atom';
-import { useEffect } from 'react';
-import { ChatMessageModel } from '@market-duck/apis/models/chatModel';
-import { ChatMessageTypeEnum } from '@market-duck/types/chat';
 
 const Wrap = styled(AppGutter)`
   position: relative;
@@ -25,7 +25,7 @@ const Wrap = styled(AppGutter)`
     height: 100dvh;
     justify-content: center;
     align-items: center;
-    gap: ${AppSpcing.XXXL};
+    gap: ${AppSpacing.XXXL};
   }
 `;
 

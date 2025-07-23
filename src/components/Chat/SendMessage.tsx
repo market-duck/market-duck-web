@@ -6,6 +6,8 @@ import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
+
 import styled from 'styled-components';
 
 const Container = styled(Row)`
@@ -13,7 +15,7 @@ const Container = styled(Row)`
   width: 100%;
   left: 0;
   bottom: 0;
-  padding: ${AppSpcing.S} ${AppSpcing.M};
+  padding: ${AppSpacing.S} ${AppSpacing.M};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   flex-grow: 0;
 
