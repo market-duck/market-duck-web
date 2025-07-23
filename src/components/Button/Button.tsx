@@ -17,9 +17,9 @@ const size: CssObjectType = {
   large: css`
     padding: ${AppSpacing.S} ${AppSpacing.XL};
     gap: ${AppSpacing.XS};
-    border-radius: ${AppRadii.M};
-    font-weight: 500;
-    ${AppTypo.BODY_LG}
+    border-radius: ${AppRadii.L};
+    font-weight: 600;
+    ${AppTypo.BODY_MD}
     & > svg {
       width: 24px;
       height: 24px;
@@ -27,11 +27,11 @@ const size: CssObjectType = {
   `,
 
   medium: css`
-    padding: ${AppSpacing.XS} ${AppSpacing.L};
+    padding: calc(${AppSpacing.XS} + 2px) ${AppSpacing.L};
     gap: ${AppSpacing.XS};
     border-radius: ${AppRadii.M};
-    font-weight: 500;
-    ${AppTypo.BODY_MD}
+    font-weight: 600;
+    ${AppTypo.BODY_SM}
     & > svg {
       width: 18px;
       height: 18px;
@@ -54,7 +54,7 @@ const size: CssObjectType = {
 type sizeType = 'large' | 'medium' | 'small';
 
 //* variant
-export type ButtonVariantType = 'primary' | 'secondary' | 'danger' | 'text';
+export type ButtonVariantType = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'text';
 
 const variant: CssObjectType = {
   primary: css`
@@ -87,16 +87,34 @@ const variant: CssObjectType = {
     }
   `,
 
-  danger: css`
-    background-color: ${AppSemanticColor.BG_DANGER.hex};
-    color: ${AppSemanticColor.TEXT_INVERSE.hex};
+  tertiary: css`
+    border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+    color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     &:hover {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_HOVER.hex};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_HOVER.hex};
     }
     &:active {
-      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER_PRESS.hex};
+      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY_PRESS.hex};
     }
     &:disabled {
+      color: ${AppSemanticColor.TEXT_DISABLED.hex};
+      background-color: ${AppSemanticColor.BG_DISABLED.hex};
+    }
+  `,
+
+  danger: css`
+    border: 1px solid ${AppSemanticColor.BORDER_DANGER.hex};
+    color: ${AppSemanticColor.TEXT_DANGER.hex};
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+    &:hover {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
+    }
+    &:active {
+      background-color: ${AppSemanticColor.BG_INTERACTIVE_DANGER.hex};
+    }
+    &:disabled {
+      border: 1px solid ${AppSemanticColor.BORDER_DISABLED.hex};
       color: ${AppSemanticColor.TEXT_DISABLED.hex};
       background-color: ${AppSemanticColor.BG_DISABLED.hex};
     }

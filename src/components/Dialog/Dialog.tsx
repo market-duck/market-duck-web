@@ -33,7 +33,7 @@ const StyledModalContainer = styled.div`
     padding: 0;
   }
   .contents {
-    padding: ${AppSpacing.M};
+    padding: ${AppSpacing.L};
   }
   .title {
     text-align: center;
@@ -42,7 +42,7 @@ const StyledModalContainer = styled.div`
   .desc {
     text-align: center;
     white-space: pre-line;
-    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   }
 `;
 
@@ -77,7 +77,7 @@ export const Dialog = ({
       <div className="container" onClick={(e) => e.stopPropagation()}>
         <Column gap="M" className="contents">
           <Column>
-            <Typo tag="p" type="HEADING_SM" className="title">
+            <Typo tag="p" type="HEADING_SM" weight={600} className="title">
               {title}
             </Typo>
             <Column>
@@ -88,11 +88,11 @@ export const Dialog = ({
           </Column>
           <Row gap="XS">
             {confirm && (
-              <Button size="small" row variant="secondary" onClick={closeHandler}>
+              <Button size="medium" row variant="secondary" onClick={closeHandler}>
                 취소
               </Button>
             )}
-            <Button size="small" row variant={confirmBtnVariant} onClick={confirm ?? closeHandler}>
+            <Button size="medium" row variant={confirmBtnVariant} onClick={confirm ?? closeHandler}>
               {customConfirmBtnText}
             </Button>
           </Row>

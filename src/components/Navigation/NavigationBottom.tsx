@@ -1,4 +1,4 @@
-import * as OutlineIcon from '@heroicons/react/24/outline';
+import * as FilledIcon from '@heroicons/react/24/solid';
 import { NavigationMenuEnum, useNavigationMenu } from '@market-duck/atoms/NavigationMenu.atom';
 import { createElement } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,11 @@ import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
-const navigationMenuList = [
+const navigationMenuList: {
+  id: NavigationMenuEnum;
+  menuName: string;
+  icon: keyof typeof FilledIcon;
+}[] = [
   {
     id: NavigationMenuEnum.home,
     menuName: '홈',
@@ -21,12 +25,12 @@ const navigationMenuList = [
   {
     id: NavigationMenuEnum.create,
     menuName: '작성',
-    icon: 'PlusIcon',
+    icon: 'PlusCircleIcon',
   },
   {
     id: NavigationMenuEnum.chat,
     menuName: '채팅',
-    icon: 'ChatBubbleLeftRightIcon',
+    icon: 'ChatBubbleOvalLeftEllipsisIcon',
   },
   {
     id: NavigationMenuEnum.myPage,
@@ -44,22 +48,26 @@ const MenuWrap = styled.button.attrs<{ $isSelected: boolean }>(({ $isSelected })
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: ${AppSpacing.XXS};
+  gap: calc(${AppSpacing.XXS} + 2px);
   flex: 1;
-  padding: ${AppSpacing.XS} 0 ${AppSpacing.XXS};
+  padding: ${AppSpacing.S} 0;
   cursor: pointer;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
-  color: ${AppSemanticColor.TEXT_PRIMARY.hex};
+  color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   font-weight: 500;
   ${AppTypo.BODY_SM};
-
-  &.is-selected {
-    background-color: ${AppSemanticColor.BG_INTERACTIVE_SECONDARY.hex};
-  }
 
   > .icon {
     width: 1.5rem;
     height: 1.5rem;
+    color: ${AppSemanticColor.ICON_TERTIARY.hex};
+  }
+  &.is-selected {
+    background-color: ${AppSemanticColor.BG_PRIMARY.hex};
+    color: ${AppSemanticColor.TEXT_PRIMARY.hex};
+    > .icon {
+      color: ${AppSemanticColor.ICON_PRIMARY.hex};
+    }
   }
 `;
 
@@ -71,12 +79,12 @@ const MenuItem = ({
 }: {
   isSelected: boolean;
   menuName: string;
-  icon: keyof typeof OutlineIcon;
+  icon: keyof typeof FilledIcon;
   onClick: () => void;
 }) => {
   return (
     <MenuWrap $isSelected={isSelected} onClick={onClick}>
-      <span className="icon">{createElement(OutlineIcon[icon])}</span>
+      <span className="icon">{createElement(FilledIcon[icon])}</span>
       <span>{menuName}</span>
     </MenuWrap>
   );
@@ -89,7 +97,8 @@ const NavigationBottomWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 1px inset ${AppSemanticColor.BORDER_TERTIARY.hex};
+  border-top: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+  padding: 0 calc(${AppSpacing.XXS} + 2px);
 `;
 
 export const NavigationBottom = () => {
@@ -108,7 +117,7 @@ export const NavigationBottom = () => {
               navigate(item.id);
             }}
             menuName={item.menuName}
-            icon={item.icon as keyof typeof OutlineIcon}
+            icon={item.icon as keyof typeof FilledIcon}
           />
         );
       })}

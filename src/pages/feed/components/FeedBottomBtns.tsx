@@ -20,7 +20,7 @@ const BtnContainer = styled(Row)`
   position: sticky;
   width: 100%;
   left: 0;
-  bottom: 60px;
+  bottom: 74px;
   padding: ${AppSpacing.XS} ${AppSpacing.M};
   background-color: ${AppColor.WHITE.hex};
 `;
@@ -129,12 +129,12 @@ export const MyFeedBottomBtns = ({ feedDetail }: { feedDetail: FeedDetailModel }
       <Button
         id="tertiary"
         size="medium"
-        variant="secondary"
+        variant="tertiary"
         leftIcon="ChatBubbleLeftRightIcon"
         iconFill={feedDetail.liked}
         onClick={btnHandler}
       />
-      <Button id="primary" size="medium" variant="primary" row onClick={btnHandler}>
+      <Button id="primary" size="medium" variant="tertiary" row onClick={btnHandler}>
         수정하기
       </Button>
       <Button id="secondary" size="medium" variant="danger" row onClick={btnHandler}>

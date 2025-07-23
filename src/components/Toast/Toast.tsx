@@ -1,9 +1,10 @@
+import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ToastContainer } from 'react-toastify';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppElevation } from 'src/styles/tokens/AppElevation';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { Row } from '../Flex/Flex';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Typo } from '../Typo/Typo';
 
 /**
@@ -26,8 +27,10 @@ export const CustomToastContainer = styled(ToastContainer)`
   .Toastify__toast {
     background-color: ${AppSemanticColor.BG_PRIMARY.hex};
     border-radius: 8px;
-    ${AppElevation.SHADOW2};
+    ${AppElevation.SHADOW4};
     animation-duration: 1s;
+    padding-left: ${AppSpacing.L};
+    padding-right: ${AppSpacing.S};
   }
 
   --toastify-toast-padding: 16px;
@@ -47,10 +50,10 @@ export const ToastMsg = ({ closeToast, title, desc, type }: ToastProps & { close
   return (
     <ToastMsgWrap justify="between" alignItems="start">
       <div>
-        <Typo tag="p" type="BODY_LG">
+        <Typo tag="p" type="HEADING_SM" weight={700}>
           {title}
         </Typo>
-        <Typo tag="p" type="BODY_SM">
+        <Typo tag="p" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
           {desc}
         </Typo>
       </div>
