@@ -48,6 +48,11 @@ export const FeedList = ({ feeds, align = 'grid' }: FeedListProps) => {
           viewCount={feed?.viewCount}
           likedCount={feed.likeCount}
           liked={feed.liked}
+          tagList={[
+            ...(feed?.genreCategory.map((item) => item.categoryName) || []),
+            ...(feed?.goodsCategory.map((item) => item.categoryName) || []),
+          ]}
+          chatCount={0} //TODO: API 사양 변경 후 수정 필요
         />
       ))}
     </Grid>
@@ -65,6 +70,11 @@ export const FeedList = ({ feeds, align = 'grid' }: FeedListProps) => {
           viewCount={feed?.viewCount}
           likedCount={feed.likeCount}
           liked={feed.liked}
+          tagList={[
+            ...(feed?.genreCategory.map((item) => item.categoryName) || []),
+            ...(feed?.goodsCategory.map((item) => item.categoryName) || []),
+          ]}
+          chatCount={0} //TODO: API 사양 변경 후 수정 필요
         />
       ))}
     </RowList>
