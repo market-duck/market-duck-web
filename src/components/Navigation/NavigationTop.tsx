@@ -79,7 +79,7 @@ export const NavigationTop = ({
     if (onRightClick) {
       return onRightClick();
     } else {
-      //TODO:: alarm page로 이동
+      navigate('/alert');
     }
   };
 

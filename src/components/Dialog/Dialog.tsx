@@ -88,7 +88,7 @@ export const Dialog = ({
           </Column>
           <Row gap="XS">
             {confirm && (
-              <Button size="medium" row variant="secondary" onClick={closeHandler}>
+              <Button size="medium" row variant="tertiary" onClick={closeHandler}>
                 취소
               </Button>
             )}
