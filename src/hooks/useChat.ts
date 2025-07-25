@@ -22,7 +22,7 @@ export const useChat = (currentRoomId: number) => {
   //채팅방에 대한 데이터 가져오는 쿼리
   const { data: chatRoomData } = useQuery({
     queryKey: ['chatRoom', currentRoomId],
-    queryFn: async () => await chatAPI.getChatRoom({ roomId: currentRoomId }),
+    queryFn: async () => await chatAPI.getChatRoom({ roomId: currentRoomId, page: 0 }),
     enabled: !!currentRoomId,
   });
 

@@ -17,10 +17,10 @@ class ChatAPI {
     return data.map((chatroom) => ChatRoomModel.fromJson(chatroom));
   }
 
-  async getChatRoom({ roomId }: { roomId: number }) {
+  async getChatRoom({ roomId, page }: { roomId: number; page: number }) {
     const {
       data: { data },
-    } = await fetchClient.get<IAPIResponse<IBaseChatRoomModel>>(`/chat/rooms/${roomId}`);
+    } = await fetchClient.get<IAPIResponse<IBaseChatRoomModel>>(`/chat/rooms/${roomId}?page=${page}`);
     return ChatRoomModel.fromJson(data);
   }
 
