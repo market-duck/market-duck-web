@@ -19,9 +19,9 @@ class ChatAPI {
 
   async getChatRoom({ roomId, page }: { roomId: number; page: number }) {
     const {
-      data: { data },
+      data: { data, pageInfo },
     } = await fetchClient.get<IAPIResponse<IBaseChatRoomModel>>(`/chat/rooms/${roomId}?page=${page}`);
-    return ChatRoomModel.fromJson(data);
+    return { chatRoom: ChatRoomModel.fromJson(data), pageInfo };
   }
 
   // 채팅방 생성
