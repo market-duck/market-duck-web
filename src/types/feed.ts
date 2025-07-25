@@ -12,6 +12,14 @@ export type FeedType = 'SALE' | 'BUY';
 
 type CategoryReqType = Omit<CategoryModel, 'categoryName'>;
 
+export interface FeedFormData {
+  genre: Array<CategoryModel>;
+  goods: Array<CategoryModel>;
+  title: string;
+  price: string;
+  content: string;
+}
+
 export interface ReqFeedDataType {
   title: string;
   content: string;

@@ -5,7 +5,7 @@ import { TextButton } from '@market-duck/components/Button/TextButton';
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
@@ -14,7 +14,7 @@ const NavigationTopWrap = styled.div`
   z-index: 1;
   top: 0;
   width: 100%;
-  padding: ${AppSpcing.S} ${AppSpcing.M};
+  padding: ${AppSpacing.S} ${AppSpacing.M};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -79,7 +79,7 @@ export const NavigationTop = ({
     if (onRightClick) {
       return onRightClick();
     } else {
-      //TODO:: alarm page로 이동
+      navigate('/alert');
     }
   };
 

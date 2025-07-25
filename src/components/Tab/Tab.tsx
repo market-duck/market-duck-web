@@ -1,8 +1,7 @@
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 import { Row } from '../Flex/Flex';
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { useState } from 'react';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
 
 interface TabItem {
   id: string;
@@ -20,7 +19,7 @@ const ItemWrap = styled.div.attrs<{ $isSelected: boolean }>(({ $isSelected }) =>
   flex: 1;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  padding: ${AppSpcing.S} ${AppSpcing.XS};
+  padding: ${AppSpacing.S} ${AppSpacing.XS};
   color: ${AppSemanticColor.TEXT_SECONDARY.hex};
 
   &.is-selected {

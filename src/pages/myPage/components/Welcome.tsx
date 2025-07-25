@@ -2,7 +2,7 @@ import { AppGutter } from '@market-duck/components/AppGutter/AppGutter';
 import { Button } from '@market-duck/components/Button/Button';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const Container = styled(AppGutter)`
@@ -10,7 +10,7 @@ const Container = styled(AppGutter)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: ${AppSpcing.XL};
+  gap: ${AppSpacing.XL};
   flex: 0;
 `;
 

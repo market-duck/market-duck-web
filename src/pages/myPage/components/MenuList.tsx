@@ -7,10 +7,16 @@ import { useDialog } from '@market-duck/hooks/useDialog';
 import { ButtonClickHandler } from '@market-duck/types/handler';
 import { useNavigate } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const SectionWrap = styled(Column)`
   margin-bottom: 1.5rem;
+
+  .label {
+    padding-left: ${AppSpacing.XS};
+    color: ${AppSemanticColor.TEXT_TERTIARY.hex};
+  }
 `;
 
 const ArrowRightIcon = styled(FillIcon.ChevronRightIcon)`
@@ -39,14 +45,6 @@ export const MenuList = () => {
       action: () => navigate('/editUser'),
     },
     {
-      name: '내가 작성한 피드',
-      action: () => {},
-    },
-    {
-      name: '내가 찜한 피드',
-      action: () => {},
-    },
-    {
       name: '설정',
       action: () => navigate('/setting'),
     },
@@ -65,14 +63,6 @@ export const MenuList = () => {
       action: () => navigate('/contact/list'),
     },
     {
-      name: '서비스 소개',
-      action: () => {},
-    },
-    {
-      name: '이용 방법',
-      action: () => {},
-    },
-    {
       name: '공지사항',
       action: () => navigate('/notice/list'),
     },
@@ -81,7 +71,7 @@ export const MenuList = () => {
   return (
     <Column>
       <SectionWrap>
-        <Typo tag="span" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
+        <Typo tag="span" type="BODY_SM" className="label">
           고객 정보
         </Typo>
         <div>
@@ -92,7 +82,7 @@ export const MenuList = () => {
       </SectionWrap>
 
       <SectionWrap>
-        <Typo tag="span" type="BODY_SM" className={AppSemanticColor.TEXT_TERTIARY.color}>
+        <Typo tag="span" type="BODY_SM" className="label">
           고객 지원
         </Typo>
         <div>

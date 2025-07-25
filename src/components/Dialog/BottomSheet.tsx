@@ -5,7 +5,7 @@ import { useDialog } from '@market-duck/hooks/useDialog';
 import { MouseEventHandler, ReactNode, forwardRef, useImperativeHandle, useRef } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const StyledBottomSheet = styled.div`
@@ -30,13 +30,13 @@ const StyledBottomSheet = styled.div`
     background-color: ${AppColor.WHITE.hex};
     border: none;
     border-radius: ${AppRadii.L} ${AppRadii.L} ${AppRadii.NONE} ${AppRadii.NONE};
-    padding: ${AppSpcing.M};
+    padding: ${AppSpacing.M};
     bottom: 0;
     margin: auto auto 0;
   }
 
   .contents {
-    padding: ${AppSpcing.M};
+    padding: ${AppSpacing.M};
   }
 
   .title {

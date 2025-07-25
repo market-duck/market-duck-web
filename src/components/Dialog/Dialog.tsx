@@ -1,11 +1,11 @@
-import { Button, buttonVariantType } from '@market-duck/components/Button/Button';
+import { Button, ButtonVariantType } from '@market-duck/components/Button/Button';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { HTMLAttributes, MouseEventHandler } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const StyledModalContainer = styled.div`
@@ -25,7 +25,7 @@ const StyledModalContainer = styled.div`
   z-index: 999;
 
   .container {
-    width: calc(100% - ${AppSpcing.XXL});
+    width: calc(100% - ${AppSpacing.XXL});
     min-width: 308px;
     border-radius: ${AppRadii.M};
     background-color: ${AppColor.WHITE.hex};
@@ -33,7 +33,7 @@ const StyledModalContainer = styled.div`
     padding: 0;
   }
   .contents {
-    padding: ${AppSpcing.M};
+    padding: ${AppSpacing.L};
   }
   .title {
     text-align: center;
@@ -42,7 +42,7 @@ const StyledModalContainer = styled.div`
   .desc {
     text-align: center;
     white-space: pre-line;
-    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+    color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   }
 `;
 
@@ -50,9 +50,10 @@ interface DialogProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
   title: string;
   desc: string;
-  confirmBtnVariant?: buttonVariantType;
-  confirm?: MouseEventHandler;
+  confirmBtnVariant?: ButtonVariantType;
   customConfirmBtnText?: string;
+  confirm?: () => void;
+  cancel?: () => void;
 }
 
 //TODO:: 모달 버튼 워딩 변경
@@ -62,11 +63,13 @@ export const Dialog = ({
   desc,
   confirmBtnVariant = 'primary',
   confirm,
+  cancel,
   customConfirmBtnText = '확인',
   ...props
 }: DialogProps) => {
   const { close } = useDialog();
   const closeHandler: MouseEventHandler = () => {
+    if (cancel) cancel();
     close(id);
   };
   return (
@@ -74,7 +77,7 @@ export const Dialog = ({
       <div className="container" onClick={(e) => e.stopPropagation()}>
         <Column gap="M" className="contents">
           <Column>
-            <Typo tag="p" type="HEADING_SM" className="title">
+            <Typo tag="p" type="HEADING_SM" weight={600} className="title">
               {title}
             </Typo>
             <Column>
@@ -85,7 +88,7 @@ export const Dialog = ({
           </Column>
           <Row gap="XS">
             {confirm && (
-              <Button size="medium" row variant="secondary" onClick={closeHandler}>
+              <Button size="medium" row variant="tertiary" onClick={closeHandler}>
                 취소
               </Button>
             )}

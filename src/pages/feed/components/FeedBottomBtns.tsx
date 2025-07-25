@@ -1,49 +1,35 @@
-import { ChatBubbleLeftRightIcon, HeartIcon as LineHeart } from '@heroicons/react/24/outline';
 import { chatAPI } from '@market-duck/apis/chatAPI';
 import { feedAPI } from '@market-duck/apis/feedAPI';
 import { FeedDetailModel } from '@market-duck/apis/models/feedModel';
-import { UserModel } from '@market-duck/apis/models/userModel';
+import { userDataAtom } from '@market-duck/atoms/user.atom';
 import { Button } from '@market-duck/components/Button/Button';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
+import { NetworkResultType } from '@market-duck/types/api';
 import { ButtonClickHandler } from '@market-duck/types/handler';
+import { queryClient } from '@market-duck/utils/queryClient';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const BtnContainer = styled(Row)`
   position: sticky;
   width: 100%;
   left: 0;
-  bottom: 60px;
-  padding: ${AppSpcing.XS} ${AppSpcing.M};
+  bottom: 74px;
+  padding: ${AppSpacing.XS} ${AppSpacing.M};
   background-color: ${AppColor.WHITE.hex};
 `;
 
-const BtnContents = styled(Row)`
-  width: 100%;
-  > span {
-    flex: 1;
-  }
-  > svg {
-    width: 24px;
-    height: 24px;
-  }
-`;
-
-export const FeedBottomBtns = ({ user, feedDetail }: { user: UserModel | null; feedDetail: FeedDetailModel }) => {
-  const isMyFeed = user?.userId === feedDetail.userInfo.userId;
+export const FeedBottomBtns = ({ feedDetail }: { feedDetail: FeedDetailModel }) => {
+  const user = useRecoilValue(userDataAtom);
   const navigate = useNavigate();
   const { confirm, alert } = useDialog();
-  const { mutateAsync: deleteFeed } = useMutation({
-    mutationKey: ['feed', 'read', feedDetail.feedId],
-    mutationFn: async () => {
-      await feedAPI.deleteFeed({ feedId: feedDetail.feedId });
-    },
-  });
+
   const { mutateAsync: createChatRoom } = useMutation({
     mutationKey: ['chat', 'create', feedDetail.feedId],
     mutationFn: async () =>
@@ -57,76 +43,102 @@ export const FeedBottomBtns = ({ user, feedDetail }: { user: UserModel | null; f
     },
   });
 
+  const { mutateAsync: likeFeed } = useMutation({
+    mutationKey: ['feed', 'like', feedDetail.feedId],
+    mutationFn: async () => await feedAPI.likeFeed({ feedId: feedDetail.feedId }),
+  });
+
   const btnHandler: ButtonClickHandler = async ({ currentTarget }) => {
     const { id } = currentTarget;
-    if (isMyFeed) {
-      if (id === 'primary') {
-        navigate('/feed/edit', { state: feedDetail });
-      } else if (id === 'secondary') {
-        const result = await confirm({
-          title: '피드 삭제',
-          desc: '피드를 삭제하시겠어요?',
-          positiveBtnText: '삭제',
-          positiveBtnVariant: 'danger',
-        });
-        if (result) {
-          await deleteFeed();
-          navigate(-1);
-        }
-      }
-    } else {
-      if (!user) {
-        const result = await confirm({
-          title: '로그인 후 이용해주세요.',
-          desc: '로그인이 필요한 서비스입니다.',
-          positiveBtnText: '로그인',
-        });
 
-        if (result) navigate('/login');
-        return;
-      }
+    if (!user) {
+      const result = await confirm({
+        title: '로그인 후 이용해주세요.',
+        desc: '로그인이 필요한 서비스입니다.',
+        positiveBtnText: '로그인',
+      });
 
-      if (id === 'primary') {
-        await createChatRoom();
-      } else if (id === 'secondary') {
-        // TODO: 찜 기능 API 연결 필요 (낙관적 업데이트)
-        console.log('찜');
-      }
+      if (result) navigate('/login');
+      return;
+    }
+
+    if (id === 'primary') {
+      await createChatRoom();
+    } else if (id === 'secondary') {
+      const result = await likeFeed();
+      if (result !== NetworkResultType.fail)
+        queryClient.setQueryData<FeedDetailModel>(['feed', 'read', feedDetail.feedId], (old) => {
+          if (!old) return;
+          return old.updateLiked(result, old.likeCount + (result ? 1 : -1));
+        });
     }
   };
 
   return (
     <BtnContainer gap="XS">
-      <Button id="secondary" size="medium" variant={isMyFeed ? 'danger' : 'secondary'} row onClick={btnHandler}>
-        {isMyFeed ? (
-          '삭제'
-        ) : (
-          <BtnContents gap="XS">
-            {/* Todo: 찜 여부 확인해서 아이콘 렌더링 필요 */}
-            <LineHeart color={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.hex} />
-            {/* <FillHeart color={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.hex} /> */}
-            <Typo
-              tag="span"
-              type="BODY_MD"
-              className={AppSemanticColor.ICON_INTERACTIVE_SECONDARY.color}
-              align="center"
-            >
-              찜
-            </Typo>
-          </BtnContents>
-        )}
-      </Button>
+      <Button
+        id="secondary"
+        size="medium"
+        variant="secondary"
+        leftIcon="HeartIcon"
+        iconFill={feedDetail.liked}
+        onClick={btnHandler}
+      />
       <Button id="primary" size="medium" variant="primary" row onClick={btnHandler}>
-        {isMyFeed ? (
-          '수정'
-        ) : (
-          <BtnContents gap="XS">
-            <ChatBubbleLeftRightIcon color={AppSemanticColor.ICON_INVERSE.hex} />
-            <Typo tag="span" type="BODY_MD" className={AppSemanticColor.TEXT_INVERSE.color} align="center">
-              채팅
-            </Typo>
-          </BtnContents>
-        )}
+        <Typo tag="span" type="BODY_MD" className={AppSemanticColor.TEXT_INVERSE.color} align="center">
+          채팅하기
+        </Typo>
+      </Button>
+    </BtnContainer>
+  );
+};
+
+export const MyFeedBottomBtns = ({ feedDetail }: { feedDetail: FeedDetailModel }) => {
+  const navigate = useNavigate();
+  const { confirm } = useDialog();
+  const { mutateAsync: deleteFeed } = useMutation({
+    mutationKey: ['feed', 'read', feedDetail.feedId],
+    mutationFn: async () => {
+      await feedAPI.deleteFeed({ feedId: feedDetail.feedId });
+    },
+  });
+
+  const btnHandler: ButtonClickHandler = async ({ currentTarget }) => {
+    const { id } = currentTarget;
+
+    if (id === 'primary') {
+      navigate('/feed/edit', { state: feedDetail });
+    } else if (id === 'secondary') {
+      const result = await confirm({
+        title: '피드 삭제',
+        desc: '피드를 삭제하시겠어요?',
+        positiveBtnText: '삭제',
+        positiveBtnVariant: 'danger',
+      });
+      if (result) {
+        await deleteFeed();
+        navigate(-1);
+      }
+    } else if (id === 'tertiary') {
+      navigate('/chat');
+    }
+  };
+
+  return (
+    <BtnContainer gap="XS">
+      <Button
+        id="tertiary"
+        size="medium"
+        variant="tertiary"
+        leftIcon="ChatBubbleLeftRightIcon"
+        iconFill={feedDetail.liked}
+        onClick={btnHandler}
+      />
+      <Button id="primary" size="medium" variant="tertiary" row onClick={btnHandler}>
+        수정하기
+      </Button>
+      <Button id="secondary" size="medium" variant="danger" row onClick={btnHandler}>
+        삭제하기
       </Button>
     </BtnContainer>
   );

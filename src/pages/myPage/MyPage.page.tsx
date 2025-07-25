@@ -16,7 +16,7 @@ export const Mypage = () => {
     if (!userData) {
       return navigate('/login');
     }
-  }, []);
+  }, [navigate, userData]);
 
   if (!userData) return null;
 

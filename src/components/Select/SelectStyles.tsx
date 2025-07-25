@@ -1,14 +1,14 @@
 import { Column } from '@market-duck/components/Flex/Flex';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
 import styled from 'styled-components';
 
 export const ContainerWrap = styled(Column)`
   position: relative;
   width: 100%;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
   font-weight: 500;
   ${AppTypo.BODY_MD};
 `;
@@ -30,7 +30,7 @@ export const SelectInputWrap = styled.div.attrs<{ $focus: boolean; $error?: bool
   align-items: center;
   width: 100%;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
-  padding: ${AppSpcing.XS} ${AppSpcing.S};
+  padding: ${AppSpacing.XS} ${AppSpacing.S};
   padding-right: 32px;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
@@ -74,7 +74,7 @@ export const LowerArea = styled.ul`
   max-height: 9rem;
   overflow-y: scroll;
   border: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
-  padding: ${AppSpcing.XS} 0;
+  padding: ${AppSpacing.XS} 0;
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   z-index: 99;
@@ -85,7 +85,7 @@ export const OptionWrap = styled.li`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: ${AppSpcing.XXS};
+  padding: ${AppSpacing.XXS};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   border-radius: ${AppRadii.M};
   cursor: pointer;

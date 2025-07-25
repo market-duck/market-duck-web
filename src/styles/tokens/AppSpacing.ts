@@ -1,4 +1,4 @@
-export const AppSpcing = {
+export const AppSpacing = {
   NONE: '0rem',
   XXXS: '0.125rem',
   XXS: '0.25rem',
@@ -12,4 +12,4 @@ export const AppSpcing = {
   XXXXL: '5rem',
 };
 
-export type AppSpcingKey = keyof typeof AppSpcing;
+export type AppSpacingKey = keyof typeof AppSpacing;

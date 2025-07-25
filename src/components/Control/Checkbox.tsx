@@ -1,10 +1,10 @@
-import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppRadii } from 'src/styles/tokens/AppRadii';
-import styled from 'styled-components';
 import check from '@market-duck/assets/images/check.svg';
 import { InputHTMLAttributes } from 'react';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSemanticColor } from 'src/styles/tokens/AppColor';
+import { AppRadii } from 'src/styles/tokens/AppRadii';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { AppTypo } from 'src/styles/tokens/AppTypo';
+import styled from 'styled-components';
 
 const StyledCheckbox = styled.input.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
   return {
@@ -40,7 +40,7 @@ const Label = styled.label.attrs<{ $size: 's' | 'm' }>(({ $size }) => {
   };
 })`
   display: inline-flex;
-  gap: ${AppSpcing.XS};
+  gap: ${AppSpacing.XS};
   color: ${AppSemanticColor};
 
   &.size-s {

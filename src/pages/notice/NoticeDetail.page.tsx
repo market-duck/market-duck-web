@@ -4,15 +4,15 @@ import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop'
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useLocation } from 'react-router-dom';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
-import { AppSpcing } from 'src/styles/tokens/AppSpacing';
+import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
 
 const NoticeContentWrap = styled(Column)`
-  margin-top: ${AppSpcing.XXS};
+  margin-top: ${AppSpacing.XXS};
 `;
 const NoticeDateArea = styled(Row)`
   width: 100%;
-  margin-top: ${AppSpcing.XXS};
+  margin-top: ${AppSpacing.XXS};
 `;
 
 //TODO:: 공지사항 리스트 API

@@ -12,6 +12,8 @@ interface IBaseFeedModelData {
   likeCount: number;
   viewCount: number;
   status: FeedStatusType;
+  feedType: 'SALE' | 'BUY';
+  liked: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -26,6 +28,8 @@ export class BaseFeedModel {
   viewCount: number;
   likeCount: number;
   status: FeedStatusType;
+  feedType: 'SALE' | 'BUY';
+  liked: boolean;
   createdAt: Date;
   updatedAt: Date;
 
@@ -39,6 +43,8 @@ export class BaseFeedModel {
     this.likeCount = data.likeCount;
     this.viewCount = data.viewCount;
     this.status = data.status;
+    this.feedType = data.feedType;
+    this.liked = data.liked;
     this.createdAt = new Date(data.createdAt);
     this.updatedAt = new Date(data.updatedAt);
   }
@@ -61,7 +67,7 @@ export class FeedModel extends BaseFeedModel {
   }
 }
 
-export interface IFeedDetailModelData extends IBaseFeedModelData {
+export interface IFeedDetailModelData extends Omit<IBaseFeedModelData, 'liked'> {
   userInfo: IBaseUserModelData;
   images: {
     feedImageId: number;
@@ -84,8 +90,8 @@ export class FeedDetailModel extends BaseFeedModel {
     updatedAt: Date;
   }[];
 
-  constructor(data: IFeedDetailModelData) {
-    super(data);
+  constructor(data: IFeedDetailModelData, liked: boolean) {
+    super({ ...data, liked });
     this.userInfo = new BaseUserModel(data.userInfo);
     this.images = data.images.map((image) => ({
       ...image,
@@ -94,7 +100,44 @@ export class FeedDetailModel extends BaseFeedModel {
     }));
   }
 
-  static fromJson(data: IFeedDetailModelData) {
-    return new FeedDetailModel(data);
+  static fromJson(data: IFeedDetailModelData, liked: boolean) {
+    return new FeedDetailModel(data, liked);
+  }
+
+  updateLiked(liked: boolean, likeCount: number) {
+    const newModel = new FeedDetailModel(
+      {
+        feedId: this.feedId,
+        genreCategory: this.genreCategory,
+        goodsCategory: this.goodsCategory,
+        title: this.title,
+        price: this.price,
+        content: this.content,
+        viewCount: this.viewCount,
+        likeCount,
+        status: this.status,
+        feedType: this.feedType,
+        createdAt: this.createdAt.toISOString(),
+        updatedAt: this.updatedAt.toISOString(),
+        userInfo: {
+          userId: this.userInfo.userId,
+          nickname: this.userInfo.nickname,
+          username: this.userInfo.username,
+          profileImageUrl: this.userInfo.profileImageUrl,
+          userStatus: this.userInfo.userStatus,
+          authority: this.userInfo.authority,
+          loginType: this.userInfo.loginProvider,
+          createdAt: this.userInfo.createdAt.toISOString(),
+          updatedAt: this.userInfo.updatedAt.toISOString(),
+        },
+        images: this.images.map((image) => ({
+          ...image,
+          createdAt: image.createdAt.toISOString(),
+          updatedAt: image.updatedAt.toISOString(),
+        })),
+      },
+      liked,
+    );
+    return newModel;
   }
 }
