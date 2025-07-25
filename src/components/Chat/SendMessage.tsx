@@ -1,7 +1,8 @@
-import { PhotoIcon } from '@heroicons/react/24/solid';
+import { PhotoIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { IconButton } from '@market-duck/components/Button/IconButton';
 import { Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
+import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
@@ -18,11 +19,12 @@ const Container = styled(Row)`
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   flex-grow: 0;
 
-  .imageBtn {
+  .iconBtn {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
     > svg {
       color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
       &:hover {
@@ -45,6 +47,7 @@ export const SendMessage = ({
 }) => {
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
+  const { bottomSheet } = useDialog();
 
   const sendMessageHandler = () => {
     if (images.length) {
@@ -61,10 +64,23 @@ export const SendMessage = ({
   };
 
   return (
-    <Container gap="XS">
-      <label className="imageBtn" htmlFor="image">
+    <Container gap="S">
+      <label className="iconBtn" htmlFor="image">
         <PhotoIcon width={24} height={24} />
       </label>
+      <div
+        className="iconBtn"
+        onClick={() => {
+          bottomSheet({
+            title: '자주쓰는문구',
+            desc: '자주 쓰는 문구를 저장하여 거래시 활용해보세요!',
+            //TODO:: @Jade 내부적으로 액션이 가능한 컴포넌트 연결하기 (textArea + twoBtn)
+            customContent: <></>,
+          });
+        }}
+      >
+        <PencilSquareIcon width={24} height={24} />
+      </div>
       <InputWithImage
         images={images}
         deleteHandler={deleteHandler}

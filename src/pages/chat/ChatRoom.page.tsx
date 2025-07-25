@@ -160,7 +160,6 @@ export const ChatRoom = () => {
       </ScrollArea>
       <SendMessage
         sendAction={(type, text, imageFiles) => {
-          console.log({ text, type, imageFiles });
           sendMessage({ type, text, imageFiles });
         }}
       />
