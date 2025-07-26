@@ -1,4 +1,5 @@
 import { ButtonVariantType } from '@market-duck/components/Button/Button';
+import { ButtonListItem } from '@market-duck/components/Dialog/BottomSheet';
 import { ReactNode } from 'react';
 
 export enum DialogType {
@@ -17,8 +18,8 @@ interface BottomSheet extends Pick<BaseDialog, 'id'> {
   type: DialogType.BOTTOM_SHEET;
   title?: string;
   desc?: string;
-  buttonTitle?: string;
-  hasButton?: boolean;
+  buttonList: ButtonListItem[];
+  preventBackDropClickClose?: boolean;
   customContent?: ReactNode;
 }
 

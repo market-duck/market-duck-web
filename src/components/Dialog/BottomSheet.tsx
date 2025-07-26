@@ -1,5 +1,5 @@
-import { Button } from '@market-duck/components/Button/Button';
-import { Column } from '@market-duck/components/Flex/Flex';
+import { Button, ButtonVariantType } from '@market-duck/components/Button/Button';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { MouseEventHandler, ReactNode, forwardRef, useImperativeHandle, useRef } from 'react';
@@ -58,27 +58,32 @@ const StyledBottomSheet = styled.div`
   }
 `;
 
+export interface ButtonListItem {
+  title: string;
+  variant: ButtonVariantType;
+  onClick?: () => void;
+}
 export interface BottomSheetProps {
   id: string;
   title?: string;
   desc?: string;
-  buttonTitle?: string;
-  hasButton?: boolean;
+  preventBackDropClickClose?: boolean;
+  buttonList?: ButtonListItem[];
   customContent?: ReactNode;
 }
 
 export const BottomSheet = forwardRef(
-  ({ id, title, desc, buttonTitle = '확인', customContent, hasButton = false }: BottomSheetProps, ref) => {
+  ({ id, title, desc, customContent, buttonList, preventBackDropClickClose }: BottomSheetProps, ref) => {
     const { close } = useDialog();
     const closeHandler: MouseEventHandler = (e) => {
-      e.preventDefault();
+      e.stopPropagation();
       close(id);
     };
     const bottomSheetRef = useRef(null);
     useImperativeHandle(ref, () => bottomSheetRef.current);
 
     return (
-      <StyledBottomSheet onClick={closeHandler}>
+      <StyledBottomSheet onClick={preventBackDropClickClose ? () => {} : closeHandler}>
         <div className="container">
           <Column gap="XL">
             <Column className="content">
@@ -95,10 +100,26 @@ export const BottomSheet = forwardRef(
                 </>
               )}
             </Column>
-            {hasButton && (
-              <Button size="large" onClick={closeHandler} row>
-                {buttonTitle}
-              </Button>
+            {buttonList && (
+              <Row gap="XS">
+                {buttonList.map((button: ButtonListItem) => (
+                  <Button
+                    size="large"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (button.onClick) {
+                        button.onClick();
+                      } else {
+                        close();
+                      }
+                    }}
+                    variant={button.variant}
+                    row
+                  >
+                    {button.title}
+                  </Button>
+                ))}
+              </Row>
             )}
           </Column>
         </div>

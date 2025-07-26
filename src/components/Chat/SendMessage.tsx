@@ -1,6 +1,6 @@
 import { PhotoIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { IconButton } from '@market-duck/components/Button/IconButton';
-import { Row } from '@market-duck/components/Flex/Flex';
+import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
@@ -10,8 +10,9 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 
 import styled from 'styled-components';
+import { ChatMessagePresetBox, ChatMessagePresetCreator } from './ChatMessagePreset';
 
-const Container = styled(Row)`
+const Container = styled(Column)`
   position: sticky;
   width: 100%;
   left: 0;
@@ -48,7 +49,7 @@ export const SendMessage = ({
 }) => {
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
-  const { bottomSheet } = useDialog();
+  const { bottomSheet, close } = useDialog();
 
   const sendMessageHandler = () => {
     if (images.length) {
@@ -65,39 +66,59 @@ export const SendMessage = ({
   };
 
   return (
-    <Container gap="S">
-      <label className="iconBtn" htmlFor="image">
-        <PhotoIcon width={24} height={24} />
-      </label>
-      <div
-        className="iconBtn"
-        onClick={() => {
-          bottomSheet({
-            title: '자주쓰는문구',
-            desc: '자주 쓰는 문구를 저장하여 거래시 활용해보세요!',
-            //TODO:: @Jade 내부적으로 액션이 가능한 컴포넌트 연결하기 (textArea + twoBtn)
-            customContent: <></>,
-          });
-        }}
-      >
-        <PencilSquareIcon width={24} height={24} />
-      </div>
-      <InputWithImage
-        images={images}
-        deleteHandler={deleteHandler}
-        placeholder="메시지를 입력해주세요"
-        value={message}
-        changeHandler={(e) => setMessage(e.target.value)}
-      />
-      <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
-      <input
-        style={{ display: 'none' }}
-        id="image"
-        type="file"
-        accept={'.gif, .jpg, .jpeg, .png'}
-        onChange={imageHandler}
-        multiple={true}
-      />
+    <Container>
+      <Row gap="S">
+        <label className="iconBtn" htmlFor="image">
+          <PhotoIcon width={24} height={24} />
+        </label>
+        <div
+          className="iconBtn"
+          onClick={() => {
+            if (true) {
+              bottomSheet({
+                title: '자주쓰는문구',
+                desc: '자주 쓰는 문구를 저장하여 거래시 활용해보세요!',
+                customContent: <ChatMessagePresetCreator />,
+                buttonList: [
+                  {
+                    title: '취소',
+                    variant: 'secondary',
+                  },
+                  {
+                    title: '저장',
+                    variant: 'primary',
+                    onClick: () => {
+                      console.log('저장!!');
+                      close();
+                    },
+                  },
+                ],
+              });
+            } else {
+              //TODO:: 자주 쓰는 문구가 존재하는 경우 아래 쪽 영역 열기
+            }
+          }}
+        >
+          <PencilSquareIcon width={24} height={24} />
+        </div>
+        <InputWithImage
+          images={images}
+          deleteHandler={deleteHandler}
+          placeholder="메시지를 입력해주세요"
+          value={message}
+          changeHandler={(e) => setMessage(e.target.value)}
+        />
+        <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
+        <input
+          style={{ display: 'none' }}
+          id="image"
+          type="file"
+          accept={'.gif, .jpg, .jpeg, .png'}
+          onChange={imageHandler}
+          multiple={true}
+        />
+      </Row>
+      <ChatMessagePresetBox />
     </Container>
   );
 };
