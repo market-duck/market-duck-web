@@ -1,7 +1,6 @@
 import { dialogAtom } from '@market-duck/atoms/dialog.atom';
 import { BottomSheet } from '@market-duck/components/Dialog/BottomSheet';
 import { Dialog } from '@market-duck/components/Dialog/Dialog';
-import { useDialog } from '@market-duck/hooks/useDialog';
 import { DialogType } from '@market-duck/types/dialog';
 import { createPortal } from 'react-dom';
 import { useRecoilValue } from 'recoil';
@@ -41,6 +40,15 @@ export const GlobalDialog = () => {
                   buttonList={dialog.buttonList}
                   customContent={dialog.customContent}
                   preventBackDropClickClose={dialog.preventBackDropClickClose}
+                />
+              );
+            case DialogType.MODAL:
+              return (
+                <Dialog
+                  id={dialog.id}
+                  key={dialog.id}
+                  slotComponent={dialog.slotComponent}
+                  buttonList={dialog.buttonList}
                 />
               );
             default:

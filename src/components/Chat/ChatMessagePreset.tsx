@@ -6,8 +6,11 @@ import { Typo } from '@market-duck/components/Typo/Typo';
 import { Button } from '@market-duck/components/Button/Button';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
+import { useDialog } from '@market-duck/hooks/useDialog';
+import { Input } from '../Form/Input';
 
 const Wrapper = styled(Column)`
+  padding: ${AppSpacing.M};
   &.presetBox {
     padding: ${AppSpacing.M} 0;
     gap: ${AppSpacing.XS};
@@ -15,18 +18,17 @@ const Wrapper = styled(Column)`
 `;
 
 export const ChatMessagePresetCreator = () => {
+  const [presetTitle, setPresetTitle] = useState('');
   const [presetContent, setPresetContent] = useState('');
 
   return (
     <Wrapper gap="XL">
-      <Column>
-        <Typo tag="p" type="HEADING_SM" weight={500} className={AppSemanticColor.TEXT_PRIMARY.color} align="center">
-          자주쓰는문구
-        </Typo>
-        <Typo tag="p" type="BODY_SM" weight={500} className={AppSemanticColor.TEXT_TERTIARY.color} align="center">
-          자주 쓰는 문구를 저장하여 거래시 활용해보세요!
-        </Typo>
-      </Column>
+      <Input
+        id="presetTitle"
+        value={presetTitle}
+        changeHandler={(e) => setPresetTitle(e.target.value)}
+        placeholder="ex. 배송지"
+      />
       <TextArea
         value={presetContent}
         changeHandler={(e) => {
@@ -41,6 +43,8 @@ export const ChatMessagePresetCreator = () => {
 };
 
 export const ChatMessagePresetBox = () => {
+  const { modal, close } = useDialog();
+
   return (
     <Wrapper className="presetBox">
       <Row gap="XXS">
@@ -59,7 +63,24 @@ export const ChatMessagePresetBox = () => {
           leftIcon="PlusCircleIcon"
           iconFill={true}
           onClick={() => {
-            //TODO:: open center modal for add new preset
+            modal({
+              slotComponent: <ChatMessagePresetCreator />,
+              buttonList: [
+                {
+                  title: '취소',
+                  variant: 'secondary',
+                  onClick: () => {
+                    close();
+                  },
+                },
+                {
+                  title: '저장',
+                  variant: 'primary',
+                  onClick: () => {},
+                },
+              ],
+              preventBackDropClickClose: true,
+            });
           }}
         >
           추가하기

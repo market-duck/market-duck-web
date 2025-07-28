@@ -2,7 +2,7 @@ import { Button, ButtonVariantType } from '@market-duck/components/Button/Button
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
-import { HTMLAttributes, MouseEventHandler } from 'react';
+import { HTMLAttributes, MouseEventHandler, ReactNode } from 'react';
 import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
@@ -44,19 +44,29 @@ const StyledModalContainer = styled.div`
     white-space: pre-line;
     color: ${AppSemanticColor.TEXT_TERTIARY.hex};
   }
+
+  .buttonListWrap {
+    padding: 0 ${AppSpacing.M} ${AppSpacing.M};
+  }
 `;
 
+export interface ButtonListItemType {
+  title: string;
+  variant: ButtonVariantType;
+  onClick?: () => void;
+}
 interface DialogProps extends HTMLAttributes<HTMLDivElement> {
   id: string;
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
   confirmBtnVariant?: ButtonVariantType;
   customConfirmBtnText?: string;
+  slotComponent?: ReactNode;
+  buttonList?: ButtonListItemType[];
   confirm?: () => void;
   cancel?: () => void;
 }
 
-//TODO:: 모달 버튼 워딩 변경
 export const Dialog = ({
   id,
   title,
@@ -65,6 +75,8 @@ export const Dialog = ({
   confirm,
   cancel,
   customConfirmBtnText = '확인',
+  slotComponent,
+  buttonList,
   ...props
 }: DialogProps) => {
   const { close } = useDialog();
@@ -72,31 +84,55 @@ export const Dialog = ({
     if (cancel) cancel();
     close(id);
   };
+
   return (
     <StyledModalContainer {...props} onClick={closeHandler}>
       <div className="container" onClick={(e) => e.stopPropagation()}>
-        <Column gap="M" className="contents">
-          <Column>
-            <Typo tag="p" type="HEADING_SM" weight={600} className="title">
-              {title}
-            </Typo>
+        {slotComponent ?? (
+          <Column gap="M" className="contents">
             <Column>
-              <Typo tag="p" type="BODY_SM" className="desc">
-                {desc}
+              <Typo tag="p" type="HEADING_SM" weight={600} className="title">
+                {title}
               </Typo>
+              <Column>
+                <Typo tag="p" type="BODY_SM" className="desc">
+                  {desc}
+                </Typo>
+              </Column>
             </Column>
-          </Column>
-          <Row gap="XS">
-            {confirm && (
-              <Button size="medium" row variant="tertiary" onClick={closeHandler}>
-                취소
+            <Row gap="XS">
+              {confirm && (
+                <Button size="medium" row variant="tertiary" onClick={closeHandler}>
+                  취소
+                </Button>
+              )}
+              <Button size="medium" row variant={confirmBtnVariant} onClick={confirm ?? closeHandler}>
+                {customConfirmBtnText}
               </Button>
-            )}
-            <Button size="medium" row variant={confirmBtnVariant} onClick={confirm ?? closeHandler}>
-              {customConfirmBtnText}
-            </Button>
+            </Row>
+          </Column>
+        )}
+        {buttonList && (
+          <Row gap="XS" className="buttonListWrap">
+            {buttonList.map((button: ButtonListItemType) => (
+              <Button
+                size="large"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (button.onClick) {
+                    button.onClick();
+                  } else {
+                    close();
+                  }
+                }}
+                variant={button.variant}
+                row
+              >
+                {button.title}
+              </Button>
+            ))}
           </Row>
-        </Column>
+        )}
       </div>
     </StyledModalContainer>
   );

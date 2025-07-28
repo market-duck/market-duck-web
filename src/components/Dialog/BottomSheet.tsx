@@ -1,4 +1,4 @@
-import { Button, ButtonVariantType } from '@market-duck/components/Button/Button';
+import { Button } from '@market-duck/components/Button/Button';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { Typo } from '@market-duck/components/Typo/Typo';
 import { useDialog } from '@market-duck/hooks/useDialog';
@@ -7,6 +7,7 @@ import { AppColor, AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppRadii } from 'src/styles/tokens/AppRadii';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import styled from 'styled-components';
+import { ButtonListItemType } from '@market-duck/components/Dialog/Dialog';
 
 const StyledBottomSheet = styled.div`
   position: relative;
@@ -58,17 +59,12 @@ const StyledBottomSheet = styled.div`
   }
 `;
 
-export interface ButtonListItem {
-  title: string;
-  variant: ButtonVariantType;
-  onClick?: () => void;
-}
 export interface BottomSheetProps {
   id: string;
   title?: string;
   desc?: string;
   preventBackDropClickClose?: boolean;
-  buttonList?: ButtonListItem[];
+  buttonList?: ButtonListItemType[];
   customContent?: ReactNode;
 }
 
@@ -102,7 +98,7 @@ export const BottomSheet = forwardRef(
             </Column>
             {buttonList && (
               <Row gap="XS">
-                {buttonList.map((button: ButtonListItem) => (
+                {buttonList.map((button: ButtonListItemType) => (
                   <Button
                     size="large"
                     onClick={(e) => {

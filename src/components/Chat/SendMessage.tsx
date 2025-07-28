@@ -47,9 +47,9 @@ export const SendMessage = ({
 }: {
   sendAction: (type: ChatMessageType, text: string, imageFiles?: File[]) => void;
 }) => {
+  const [isPresetOpen, setIsPresetOpen] = useState(false);
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
-  const { bottomSheet, close } = useDialog();
 
   const sendMessageHandler = () => {
     if (images.length) {
@@ -74,29 +74,7 @@ export const SendMessage = ({
         <div
           className="iconBtn"
           onClick={() => {
-            if (true) {
-              bottomSheet({
-                title: '자주쓰는문구',
-                desc: '자주 쓰는 문구를 저장하여 거래시 활용해보세요!',
-                customContent: <ChatMessagePresetCreator />,
-                buttonList: [
-                  {
-                    title: '취소',
-                    variant: 'secondary',
-                  },
-                  {
-                    title: '저장',
-                    variant: 'primary',
-                    onClick: () => {
-                      console.log('저장!!');
-                      close();
-                    },
-                  },
-                ],
-              });
-            } else {
-              //TODO:: 자주 쓰는 문구가 존재하는 경우 아래 쪽 영역 열기
-            }
+            setIsPresetOpen((prev) => !prev);
           }}
         >
           <PencilSquareIcon width={24} height={24} />
@@ -118,7 +96,7 @@ export const SendMessage = ({
           multiple={true}
         />
       </Row>
-      <ChatMessagePresetBox />
+      {isPresetOpen && <ChatMessagePresetBox />}
     </Container>
   );
 };
