@@ -2,7 +2,6 @@ import { PhotoIcon, PencilSquareIcon } from '@heroicons/react/24/solid';
 import { IconButton } from '@market-duck/components/Button/IconButton';
 import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { InputWithImage } from '@market-duck/components/Form/Input';
-import { useDialog } from '@market-duck/hooks/useDialog';
 import { useImageInput } from '@market-duck/hooks/useImageInput';
 import { ChatMessageType, ChatMessageTypeEnum } from '@market-duck/types/chat';
 import { useState } from 'react';
@@ -10,33 +9,36 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 
 import styled from 'styled-components';
-import { ChatMessagePresetBox, ChatMessagePresetCreator } from './ChatMessagePreset';
+import { ChatMessagePresetBox } from './ChatMessagePreset';
 
 const Container = styled(Column)`
   position: sticky;
   width: 100%;
   left: 0;
   bottom: 0;
-  padding: ${AppSpacing.S} ${AppSpacing.M};
   background-color: ${AppSemanticColor.BG_PRIMARY.hex};
   flex-grow: 0;
+  border-top: 1px solid ${AppSemanticColor.BG_TERTIARY.hex};
+  .inputArea {
+    padding: ${AppSpacing.S} ${AppSpacing.M} ${AppSpacing.S};
 
-  .iconBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    .iconBtn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
 
-    > svg {
-      color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
-      &:hover {
-        color: ${AppSemanticColor.ICON_INTERACTIVE_SECONDARY_HOVER.hex};
-      }
-      &:active {
-        color: ${AppSemanticColor.ICON_INTERACTIVE_SECONDARY_PRESS.hex};
-      }
-      &:disabled {
-        color: ${AppSemanticColor.ICON_DISABLED.hex};
+      > svg {
+        color: ${AppSemanticColor.TEXT_INTERACTIVE_SECONDARY.hex};
+        &:hover {
+          color: ${AppSemanticColor.ICON_INTERACTIVE_SECONDARY_HOVER.hex};
+        }
+        &:active {
+          color: ${AppSemanticColor.ICON_INTERACTIVE_SECONDARY_PRESS.hex};
+        }
+        &:disabled {
+          color: ${AppSemanticColor.ICON_DISABLED.hex};
+        }
       }
     }
   }
@@ -67,18 +69,7 @@ export const SendMessage = ({
 
   return (
     <Container>
-      <Row gap="S">
-        <label className="iconBtn" htmlFor="image">
-          <PhotoIcon width={24} height={24} />
-        </label>
-        <div
-          className="iconBtn"
-          onClick={() => {
-            setIsPresetOpen((prev) => !prev);
-          }}
-        >
-          <PencilSquareIcon width={24} height={24} />
-        </div>
+      <Column gap="XXS" className="inputArea">
         <InputWithImage
           images={images}
           deleteHandler={deleteHandler}
@@ -86,16 +77,32 @@ export const SendMessage = ({
           value={message}
           changeHandler={(e) => setMessage(e.target.value)}
         />
-        <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
-        <input
-          style={{ display: 'none' }}
-          id="image"
-          type="file"
-          accept={'.gif, .jpg, .jpeg, .png'}
-          onChange={imageHandler}
-          multiple={true}
-        />
-      </Row>
+        <Row gap="S" justify="between" className="">
+          <Row gap="XS">
+            <label className="iconBtn" htmlFor="image">
+              <PhotoIcon width={24} height={24} />
+            </label>
+            <div
+              className="iconBtn"
+              onClick={() => {
+                setIsPresetOpen((prev) => !prev);
+              }}
+            >
+              <PencilSquareIcon width={24} height={24} />
+            </div>
+          </Row>
+
+          <IconButton icon="PaperAirplaneIcon" variant="primary" iconFill onClick={sendMessageHandler} />
+          <input
+            style={{ display: 'none' }}
+            id="image"
+            type="file"
+            accept={'.gif, .jpg, .jpeg, .png'}
+            onChange={imageHandler}
+            multiple={true}
+          />
+        </Row>
+      </Column>
       {isPresetOpen && <ChatMessagePresetBox />}
     </Container>
   );

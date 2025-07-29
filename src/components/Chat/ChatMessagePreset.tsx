@@ -8,12 +8,23 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { Input } from '../Form/Input';
+import { TrashIcon } from '@heroicons/react/20/solid';
 
 const Wrapper = styled(Column)`
   padding: ${AppSpacing.M};
+  border-top: 1px solid ${AppSemanticColor.BG_TERTIARY.hex};
   &.presetBox {
-    padding: ${AppSpacing.M} 0;
+    padding: ${AppSpacing.S} ${AppSpacing.M};
     gap: ${AppSpacing.XS};
+  }
+
+  .presetTitle {
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
+  }
+
+  .presetTextArea {
+    height: 5.5rem;
+    color: ${AppSemanticColor.TEXT_SECONDARY.hex};
   }
 `;
 
@@ -23,13 +34,19 @@ export const ChatMessagePresetCreator = () => {
 
   return (
     <Wrapper gap="XL">
-      <Input
-        id="presetTitle"
-        value={presetTitle}
-        changeHandler={(e) => setPresetTitle(e.target.value)}
-        placeholder="ex. 배송지"
-      />
+      <Row gap="XS" justify="center" alignItems="center">
+        <Input
+          id="presetTitle"
+          value={presetTitle}
+          changeHandler={(e) => setPresetTitle(e.target.value)}
+          placeholder="ex. 배송지"
+          className="presetTitle"
+        />
+        {/* TODO:: delte preset? */}
+        <TrashIcon width={28} height={28} fill={AppSemanticColor.ICON_PRIMARY.hex} />
+      </Row>
       <TextArea
+        className="presetTextArea"
         value={presetContent}
         changeHandler={(e) => {
           if (e.target.value.length) {
@@ -37,6 +54,8 @@ export const ChatMessagePresetCreator = () => {
           }
         }}
         placeholder="내용을 입력해주세요."
+        maxLength={100}
+        caption={`${presetContent.length}/100`}
       />
     </Wrapper>
   );
