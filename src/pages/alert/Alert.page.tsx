@@ -60,10 +60,10 @@ export const Alert = () => {
       <NavigationTop leftButtonIconType="back" title="알림" rightButton={<></>} />
       <AlertWrap>
         <Row justify="end" alignItems="center" gap="XS">
-          <Button variant="secondary" size="small" onClick={handleAllRead}>
+          <Button variant="tertiary" size="small" onClick={handleAllRead}>
             모두 읽기
           </Button>
-          <Button variant="secondary" size="small" onClick={handleAllDelete}>
+          <Button variant="tertiary" size="small" onClick={handleAllDelete}>
             전체 삭제
           </Button>
         </Row>
