@@ -9,10 +9,11 @@ import { NavigationTop } from '@market-duck/components/Navigation/NavigationTop'
 import { useChat } from '@market-duck/hooks/useChat';
 import { useDialog } from '@market-duck/hooks/useDialog';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { ScrollSentinel } from './components/DetectIntersection';
 
 const Container = styled.div`
   position: relative;
@@ -34,6 +35,7 @@ export const ChatRoom = () => {
   } = useLocation();
   const navigate = useNavigate();
   const { confirm, alert } = useDialog();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const { mutateAsync: leaveChatRoom } = useMutation({
     mutationKey: ['feed', 'create'],
@@ -48,8 +50,8 @@ export const ChatRoom = () => {
     },
   });
 
-  const { connect, disconnect, sendMessage, chatRoomData, messageRoom, setMessageRoom, text, setText, subscribe } =
-    useChat(roomId);
+  const { sendMessage, chatRoomData, messages, hasNextPage, isFetchingNextPage, handleLoadMore, shouldAutoScroll } =
+    useChat(roomId, scrollRef);
 
   useEffect(() => {
     if (!userData) {
@@ -57,67 +59,61 @@ export const ChatRoom = () => {
     }
   }, []);
 
-  // userData 또는 chatRoomData가 없으면 로딩 상태로 간주
-  if (!userData || !chatRoomData) {
-    return <div>Loading...</div>; // 혹은 Skeleton 컴포넌트 등으로 대체
-  }
+  const dropdownItems = chatRoomData
+    ? [
+        {
+          id: 'leave',
+          name: '나가기',
+          handler: async () => {
+            const result = await confirm({
+              title: '정말 나가시겠습니까?',
+              desc: '나가신 뒤 알림에 유의해 주세요.',
+              positiveBtnText: '나가기',
+              positiveBtnVariant: 'danger',
+            });
+            if (result) {
+              leaveChatRoom({ roomId: chatRoomData.chatRoom.chatRoomId });
+            }
+          },
+        },
+        {
+          id: 'report',
+          name: '신고하기',
+          handler: async () => {
+            const result = await confirm({
+              title: `${chatRoomData.chatRoom.receiver.nickname} 님을 신고하시겠습니까?`,
+              desc: '신고내용은 일주일 내에 접수되며\n관련 내용은 알림으로 전달드립니다.',
+              positiveBtnText: '신고하기',
+              positiveBtnVariant: 'danger',
+            });
 
-  const dropdownItems = [
-    {
-      id: 'leave',
-      name: '나가기',
-      handler: async () => {
-        const result = await confirm({
-          title: '정말 나가시겠습니까?',
-          desc: '나가신 뒤 알림에 유의해 주세요.',
-          positiveBtnText: '나가기',
-          positiveBtnVariant: 'danger',
-        });
-        if (result) {
-          disconnect();
-          leaveChatRoom({ roomId: chatRoomData.chatRoomId });
-        }
-      },
-    },
-    {
-      id: 'report',
-      name: '신고하기',
-      handler: async () => {
-        const result = await confirm({
-          title: `${chatRoomData.receiver.nickname} 님을 신고하시겠습니까?`,
-          desc: '신고내용은 일주일 내에 접수되며\n관련 내용은 알림으로 전달드립니다.',
-          positiveBtnText: '신고하기',
-          positiveBtnVariant: 'danger',
-        });
+            if (result) {
+              //TODO::신고 API 호출
+              console.log('신고!!!!!');
+              navigate(-1);
+            }
+          },
+        },
+        {
+          id: 'block',
+          name: '차단하기',
+          handler: async () => {
+            const result = await confirm({
+              title: `${chatRoomData.chatRoom.receiver.nickname} 님을 차단하시겠습니까?`,
+              desc: '차단한 회원의 모든 게시물이 보이지 않게 됩니다.',
+              positiveBtnText: '차단하기',
+              positiveBtnVariant: 'danger',
+            });
 
-        if (result) {
-          //TODO::신고 API 호출
-          console.log('신고!!!!!');
-          disconnect();
-          navigate(-1);
-        }
-      },
-    },
-    {
-      id: 'block',
-      name: '차단하기',
-      handler: async () => {
-        const result = await confirm({
-          title: `${chatRoomData.receiver.nickname} 님을 차단하시겠습니까?`,
-          desc: '차단한 회원의 모든 게시물이 보이지 않게 됩니다.',
-          positiveBtnText: '차단하기',
-          positiveBtnVariant: 'danger',
-        });
-
-        if (result) {
-          //TODO::신고 API 호출
-          console.log('차단!!!!!');
-          disconnect();
-          navigate(-1);
-        }
-      },
-    },
-  ];
+            if (result) {
+              //TODO::신고 API 호출
+              console.log('차단!!!!!');
+              navigate(-1);
+            }
+          },
+        },
+      ]
+    : [];
 
   useEffect(() => {
     // html, body 스크롤 막기
@@ -131,24 +127,39 @@ export const ChatRoom = () => {
     };
   }, []);
 
+  // userData 또는 chatRoomData가 없으면 로딩 상태로 간주
+  if (!userData || !chatRoomData) {
+    return <div>Loading...</div>; // 혹은 Skeleton 컴포넌트 등으로 대체
+  }
+
   return (
     <Container>
       <NavigationTop
         leftButtonIconType="back"
-        title={chatRoomData.receiver.nickname}
+        title={chatRoomData.chatRoom.receiver.nickname}
         rightButton={<DropDownMenu items={dropdownItems} isDotMenu isTransparent />}
         onLeftClick={() => {
-          disconnect();
           navigate(-1);
         }}
       />
-      <ChatHeader thumbnailUrl={chatRoomData.feedImageUrl} feedTitle={chatRoomData.feedTitle} price={0} />
-      <ScrollArea $padding="0 1rem">
-        <Chat messageList={messageRoom.messages} userId={userData.userId} />
+      <ChatHeader
+        thumbnailUrl={chatRoomData.chatRoom.feedImageUrl}
+        feedTitle={chatRoomData.chatRoom.feedTitle}
+        price={0}
+      />
+      <ScrollArea $padding="0 1rem" ref={scrollRef}>
+        {hasNextPage && (
+          <ScrollSentinel
+            onIntersect={() => {
+              if (!isFetchingNextPage) handleLoadMore();
+            }}
+            enabled={hasNextPage}
+          />
+        )}
+        <Chat shouldAutoScroll={shouldAutoScroll} messageList={messages} userId={userData.userId} />
       </ScrollArea>
       <SendMessage
         sendAction={(type, text, imageFiles) => {
-          console.log({ text, type, imageFiles });
           sendMessage({ type, text, imageFiles });
         }}
       />

@@ -12,16 +12,26 @@ const Container = styled.div`
   flex-direction: column;
   gap: ${AppSpacing.L};
   justify-content: flex-start;
-  min-height: 100dvh;
+  min-height: 100%;
   padding-top: ${AppSpacing.M};
 `;
 
-export const Chat = ({ messageList, userId }: { messageList: ChatMessageModel[]; userId: Number }) => {
+export const Chat = ({
+  messageList,
+  userId,
+  shouldAutoScroll,
+}: {
+  messageList: ChatMessageModel[];
+  userId: Number;
+  shouldAutoScroll: boolean;
+}) => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'auto' });
-  }, [messageList.length]);
+    if (shouldAutoScroll) {
+      bottomRef.current?.scrollIntoView({ behavior: 'auto' });
+    }
+  }, [messageList.length, shouldAutoScroll]);
 
   return (
     <Container ref={(node) => node?.scrollTo(0, node.offsetHeight)}>
