@@ -9,7 +9,10 @@ import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
 
 import styled from 'styled-components';
-import { ChatMessagePresetBox } from './ChatMessagePreset';
+import { useDialog } from '@market-duck/hooks/useDialog';
+import { ChatMessagePresetCreator, MessagePresetList } from './ChatMessagePreset';
+import { useQuery } from '@tanstack/react-query';
+import { quickPhraseAPI } from '@market-duck/apis/quickPhraseAPI';
 
 const Container = styled(Column)`
   position: sticky;
@@ -49,9 +52,35 @@ export const SendMessage = ({
 }: {
   sendAction: (type: ChatMessageType, text: string, imageFiles?: File[]) => void;
 }) => {
-  const [isPresetOpen, setIsPresetOpen] = useState(false);
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
+  const { modal, bottomSheet, close } = useDialog();
+  // const { data: presetData } = useQuery({
+  //   queryKey: ['chat', 'rooms'],
+  //   queryFn: () => quickPhraseAPI.getQuickPhrases({ page: 0, sortBy: 'createdAt' }),
+  // });
+  const presetData = {
+    quickPhrases: [
+      {
+        quickPhraseId: 1,
+        content: 'contentcontentcontentcontentcontentcontentcontentcontent contentcontentcontentcontent',
+        title: 'titltetitlet',
+        category: '',
+        useCount: 12,
+        lastUsedAt: new Date(),
+        createdAt: new Date(),
+      },
+      {
+        quickPhraseId: 2,
+        content: 'contentcontentcontentcontentcontentcontentcontentcontent contentcontentcontentcontent',
+        title: 'titltetitlet',
+        category: '',
+        useCount: 12,
+        lastUsedAt: new Date(),
+        createdAt: new Date(),
+      },
+    ],
+  };
 
   const sendMessageHandler = () => {
     if (images.length) {
@@ -65,6 +94,27 @@ export const SendMessage = ({
       sendAction(ChatMessageTypeEnum.TEXT, message);
       setMessage('');
     }
+  };
+
+  const openCreatePresetModal = () => {
+    return modal({
+      slotComponent: <ChatMessagePresetCreator />,
+      buttonList: [
+        {
+          title: '취소',
+          variant: 'secondary',
+          onClick: () => {
+            close();
+          },
+        },
+        {
+          title: '저장',
+          variant: 'primary',
+          onClick: () => {},
+        },
+      ],
+      preventBackDropClickClose: true,
+    });
   };
 
   return (
@@ -85,7 +135,18 @@ export const SendMessage = ({
             <div
               className="iconBtn"
               onClick={() => {
-                setIsPresetOpen((prev) => !prev);
+                bottomSheet({
+                  customContent: <MessagePresetList presetList={presetData?.quickPhrases || []} />,
+                  buttonList: [
+                    {
+                      title: '추가하기',
+                      variant: presetData?.quickPhrases?.length ? 'secondary' : 'primary',
+                      onClick: () => {
+                        openCreatePresetModal();
+                      },
+                    },
+                  ],
+                });
               }}
             >
               <PencilSquareIcon width={24} height={24} />
@@ -103,7 +164,6 @@ export const SendMessage = ({
           />
         </Row>
       </Column>
-      {isPresetOpen && <ChatMessagePresetBox />}
     </Container>
   );
 };

@@ -115,10 +115,12 @@ export const useDialog = () => {
   };
 
   const modal = ({
+    title,
     slotComponent,
     buttonList,
     preventBackDropClickClose,
   }: {
+    title?: string;
     slotComponent: ReactNode;
     buttonList: ButtonListItemType[];
     preventBackDropClickClose?: boolean;
@@ -126,7 +128,7 @@ export const useDialog = () => {
     const id = v4();
     setDialogs((prev) => [
       ...prev,
-      { id, type: DialogType.MODAL, buttonList, slotComponent, preventBackDropClickClose },
+      { id, title, type: DialogType.MODAL, buttonList, slotComponent, preventBackDropClickClose },
     ]);
     return id;
   };

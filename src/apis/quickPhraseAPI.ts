@@ -11,8 +11,8 @@ class QuickPhraseAPI {
   }: {
     page: number;
     sortBy: 'createdAt' | 'useCount' | 'lastUsed';
-    category: string;
-    keyword: string;
+    category?: string;
+    keyword?: string;
   }) {
     const {
       data: { data, pageInfo },

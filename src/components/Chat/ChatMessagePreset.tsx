@@ -3,12 +3,11 @@ import { Column, Row } from '@market-duck/components/Flex/Flex';
 import { TextArea } from '@market-duck/components/Form/TextArea';
 import { useState } from 'react';
 import { Typo } from '@market-duck/components/Typo/Typo';
-import { Button } from '@market-duck/components/Button/Button';
 import { AppSemanticColor } from 'src/styles/tokens/AppColor';
 import { AppSpacing } from 'src/styles/tokens/AppSpacing';
-import { useDialog } from '@market-duck/hooks/useDialog';
 import { Input } from '../Form/Input';
-import { TrashIcon } from '@heroicons/react/20/solid';
+import { BaseQuickPhraseModel } from '@market-duck/apis/models/quickPhraseModel';
+import { Button } from '../Button/Button';
 
 const Wrapper = styled(Column)`
   padding: ${AppSpacing.M};
@@ -34,17 +33,17 @@ export const ChatMessagePresetCreator = () => {
 
   return (
     <Wrapper gap="XL">
-      <Row gap="XS" justify="center" alignItems="center">
-        <Input
-          id="presetTitle"
-          value={presetTitle}
-          changeHandler={(e) => setPresetTitle(e.target.value)}
-          placeholder="ex. 배송지"
-          className="presetTitle"
-        />
-        {/* TODO:: delte preset? */}
-        <TrashIcon width={28} height={28} fill={AppSemanticColor.ICON_PRIMARY.hex} />
-      </Row>
+      <Typo tag="p" type="HEADING_SM" weight={600} align="center">
+        자주쓰는문구
+      </Typo>
+      <Input
+        id="presetTitle"
+        value={presetTitle}
+        changeHandler={(e) => setPresetTitle(e.target.value)}
+        label="제목"
+        placeholder="ex. 배송지"
+        className="presetTitle"
+      />
       <TextArea
         className="presetTextArea"
         value={presetContent}
@@ -53,6 +52,7 @@ export const ChatMessagePresetCreator = () => {
             setPresetContent(e.target.value);
           }
         }}
+        label="내용"
         placeholder="내용을 입력해주세요."
         maxLength={100}
         caption={`${presetContent.length}/100`}
@@ -61,50 +61,74 @@ export const ChatMessagePresetCreator = () => {
   );
 };
 
-export const ChatMessagePresetBox = () => {
-  const { modal, close } = useDialog();
+const ListWrapper = styled(Column)`
+  gap: 1rem;
 
+  .presetItem {
+    padding: ${AppSpacing.XS};
+    border-bottom: 1px solid ${AppSemanticColor.BORDER_TERTIARY.hex};
+    &:last-child {
+      border: none;
+    }
+
+    .left {
+      overflow: hidden;
+
+      .content {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        max-width: 90%;
+        display: block;
+      }
+    }
+  }
+`;
+
+export const MessagePresetList = ({ presetList }: { presetList: BaseQuickPhraseModel[] }) => {
   return (
-    <Wrapper className="presetBox">
-      <Row gap="XXS">
-        <Typo tag="span" type="CAPTION_MD" weight={600} className={AppSemanticColor.TEXT_PRIMARY.color}>
+    <ListWrapper>
+      <Column>
+        <Typo tag="p" type="HEADING_SM" weight={600} color={AppSemanticColor.TEXT_PRIMARY.color} align="center">
           자주쓰는문구
         </Typo>
-        <Typo tag="span" type="CAPTION_MD" weight={400} className={AppSemanticColor.TEXT_TERTIARY.color}>
-          최대 5개까지 입력 가능합니다
+        <Typo tag="p" type="BODY_SM" weight={500} color={AppSemanticColor.TEXT_TERTIARY.color} align="center">
+          최대 5개
         </Typo>
-      </Row>
-      <Row>
-        <Button
-          type="button"
-          variant="secondary"
-          size="medium"
-          leftIcon="PlusCircleIcon"
-          iconFill={true}
-          onClick={() => {
-            modal({
-              slotComponent: <ChatMessagePresetCreator />,
-              buttonList: [
-                {
-                  title: '취소',
-                  variant: 'secondary',
-                  onClick: () => {
-                    close();
-                  },
-                },
-                {
-                  title: '저장',
-                  variant: 'primary',
-                  onClick: () => {},
-                },
-              ],
-              preventBackDropClickClose: true,
-            });
-          }}
-        >
-          추가하기
-        </Button>
-      </Row>
-    </Wrapper>
+      </Column>
+      {presetList.length ? (
+        <Column>
+          {presetList.map((item) => {
+            return (
+              <Row key={item.quickPhraseId} justify="between" alignItems="center" className="presetItem">
+                <Column className="left">
+                  <Typo tag="p" type="BODY_MD" className={AppSemanticColor.TEXT_PRIMARY.color} weight={500}>
+                    {item.title}
+                  </Typo>
+                  <Typo
+                    tag="p"
+                    type="CAPTION_MD"
+                    weight={500}
+                    className={`${AppSemanticColor.TEXT_TERTIARY.color} content`}
+                  >
+                    {item.content}
+                  </Typo>
+                </Column>
+                <Row gap="XXS">
+                  <Button size="small" variant="tertiary">
+                    수정
+                  </Button>
+                  <Button size="small" variant="tertiary">
+                    삭제
+                  </Button>
+                </Row>
+              </Row>
+            );
+          })}
+        </Column>
+      ) : (
+        <div></div>
+      )}
+    </ListWrapper>
   );
 };
