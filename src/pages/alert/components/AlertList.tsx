@@ -18,10 +18,16 @@ const AlertListItem = styled(Row)`
   .link {
     flex: 1;
   }
-  .icon {
+
+  .delete-btn {
     width: 1rem;
     height: 1rem;
     color: ${AppSemanticColor.TEXT_TERTIARY.hex};
+    .icon {
+      width: 1rem;
+      height: 1rem;
+      color: ${AppSemanticColor.TEXT_TERTIARY.hex};
+    }
   }
 `;
 
@@ -54,7 +60,7 @@ const AlertListContent = ({
     }
   };
   return (
-    <AlertListItem justify="between" gap="XS">
+    <AlertListItem justify="between" alignItems="start" gap="XS">
       <Link to={to} className="link">
         <Column gap="XXS">
           <Typo
@@ -73,7 +79,7 @@ const AlertListContent = ({
           </Typo>
         </Column>
       </Link>
-      <button onClick={handleDelete}>
+      <button onClick={handleDelete} className="delete-btn">
         <XMarkIcon className="icon" />
       </button>
     </AlertListItem>
