@@ -87,7 +87,7 @@ export const TextArea = ({
   isError?: boolean;
   label?: string;
   caption?: string;
-  className: string;
+  className?: string;
 }) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
 

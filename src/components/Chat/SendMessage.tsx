@@ -55,32 +55,10 @@ export const SendMessage = ({
   const [message, setMessage] = useState('');
   const { images, imageHandler, deleteHandler, allDeleteHandler } = useImageInput();
   const { modal, bottomSheet, close } = useDialog();
-  // const { data: presetData } = useQuery({
-  //   queryKey: ['chat', 'rooms'],
-  //   queryFn: () => quickPhraseAPI.getQuickPhrases({ page: 0, sortBy: 'createdAt' }),
-  // });
-  const presetData = {
-    quickPhrases: [
-      {
-        quickPhraseId: 1,
-        content: 'contentcontentcontentcontentcontentcontentcontentcontent contentcontentcontentcontent',
-        title: 'titltetitlet',
-        category: '',
-        useCount: 12,
-        lastUsedAt: new Date(),
-        createdAt: new Date(),
-      },
-      {
-        quickPhraseId: 2,
-        content: 'contentcontentcontentcontentcontentcontentcontentcontent contentcontentcontentcontent',
-        title: 'titltetitlet',
-        category: '',
-        useCount: 12,
-        lastUsedAt: new Date(),
-        createdAt: new Date(),
-      },
-    ],
-  };
+  const { data: presetData } = useQuery({
+    queryKey: ['chat', 'rooms'],
+    queryFn: () => quickPhraseAPI.getQuickPhrases({ page: 0, sortBy: 'createdAt' }),
+  });
 
   const sendMessageHandler = () => {
     if (images.length) {
@@ -98,21 +76,8 @@ export const SendMessage = ({
 
   const openCreatePresetModal = () => {
     return modal({
-      slotComponent: <ChatMessagePresetCreator />,
-      buttonList: [
-        {
-          title: '취소',
-          variant: 'secondary',
-          onClick: () => {
-            close();
-          },
-        },
-        {
-          title: '저장',
-          variant: 'primary',
-          onClick: () => {},
-        },
-      ],
+      slotComponent: <ChatMessagePresetCreator close={close} />,
+      buttonList: [],
       preventBackDropClickClose: true,
     });
   };
@@ -140,7 +105,7 @@ export const SendMessage = ({
                   buttonList: [
                     {
                       title: '추가하기',
-                      variant: presetData?.quickPhrases?.length ? 'secondary' : 'primary',
+                      variant: 'primary',
                       onClick: () => {
                         openCreatePresetModal();
                       },
