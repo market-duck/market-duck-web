@@ -1,3 +1,4 @@
+import { ButtonListItemType } from '@market-duck/components/Dialog/Dialog';
 import { dialogAtom } from '@market-duck/atoms/dialog.atom';
 import { ButtonVariantType } from '@market-duck/components/Button/Button';
 import { DialogType } from '@market-duck/types/dialog';
@@ -95,20 +96,39 @@ export const useDialog = () => {
   const bottomSheet = ({
     title,
     desc,
-    buttonTitle,
-    hasButton,
+    buttonList,
     customContent,
+    preventBackDropClickClose,
   }: {
     title?: string;
     desc?: string;
-    buttonTitle?: string;
-    hasButton?: boolean;
+    buttonList: ButtonListItemType[];
     customContent?: ReactNode;
+    preventBackDropClickClose?: boolean;
   }) => {
     const id = v4();
     setDialogs((prev) => [
       ...prev,
-      { id, type: DialogType.BOTTOM_SHEET, title, desc, buttonTitle, hasButton, customContent },
+      { id, type: DialogType.BOTTOM_SHEET, title, desc, buttonList, customContent, preventBackDropClickClose },
+    ]);
+    return id;
+  };
+
+  const modal = ({
+    title,
+    slotComponent,
+    buttonList,
+    preventBackDropClickClose,
+  }: {
+    title?: string;
+    slotComponent: ReactNode;
+    buttonList: ButtonListItemType[];
+    preventBackDropClickClose?: boolean;
+  }) => {
+    const id = v4();
+    setDialogs((prev) => [
+      ...prev,
+      { id, title, type: DialogType.MODAL, buttonList, slotComponent, preventBackDropClickClose },
     ]);
     return id;
   };
@@ -124,5 +144,5 @@ export const useDialog = () => {
     else setDialogs((prev) => prev.slice(0, -1));
   };
 
-  return { confirm, alert, bottomSheet, close, closeAll: reset };
+  return { confirm, alert, bottomSheet, modal, close, closeAll: reset };
 };

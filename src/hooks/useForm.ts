@@ -47,6 +47,7 @@ export const useForm = <T>({
   return {
     values,
     errors,
+    setValues,
     handleChange,
     handleSubmit,
     resetForm,

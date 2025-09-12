@@ -37,9 +37,18 @@ export const GlobalDialog = () => {
                   key={dialog.id}
                   title={dialog.title}
                   desc={dialog.desc}
-                  buttonTitle={dialog.buttonTitle}
-                  hasButton={dialog.hasButton}
+                  buttonList={dialog.buttonList}
                   customContent={dialog.customContent}
+                  preventBackDropClickClose={dialog.preventBackDropClickClose}
+                />
+              );
+            case DialogType.MODAL:
+              return (
+                <Dialog
+                  id={dialog.id}
+                  key={dialog.id}
+                  slotComponent={dialog.slotComponent}
+                  buttonList={dialog.buttonList}
                 />
               );
             default:

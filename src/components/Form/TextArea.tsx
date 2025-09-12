@@ -76,6 +76,8 @@ export const TextArea = ({
 
   label,
   caption,
+
+  className,
 }: {
   value: string;
   placeholder?: string;
@@ -85,6 +87,7 @@ export const TextArea = ({
   isError?: boolean;
   label?: string;
   caption?: string;
+  className?: string;
 }) => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
@@ -99,6 +102,7 @@ export const TextArea = ({
     <TextAreaWrap>
       {label && <p className="textarea-label">{label}</p>}
       <TextAreaContent
+        className={className}
         $focus={isFocus}
         $error={isError}
         $disabled={isDisabled}

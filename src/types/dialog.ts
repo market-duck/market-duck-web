@@ -1,9 +1,11 @@
 import { ButtonVariantType } from '@market-duck/components/Button/Button';
+import { ButtonListItemType } from '@market-duck/components/Dialog/Dialog';
 import { ReactNode } from 'react';
 
 export enum DialogType {
   CONFIRM = 'CONFIRM',
   ALERT = 'ALERT',
+  MODAL = 'MODAL',
   BOTTOM_SHEET = 'BOTTOM_SHEET',
 }
 
@@ -17,8 +19,8 @@ interface BottomSheet extends Pick<BaseDialog, 'id'> {
   type: DialogType.BOTTOM_SHEET;
   title?: string;
   desc?: string;
-  buttonTitle?: string;
-  hasButton?: boolean;
+  buttonList: ButtonListItemType[];
+  preventBackDropClickClose?: boolean;
   customContent?: ReactNode;
 }
 
@@ -35,4 +37,11 @@ interface ConfirmDialog extends BaseDialog {
   cancel: () => void;
 }
 
-export type Dialog = AlertDialog | ConfirmDialog | BottomSheet;
+interface Modal extends Pick<BaseDialog, 'id'> {
+  type: DialogType.MODAL;
+  buttonList: ButtonListItemType[];
+  preventBackDropClickClose?: boolean;
+  slotComponent: ReactNode;
+}
+
+export type Dialog = AlertDialog | ConfirmDialog | BottomSheet | Modal;

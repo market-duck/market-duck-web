@@ -188,8 +188,15 @@ export const FeedForm = ({ type = 'create', editData }: FeedFormProps) => {
         navigate(`/feed/read/${receivedFeedId}`);
         bottomSheet({
           title: `🎉 ${feedType === 'BUY' ? '구매' : '판매'} 피드 ${type === 'create' ? '작성' : '수정'}을 완료했습니다!`,
-          hasButton: true,
-          buttonTitle: '공유하기',
+          buttonList: [
+            {
+              title: '공유하기',
+              variant: 'primary',
+              onClick: () => {
+                console.log('공유하기 기능!');
+              },
+            },
+          ],
         });
       }
     },
